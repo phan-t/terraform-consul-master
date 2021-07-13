@@ -4,21 +4,21 @@ variable "deployment_name" {
 }
 
 variable "vpc_cidr" {
-  description = "AWS VPC CIDR"
+  description = "VPC CIDR"
   type        = string
 }
 
 variable "private_subnets" {
-  description = "AWS private subnets"
+  description = "Private subnets"
   type        = list
 }
 
 variable "public_subnets" {
-  description = "AWS public subnets"
+  description = "Public subnets"
   type        = list
 }
 
 variable "eks_cluster_name" {
-  description = "AWS EKS cluster name"
+  description = "EKS cluster name"
   type        = string
 }
