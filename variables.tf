@@ -22,6 +22,12 @@ variable "aws_region" {
   default     = "ap-southeast-2"
 }
 
+variable "aws_key_pair_key_name" {
+  description = "Key pair name"
+  type        = string
+  default     = "tphan"
+}
+
 variable "aws_vpc_cidr" {
   description = "AWS VPC CIDR"
   type        = string
@@ -38,4 +44,10 @@ variable "aws_public_subnets" {
   description = "AWS public subnets"
   type        = list
   default     = ["10.200.10.0/24", "10.200.11.0/24", "10.200.12.0/24"]
+}
+
+variable "aws_eks_cluster_version" {
+  description = "AWS EKS cluster version"
+  type        = string
+  default     = "1.20"
 }
