@@ -22,3 +22,8 @@ output "eks_config_map_aws_auth" {
   description = "Kubernetes configuration to authenticate to the EKS cluster"
   value       = module.eks.config_map_aws_auth
 }
+
+output "eks_workers_asg_arns_id" {
+  description = "Id of the autoscaling groups containing workers"
+  value       = module.eks.workers_asg_arns
+}
