@@ -36,10 +36,20 @@ module "aws-security" {
 }
 
 module "aws-eks" {
-  source                              = "./modules/aws-eks"
+  source                          = "./modules/aws-eks"
 
-  vpc_id                              = module.aws-vpc.vpc_id
-  private_subnets                     = module.aws-vpc.private_subnets
-  eks_cluster_name                    = local.aws_eks_cluster_name
-  eks_workers_mgmt_security_group_id  = tolist([module.aws-security.eks_workers_mgmt_security_group_id])
+  vpc_id                          = module.aws-vpc.vpc_id
+  key_pair_key_name               = var.aws_key_pair_key_name
+  private_subnets                 = module.aws-vpc.private_subnets
+  cluster_name                    = local.aws_eks_cluster_name
+  cluster_version                 = var.aws_eks_cluster_version
+  workers_mgmt_security_group_id  = tolist([module.aws-security.eks_workers_mgmt_security_group_id])
+}
+
+module "aws-consul-helm" {
+  source = "./modules/aws-consul-helm"
+
+  deployment_name     = var.deployment_name
+  cluster_id          = module.aws-eks.eks_cluster_id
+  workers_asg_arns_id = tolist([module.aws-eks.eks_workers_asg_arns_id])
 }
