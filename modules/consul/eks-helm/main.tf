@@ -11,11 +11,12 @@ provider "helm" {
 }
 
 resource "helm_release" "consul" {
-  name        = "${var.deployment_name}-consul"
-  chart       = "consul"
-  repository  = "https://helm.releases.hashicorp.com"
-  version     = "0.32.1"
-  depends_on  = [var.workers_asg_arns_id]
+  name          = "${var.deployment_name}-consul"
+  chart         = "consul"
+  repository    = "https://helm.releases.hashicorp.com"
+  version       = "0.32.1"
+  #wait_for_jobs = true
+  depends_on    = [var.workers_asg_arns_id]
 
   set {
     name  = "global.enabled"
