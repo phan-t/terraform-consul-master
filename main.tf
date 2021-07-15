@@ -35,7 +35,11 @@ module "aws" {
 module "eks-helm" {
   source = "./modules/consul/eks-helm"
 
-  deployment_name     = var.deployment_name
-  cluster_id          = module.aws.cluster_id
-  workers_asg_arns_id = tolist([module.aws.workers_asg_arns_id])
+  deployment_name                     = var.deployment_name
+  cluster_id                          = module.aws.cluster_id
+  workers_asg_arns_id                 = tolist([module.aws.workers_asg_arns_id])
+  private_nat_gateway_route_ids       = tolist([module.aws.private_nat_gateway_route_ids])
+  public_internet_gateway_route_id    = tolist([module.aws.public_internet_gateway_route_id])
+  private_route_table_association_ids = tolist([module.aws.private_route_table_association_ids])
+  public_route_table_association_ids  = tolist([module.aws.public_route_table_association_ids])
 }
