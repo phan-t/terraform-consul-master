@@ -32,3 +32,23 @@ output "workers_asg_arns_id" {
   description = "Id of the autoscaling groups containing workers"
   value       = module.eks.workers_asg_arns
 }
+
+output "private_nat_gateway_route_ids" {
+  description = "Ids of the private nat gateway route."
+  value       = module.vpc.private_nat_gateway_route_ids
+}
+
+output "public_internet_gateway_route_id" {
+  description = "Id of the internet gateway route"
+  value       = module.vpc.public_internet_gateway_route_id
+}
+
+output "private_route_table_association_ids" {
+  description = "Ids of the private route table association"
+  value       = module.vpc.private_route_table_association_ids
+}
+
+output "public_route_table_association_ids" {
+  description = "Ids of the public route table association"
+  value       = module.vpc.public_route_table_association_ids
+}
