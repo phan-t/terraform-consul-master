@@ -21,6 +21,11 @@ module "eks" {
       additional_security_group_ids = tolist([aws_security_group.workers-mgmt.id])
     }
   ]
+  
+  tags = {
+    owner = var.owner
+    TTL = var.ttl
+  }
 }
 
 # Retrieve EKS cluster configuration
