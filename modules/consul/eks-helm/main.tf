@@ -15,8 +15,13 @@ resource "helm_release" "consul" {
   chart         = "consul"
   repository    = "https://helm.releases.hashicorp.com"
   version       = "0.32.1"
-  #wait_for_jobs = true
-  depends_on    = [var.workers_asg_arns_id]
+  depends_on    = [
+    var.workers_asg_arns_id,
+    var.private_route_table_association_ids, 
+    var.public_route_table_association_ids, 
+    var.private_nat_gateway_route_ids, 
+    var.public_internet_gateway_route_id
+  ]
 
   set {
     name  = "global.enabled"
@@ -33,7 +38,6 @@ resource "helm_release" "consul" {
     value = "consul:1.10.0"
   }
 
-
   set {
     name  = "global.datacenter"
     value = "${var.deployment_name}-aws"
@@ -41,6 +45,11 @@ resource "helm_release" "consul" {
 
   set {
     name  = "global.tls.enabled"
+    value = true
+  }
+
+  set {
+    name  = "global.tls.enableAutoEncrypt"
     value = true
   }
 
