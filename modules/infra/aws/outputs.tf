@@ -28,6 +28,11 @@ output "config_map_aws_auth" {
   value       = module.eks.config_map_aws_auth
 }
 
+output "cluster_iam_role_arn" {
+  description = "IAM role ARN of the EKS cluster."
+  value       = module.eks.cluster_iam_role_arn
+}
+
 output "workers_asg_arns_id" {
   description = "Id of the autoscaling groups containing workers"
   value       = module.eks.workers_asg_arns

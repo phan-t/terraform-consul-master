@@ -16,6 +16,7 @@ resource "helm_release" "consul" {
   repository    = "https://helm.releases.hashicorp.com"
   version       = "0.32.1"
   depends_on    = [
+    var.cluster_iam_role_arn,
     var.workers_asg_arns_id,
     var.private_route_table_association_ids, 
     var.public_route_table_association_ids, 

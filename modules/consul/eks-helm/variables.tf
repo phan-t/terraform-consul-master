@@ -14,6 +14,11 @@ variable "replicas" {
   default     = 1
 }
 
+variable "cluster_iam_role_arn" {
+  description = "IAM role ARN of the EKS cluster."
+  type        = list
+}
+
 variable "workers_asg_arns_id" {
   description = "Id of the autoscaling groups containing workers"
   type        = list
