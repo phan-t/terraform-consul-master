@@ -23,7 +23,7 @@ resource "aws_instance" "bastion-node" {
   instance_type   = "t2.micro"
   key_name        = var.key_pair_key_name
   subnet_id       = element(module.vpc.public_subnets, 1)
-  security_groups = [aws_security_group.bastion.id]
+  security_groups = [aws_security_group.allow-ssh-public-inbound.id]
 
   tags = {
     owner = var.owner
@@ -36,7 +36,7 @@ resource "aws_instance" "cts-node" {
   instance_type   = "t2.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(module.vpc.private_subnets, 1)
-  security_groups = [aws_security_group.cts.id]
+  security_groups = [aws_security_group.allow-ssh-inbound.id, aws_security_group.allow-any-private-inbound.id]
 
   tags = {
     owner = var.owner

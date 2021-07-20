@@ -1,17 +1,6 @@
-resource "aws_security_group" "workers-mgmt" {
-  name_prefix = "${var.deployment_name}-workers-mgmt-"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = module.vpc.private_subnets_cidr_blocks
-  }
-}
-
-resource "aws_security_group" "bastion" {
-  name_prefix = "${var.deployment_name}-bastion-"
+resource "aws_security_group" "allow-ssh-public-inbound" {
+  name_prefix = "${var.deployment_name}-allow_ssh_public_inbound-"
+  description = "Allow ssh public inbound"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -22,28 +11,48 @@ resource "aws_security_group" "bastion" {
   }
 
   egress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = module.vpc.private_subnets_cidr_blocks
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-resource "aws_security_group" "cts" {
-  name_prefix = "${var.deployment_name}-cts-"
+resource "aws_security_group" "allow-ssh-inbound" {
+  name_prefix = "${var.deployment_name}-allow_ssh_inbound-"
+  description = "Allow ssh inbound"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = [aws_security_group.bastion.id]
+    cidr_blocks     = ["0.0.0.0/0"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    security_groups = [aws_security_group.workers-mgmt.id]
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "allow-any-private-inbound" {
+  name_prefix = "${var.deployment_name}-allow_any_private_inbound-"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = module.vpc.private_subnets_cidr_blocks
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 }
