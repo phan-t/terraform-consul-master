@@ -65,6 +65,16 @@ resource "helm_release" "consul" {
   }
 
   set {
+    name  = "server.exposeGossipAndRPCPorts"
+    value = true
+  }
+
+    set {
+    name  = "server.ports.serflan.port"
+    value = 9301
+  }
+
+  set {
     name  = "ui.service.type"
     value = "LoadBalancer"
   }
@@ -83,4 +93,22 @@ resource "helm_release" "consul" {
     name  = "controller.enabled"
     value = true
   }
+}
+
+data "kubernetes_service" "consul-ui" {
+  metadata {
+    name = "consul-ui"
+  }
+  depends_on = [
+    helm_release.consul
+  ]
+}
+
+data "kubernetes_pod" "consul-server" {
+  metadata {
+    name = "consul-server-0"
+  }
+  depends_on = [
+    helm_release.consul
+  ]
 }
