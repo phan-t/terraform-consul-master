@@ -1,9 +1,9 @@
-output "service_ext_fqdn_consul_ui" {
-  description = "Get load-balancer FQDN for Consul UI"
+output "consul_ui_fqdn" {
+  description = "Consul UI fqdn"
   value       = data.kubernetes_service.consul-ui.status.0.load_balancer.0.ingress.0.hostname
 }
 
-output "node_fqdn_consul_server" {
-  description = "Get kubernetes node fqdn running Consul server pod"
+output "consul_server_fqdn" {
+  description = "Consul server fqdn"
   value       = data.kubernetes_pod.consul-server.spec.0.node_name
 }

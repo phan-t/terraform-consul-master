@@ -58,12 +58,12 @@ output "public_route_table_association_ids" {
   value       = module.vpc.public_route_table_association_ids
 }
 
-output "public_fqdn_bastion_node" {
+output "bastion_node_public_fqdn" {
   description = "Public fqdn of bastion node"
   value       = aws_instance.bastion-node.public_dns
 }
 
-output "private_fqdn_cts_node" {
+output "cts_node_private_fqdn" {
   description = "Private fqdn of CTS node"
   value       = aws_instance.cts-node.private_dns
 }
