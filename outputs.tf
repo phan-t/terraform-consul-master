@@ -29,7 +29,7 @@ output "aws_eks_config_map_aws_auth" {
   value       = module.aws.config_map_aws_auth
 }
 */
-output "service_ext_fdqn_consul_ui" {
+output "service_ext_fqdn_consul_ui" {
   description = "Get load-balancer FQDN for Consul UI"
   value       = module.eks-helm.service_ext_fqdn_consul_ui
 }
@@ -39,12 +39,12 @@ output "node_fqdn_consul_server" {
   value       = module.eks-helm.node_fqdn_consul_server
 }
 
-output "public_fdqn_bastion_node" {
+output "public_fqdn_bastion_node" {
   description = "Public fqdn of bastion node"
-  value       = module.aws.public_dns_bastion_node
+  value       = module.aws.public_fqdn_bastion_node
 }
 
-output "private_fdqn_cts_node" {
+output "private_fqdn_cts_node" {
   description = "Private fqdn of CTS node"
-  value       = module.aws.private_dns_cts_node
+  value       = module.aws.private_fqdn_cts_node
 }
