@@ -59,3 +59,13 @@ variable "asg_desired_capacity" {
   type        = number
   default     = 2
 }
+
+variable "consul_server_fqdn" {
+  description = "Consul server node fqdn"
+  type        = string
+}
+
+variable "consul_serf_lan_port" {
+  description = "Consul serf lan port"
+  type        = string
+}
