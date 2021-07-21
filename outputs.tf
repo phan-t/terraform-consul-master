@@ -1,13 +1,14 @@
+/*
 output "aws_region" {
   description = "AWS region"
   value       = var.aws_region
 }
-
+*/
 output "aws_eks_cluster_name" {
   description = "AWS EKS cluster name"
   value       = local.aws_eks_cluster_name 
 }
-
+/*
 output "aws_eks_cluster_id" {
   description = "EKS cluster id"
   value       = module.aws.cluster_id
@@ -26,4 +27,24 @@ output "aws_eks_kubectl_config" {
 output "aws_eks_config_map_aws_auth" {
   description = "Kubernetes configuration to authenticate to the EKS cluster"
   value       = module.aws.config_map_aws_auth
+}
+*/
+output "service_ext_fdqn_consul_ui" {
+  description = "Get load-balancer FQDN for Consul UI"
+  value       = module.eks-helm.service_ext_fqdn_consul_ui
+}
+
+output "node_fqdn_consul_server" {
+  description = "Get kubernetes node fqdn running Consul server pod"
+  value       = module.eks-helm.node_fqdn_consul_server
+}
+
+output "public_fdqn_bastion_node" {
+  description = "Public fqdn of bastion node"
+  value       = module.aws.public_dns_bastion_node
+}
+
+output "private_fdqn_cts_node" {
+  description = "Private fqdn of CTS node"
+  value       = module.aws.private_dns_cts_node
 }
