@@ -1,3 +1,7 @@
+locals {
+  key_pair_private_key = file("${path.module}/tphan-hashicorp-aws.pem")
+}
+
 data "aws_ami" "ubuntu20" {
 
   filter {
@@ -29,17 +33,21 @@ resource "aws_instance" "bastion-node" {
     owner = var.owner
     TTL = var.ttl
   }
-}
 
-resource "aws_instance" "cts-node" {
-  ami             = "ami-0b12537d4e6b1893c"
-  instance_type   = "t2.small"
-  key_name        = var.key_pair_key_name
-  subnet_id       = element(module.vpc.private_subnets, 1)
-  security_groups = [aws_security_group.allow-ssh-inbound.id, aws_security_group.allow-any-private-inbound.id]
+  connection {
+    host          = aws_instance.bastion-node.public_dns
+    user          = "ubuntu"
+    private_key   = local.key_pair_private_key
+  }
 
-  tags = {
-    owner = var.owner
-    TTL = var.ttl
+  provisioner "file" {
+    source      = "${path.module}/tphan-hashicorp-aws.pem"
+    destination = "/home/ubuntu/tphan-hashicorp-aws.pem"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod 400 /home/ubuntu/tphan-hashicorp-aws.pem"
+    ]
   }
 }
