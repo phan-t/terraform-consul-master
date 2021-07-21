@@ -3,10 +3,6 @@ data "aws_eks_cluster" "cluster" {
   name = var.cluster_id
 }
 
-data "aws_eks_cluster_auth" "cluster" {
-  name = var.cluster_id
-}
-
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
@@ -15,4 +11,22 @@ provider "kubernetes" {
     args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.cluster.name]
     command     = "aws"
   }
+}
+
+data "kubernetes_service" "consul-ui" {
+  metadata {
+    name = "consul-ui"
+  }
+  depends_on = [
+    helm_release.consul
+  ]
+}
+
+data "kubernetes_pod" "consul-server" {
+  metadata {
+    name = "consul-server-0"
+  }
+  depends_on = [
+    helm_release.consul
+  ]
 }

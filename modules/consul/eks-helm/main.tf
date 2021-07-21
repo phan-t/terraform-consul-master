@@ -95,20 +95,3 @@ resource "helm_release" "consul" {
   }
 }
 
-data "kubernetes_service" "consul-ui" {
-  metadata {
-    name = "consul-ui"
-  }
-  depends_on = [
-    helm_release.consul
-  ]
-}
-
-data "kubernetes_pod" "consul-server" {
-  metadata {
-    name = "consul-server-0"
-  }
-  depends_on = [
-    helm_release.consul
-  ]
-}
