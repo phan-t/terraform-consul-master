@@ -52,6 +52,12 @@ variable "aws_eks_cluster_version" {
   default     = "1.20"
 }
 
+variable "consul_version" {
+  description = "Consul version"
+  type        = string
+  default     = "1.10.0"
+}
+
 variable "consul_serf_lan_port" {
   description = "Consul serf lan port"
   type        = string
