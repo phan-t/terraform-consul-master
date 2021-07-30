@@ -9,14 +9,9 @@ variable "cluster_id" {
 }
 
 variable "replicas" {
-  description = "Number of Consul replicas"
+  description = "Number of Consul replicas pods"
   type        = number
   default     = 1
-}
-
-variable "cluster_iam_role_arn" {
-  description = "IAM role ARN of the EKS cluster."
-  type        = list
 }
 
 variable "workers_asg_arns_id" {
@@ -42,4 +37,9 @@ variable "private_route_table_association_ids" {
 variable "public_route_table_association_ids" {
   description = "Ids of the public route table association"
   type        = list
+}
+
+variable "consul_version" {
+  description = "Consul version"
+  type        = string
 }
