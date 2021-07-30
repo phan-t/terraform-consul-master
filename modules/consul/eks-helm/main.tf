@@ -15,8 +15,9 @@ resource "helm_release" "consul" {
   chart         = "consul"
   repository    = "https://helm.releases.hashicorp.com"
   version       = "0.32.1"
+  timeout       = "300"
+  wait_for_jobs = true
   depends_on    = [
-    var.cluster_iam_role_arn,
     var.workers_asg_arns_id,
     var.private_route_table_association_ids, 
     var.public_route_table_association_ids, 
@@ -36,7 +37,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "global.image"
-    value = "consul:1.10.0"
+    value = "consul:${var.consul_version}"
   }
 
   set {
@@ -51,6 +52,16 @@ resource "helm_release" "consul" {
 
   set {
     name  = "global.tls.enableAutoEncrypt"
+    value = true
+  }
+
+  set {
+    name  = "global.federation.enabled"
+    value = true
+  }
+  
+  set {
+    name  = "global.federation.createFederationSecret"
     value = true
   }
 
@@ -93,5 +104,14 @@ resource "helm_release" "consul" {
     name  = "controller.enabled"
     value = true
   }
-}
 
+  set {
+    name  = "meshGateway.enabled"
+    value = true
+  }
+
+  set {
+    name  = "meshGateway.replicas"
+    value = var.replicas
+  }
+}

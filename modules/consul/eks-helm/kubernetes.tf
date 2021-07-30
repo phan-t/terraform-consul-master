@@ -30,3 +30,17 @@ data "kubernetes_pod" "consul-server" {
     helm_release.consul
   ]
 }
+
+data "kubernetes_secret" "consul-federation-secret" {
+  metadata {
+    name = "consul-federation"
+  }
+  depends_on = [
+  helm_release.consul
+  ]
+}
+
+resource "local_file" "consul-federation-secret" {
+  content = jsonencode(data.kubernetes_secret.consul-federation-secret)
+  filename = "${path.module}/consul-federation-secret.json"
+}
