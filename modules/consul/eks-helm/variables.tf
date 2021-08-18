@@ -9,7 +9,7 @@ variable "cluster_id" {
 }
 
 variable "replicas" {
-  description = "Number of Consul replicas pods"
+  description = "Number of Consul replicas"
   type        = number
   default     = 1
 }
