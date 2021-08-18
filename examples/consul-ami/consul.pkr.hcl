@@ -59,7 +59,7 @@ build {
   }
 
   provisioner "shell" {
-    inline       = ["if test -n \"${var.download_url}\"; then", " /tmp/terraform-aws-consul/modules/install-consul/install-consul --download-url ${var.download_url};", "else", " /tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version};", "fi"]
+    inline       = ["if test -n \"${var.download_url}\"; then", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --download-url ${var.download_url};", "else", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version};", "fi"]
     pause_before = "30s"
   }
 
