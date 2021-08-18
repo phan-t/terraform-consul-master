@@ -50,4 +50,5 @@ spec:
           name: http
         env:
         - name: COUNTING_SERVICE_URL
+          #change 'counting' to 'localhost:9001' when not using transparent proxy
           value: "http://counting"
