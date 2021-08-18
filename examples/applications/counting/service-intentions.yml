@@ -1,0 +1,21 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: dashboard
+spec:
+  destination:
+    name: dashboard
+  sources:
+    - name: ingress-gateway
+      action: allow
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: counting
+spec:
+  destination:
+    name: counting
+  sources:
+    - name: dashboard
+      action: allow
