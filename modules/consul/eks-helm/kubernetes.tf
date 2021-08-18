@@ -22,6 +22,15 @@ data "kubernetes_service" "consul-ui" {
   ]
 }
 
+data "kubernetes_service" "consul-ingress-gateway" {
+  metadata {
+    name = "consul-ingress-gateway"
+  }
+  depends_on = [
+    helm_release.consul
+  ]
+}
+
 data "kubernetes_pod" "consul-server" {
   metadata {
     name = "consul-server-0"
