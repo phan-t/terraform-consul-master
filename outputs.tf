@@ -34,6 +34,11 @@ output "consul_ui_fqdn" {
   value       = module.eks-helm.consul_ui_fqdn
 }
 
+output "consul_ingress_gateway_fqdn" {
+  description = "Consul ingress gateway fqdn"
+  value       = module.eks-helm.consul_ingress_gateway_fqdn
+}
+
 output "consul_server_fqdn" {
   description = "Consul server fqdn"
   value       = module.eks-helm.consul_server_fqdn
