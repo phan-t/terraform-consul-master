@@ -65,6 +65,18 @@ resource "helm_release" "consul" {
     value = true
   }
 
+/*
+  set {
+    name  = "global.metrics.enabled"
+    value = true
+  }
+
+  set {
+    name  = "global.metrics.enableGatewayMetrics"
+    value = true
+  }
+*/
+
   set {
     name  = "server.replicas"
     value = var.replicas
@@ -90,6 +102,23 @@ resource "helm_release" "consul" {
     value = "LoadBalancer"
   }
 
+/*
+  set {
+    name  = "ui.metrics.enabled"
+    value = true
+  }
+
+  set {
+    name  = "ui.metrics.provider"
+    value = "prometheus"
+  }
+
+  set {
+    name  = "ui.metrics.baseURL"
+    value = "http://prometheus-server"
+  }
+*/
+
   set {
     name  = "syncCatalog.enabled"
     value = true
@@ -99,6 +128,28 @@ resource "helm_release" "consul" {
     name  = "connectInject.enabled"
     value = true
   }
+  
+  set {
+  name  = "connectInject.transparentProxy.defaultEnabled"
+  value = true
+  }
+
+  set {
+    name  = "connectInject.envoyExtraArgs"
+    value = "--log-level debug"
+  }  
+
+/*
+    set {
+    name  = "connectInject.metrics.defaultEnabled"
+    value = true
+  }
+
+    set {
+    name  = "connectInject.metrics.defaultEnableMerging"
+    value = true
+  }
+*/
 
   set {
     name  = "controller.enabled"
@@ -114,4 +165,31 @@ resource "helm_release" "consul" {
     name  = "meshGateway.replicas"
     value = var.replicas
   }
+
+  set {
+    name  = "ingressGateways.enabled"
+    value = true
+  }
+
+  set {
+    name  = "ingressGateways.defaults.replicas"
+    value = var.replicas
+  }
+
+  set {
+    name  = "ingressGateways.defaults.service.type"
+    value = "LoadBalancer"
+  }
+
+  set {
+    name  = "ingressGateways.defaults.service.ports[0].port"
+    value = 8080
+  }
+
+/*
+  set {
+    name  = "prometheus.enabled"
+    value = true
+  }
+*/
 }
