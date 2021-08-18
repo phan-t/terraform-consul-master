@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  # This name will be the service name in Consul.
   name: dashboard
 spec:
   selector:
@@ -41,7 +42,6 @@ spec:
       annotations:
         consul.hashicorp.com/connect-inject: "true"
     spec:
-      serviceAccountName: dashboard
       containers:
       - name: dashboard
         image: hashicorp/dashboard-service:0.0.4
@@ -50,5 +50,7 @@ spec:
           name: http
         env:
         - name: COUNTING_SERVICE_URL
-          #change 'counting' to 'localhost:9001' when not using transparent proxy
+          # Change 'counting' to 'localhost:9001' when not using transparent proxy
           value: "http://counting"
+      # If ACLs are enabled, the serviceAccountName must match the Consul service name.
+      serviceAccountName: dashboard
