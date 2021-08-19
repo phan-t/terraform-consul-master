@@ -290,7 +290,6 @@ function install {
 #  else
 #    log_info "Could not find consul-terraform-sync command. Aborting.";
 #    exit 1;
-  fi
 }
 
 install "$@"
