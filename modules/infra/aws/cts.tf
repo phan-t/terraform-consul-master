@@ -1,6 +1,6 @@
 resource "aws_instance" "cts-node" {
 
-  ami             = "ami-0d310c0d4b649b5bc"
+  ami             = "ami-0a5c750b077ca430c"
   instance_type   = "t2.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(module.vpc.private_subnets, 1)
