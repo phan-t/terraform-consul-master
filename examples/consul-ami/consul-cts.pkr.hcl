@@ -12,9 +12,19 @@ variable "consul_version" {
   default = "1.10.1"
 }
 
-variable "download_url" {
+variable "consul_download_url" {
   type    = string
   default = "${env("CONSUL_DOWNLOAD_URL")}"
+}
+
+variable "consul_terraform_sync_version" {
+  type    = string
+  default = "0.2.1"
+}
+
+variable "consul_terraform_sync_download_url" {
+  type    = string
+  default = "${env("CONSUL_TERRAFORM_SYNC_DOWNLOAD_URL")}"
 }
 
 data "amazon-ami" "ubuntu20" {
@@ -59,7 +69,7 @@ build {
   }
 
   provisioner "shell" {
-    inline       = ["if test -n \"${var.download_url}\"; then", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --download-url ${var.download_url};", "else", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version};", "fi"]
+    inline       = ["if test -n \"${var.consul_download_url}\"; then", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --download-url ${var.consul_download_url};", "else", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version};", "fi"]
     pause_before = "30s"
   }
 
@@ -69,7 +79,13 @@ build {
   }
   
   provisioner "shell" {
-    inline       = ["curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -", "sudo apt-add-repository 'deb [arch=amd64] https://apt.releases.hashicorp.com focal main'", "sudo apt-get update && sudo apt-get install consul-terraform-sync"]
+    inline       = ["git clone https://github.com/phan-t/terraform-consul-master.git /tmp/terraform-consul-master", "/tmp/terraform-consul-master/examples/scripts/install-consul-cts --version ${var.consul_terraform_sync_version}"]
     pause_before = "30s"
   }
+
+  provisioner "shell" {
+    inline       = ["if test -n \"${var.consul_terraform_sync_download_url}\"; then", "/tmp/terraform-consul-master/examples/scripts/install-consul-cts --download-url ${var.consul_terraform_sync_download_url};", "else", "/tmp/terraform-consul-master/examples/scripts/install-consul-cts --version ${var.consul_terraform_sync_version};", "fi"]
+    pause_before = "30s"
+  }
+
 }
