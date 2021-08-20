@@ -211,7 +211,7 @@ function install_binary {
   local -r username="$2"
 
   local -r bin_dir="$install_path/bin"
-  local -r consul_terraform_sync_dest_path="$bin_dir/"
+  local -r consul_terraform_sync_dest_path="$bin_dir/consul-terraform-sync"
 
   unzip -d /tmp "$DOWNLOAD_PACKAGE_PATH"
 
