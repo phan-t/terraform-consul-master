@@ -65,8 +65,6 @@ build {
 
   provisioner "shell" {
     inline       = ["/tmp/terraform-aws-consul/modules/setup-systemd-resolved/setup-systemd-resolved"]
-    only         = ["ubuntu18-ami", "ubuntu20-ami"]
     pause_before = "30s"
   }
-
 }
