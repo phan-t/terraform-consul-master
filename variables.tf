@@ -1,13 +1,13 @@
 variable "deployment_name" {
   description = "Deployment name, used to prefix resources"
   type        = string
-  default     = "tphan-test"
+  default     = ""
 }
 
 variable "owner" {
   description = "Resource owner identified using an email address"
   type        = string
-  default     = "tphan@hashicorp.com"
+  default     = ""
 }
 
 variable "ttl" {
@@ -19,13 +19,13 @@ variable "ttl" {
 variable "aws_region" {
   description = "AWS region"
   type        = string
-  default     = "ap-southeast-2"
+  default     = ""
 }
 
 variable "aws_key_pair_key_name" {
   description = "Key pair name"
   type        = string
-  default     = "tphan"
+  default     = ""
 }
 
 variable "aws_vpc_cidr" {
