@@ -31,17 +31,17 @@ output "aws_eks_config_map_aws_auth" {
 */
 output "consul_ui_fqdn" {
   description = "Consul UI fqdn"
-  value       = module.eks-helm.consul_ui_fqdn
+  value       = module.eks-server.consul_ui_fqdn
 }
 
 output "consul_ingress_gateway_fqdn" {
   description = "Consul ingress gateway fqdn"
-  value       = module.eks-helm.consul_ingress_gateway_fqdn
+  value       = module.eks-server.consul_ingress_gateway_fqdn
 }
 
 output "consul_server_fqdn" {
   description = "Consul server fqdn"
-  value       = module.eks-helm.consul_server_fqdn
+  value       = module.eks-server.consul_server_fqdn
 }
 
 output "bastion_node_public_fqdn" {

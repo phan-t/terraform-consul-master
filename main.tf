@@ -30,12 +30,12 @@ module "aws" {
   cluster_name          = local.aws_eks_cluster_name
   cluster_version       = var.aws_eks_cluster_version
   key_pair_key_name     = var.aws_key_pair_key_name
-  consul_server_fqdn    = module.eks-helm.consul_server_fqdn
+  consul_server_fqdn    = module.eks-server.consul_server_fqdn
   consul_serf_lan_port  = var.consul_serf_lan_port
 }
 
-module "eks-helm" {
-  source = "./modules/consul/eks-helm"
+module "eks-server" {
+  source = "./modules/consul/eks-server"
 
   deployment_name                     = var.deployment_name
   cluster_id                          = module.aws.cluster_id
