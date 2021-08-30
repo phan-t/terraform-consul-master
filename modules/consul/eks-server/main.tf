@@ -18,11 +18,7 @@ resource "helm_release" "consul" {
   timeout       = "300"
   wait_for_jobs = true
   depends_on    = [
-    var.workers_asg_arns_id,
-    var.private_route_table_association_ids, 
-    var.public_route_table_association_ids, 
-    var.private_nat_gateway_route_ids, 
-    var.public_internet_gateway_route_id
+    module.eks.cluster_id
   ]
 
   set {
@@ -79,12 +75,12 @@ resource "helm_release" "consul" {
 
   set {
     name  = "server.replicas"
-    value = var.replicas
+    value = var.consul_replicas
   }
 
   set {
     name  = "server.bootstrapExpect"
-    value = var.replicas
+    value = var.consul_replicas
   }
 
   set {
@@ -163,7 +159,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "meshGateway.replicas"
-    value = var.replicas
+    value = var.consul_replicas
   }
 
   set {
@@ -173,7 +169,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "ingressGateways.defaults.replicas"
-    value = var.replicas
+    value = var.consul_replicas
   }
 
   set {

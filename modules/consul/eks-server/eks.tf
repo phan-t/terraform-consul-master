@@ -4,8 +4,8 @@ module "eks" {
 
   cluster_name                    = var.cluster_name
   cluster_version                 = var.cluster_version
-  vpc_id                          = module.vpc.vpc_id
-  subnets                         = module.vpc.private_subnets
+  vpc_id                          = var.vpc_id
+  subnets                         = var.private_subnet_ids
   cluster_endpoint_private_access = true
 
   workers_group_defaults = {
@@ -18,7 +18,7 @@ module "eks" {
       instance_type                 = var.worker_instance_type
       key_name                      = var.key_pair_key_name
       asg_desired_capacity          = var.asg_desired_capacity
-      additional_security_group_ids = [aws_security_group.allow-ssh-inbound.id, aws_security_group.allow-any-private-inbound.id]
+      additional_security_group_ids = [var.security_group_allow_ssh_inbound_id, var.security_group_allow_any_private_inbound_id]
     }
   ]
   
@@ -28,6 +28,7 @@ module "eks" {
   }
 }
 
+/*
 # Retrieve EKS cluster configuration
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
@@ -43,3 +44,4 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.cluster.token
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
 }
+*/
