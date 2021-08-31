@@ -30,7 +30,7 @@ function print_usage {
   echo
   echo "Example:"
   echo
-  echo "  install-consul-terraform-sync --version 1.2.2"
+  echo "  install-consul-cts --version 1.2.2"
 }
 
 function log {
