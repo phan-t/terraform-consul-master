@@ -290,6 +290,7 @@ function install {
   else
     log_info "Could not find boundary command. Aborting.";
     exit 1;
+  fi
 }
 
 install "$@"
