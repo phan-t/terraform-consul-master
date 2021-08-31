@@ -22,8 +22,3 @@ output "bastion_node_public_fqdn" {
   description = "Public fqdn of bastion node"
   value       = aws_instance.bastion-node.public_dns
 }
-
-output "cts_node_private_fqdn" {
-  description = "Private fqdn of CTS node"
-  value       = aws_instance.cts-node.private_dns
-}

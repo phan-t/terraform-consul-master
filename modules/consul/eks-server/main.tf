@@ -88,9 +88,9 @@ resource "helm_release" "consul" {
     value = true
   }
 
-    set {
+  set {
     name  = "server.ports.serflan.port"
-    value = 9301
+    value = var.consul_serf_lan_port
   }
 
   set {

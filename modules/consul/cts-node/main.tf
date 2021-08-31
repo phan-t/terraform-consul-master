@@ -1,10 +1,14 @@
+locals {
+  key_pair_private_key = file("${path.root}/tphan-hashicorp-aws.pem")
+}
+
 resource "aws_instance" "cts-node" {
 
   ami             = "ami-0a5c750b077ca430c"
   instance_type   = "t2.small"
   key_name        = var.key_pair_key_name
-  subnet_id       = element(module.vpc.private_subnets, 1)
-  security_groups = [aws_security_group.allow-ssh-inbound.id, aws_security_group.allow-any-private-inbound.id]
+  subnet_id       = element(var.private_subnet_ids, 1)
+  security_groups = [var.security_group_allow_ssh_inbound_id, var.security_group_allow_any_private_inbound_id]
 
   tags = {
     owner = var.owner
@@ -17,7 +21,7 @@ resource "local_file" "cts-client-config" {
   content = templatefile("${path.root}/examples/templates/client-config.json", {
     deployment_name       = "${var.deployment_name}-aws"
     consul_server_fqdn    = var.consul_server_fqdn
-    consul_serf_lan_port  = var.consul_serf_lan_port
+    consul_serf_lan_port  = tostring(var.consul_serf_lan_port)
     node_name             = aws_instance.cts-node.private_dns
     })
   filename = "${path.module}/cts-client-config.json"
@@ -32,7 +36,7 @@ resource "null_resource" "cts-node" {
     host          = aws_instance.cts-node.private_dns
     user          = "ubuntu"
     private_key   = local.key_pair_private_key
-    bastion_host  = aws_instance.bastion-node.public_dns
+    bastion_host  = var.bastion_node_public_fqdn
   }
 
   provisioner "file" {

@@ -18,14 +18,14 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "vpc_cidr" {
-  description = "VPC CIDR"
+variable "key_pair_key_name" {
+  description = "Key pair name"
   type        = string
 }
 
-variable "private_subnets" {
-  description = "Private subnets"
-  type        = list
+variable "vpc_cidr" {
+  description = "VPC CIDR"
+  type        = string
 }
 
 variable "public_subnets" {
@@ -33,22 +33,12 @@ variable "public_subnets" {
   type        = list
 }
 
+variable "private_subnets" {
+  description = "Private subnets"
+  type        = list
+}
+
 variable "cluster_name" {
   description = "EKS cluster name"
-  type        = string
-}
-
-variable "key_pair_key_name" {
-  description = "Key pair name"
-  type        = string
-}
-
-variable "consul_server_fqdn" {
-  description = "Consul server node fqdn"
-  type        = string
-}
-
-variable "consul_serf_lan_port" {
-  description = "Consul serf lan port"
   type        = string
 }

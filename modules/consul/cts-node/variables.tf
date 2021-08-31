@@ -18,11 +18,6 @@ variable "key_pair_key_name" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "VPC id"
-  type        = string
-}
-
 variable "private_subnet_ids" {
   description = "Private subnets"
   type        = list
@@ -38,37 +33,17 @@ variable "security_group_allow_any_private_inbound_id" {
   type        = string
 }
 
-variable "cluster_name" {
-  description = "EKS cluster name"
-  type        = string
+variable "bastion_node_public_fqdn" {
+  description = "Public fqdn of bastion node"
+  type        =  string 
 }
 
-variable "cluster_version" {
-  description = "EKS cluster version"
-  type        = string
-}
-
-variable "worker_instance_type" {
-  description = "EC2 worker node instance type"
-  type        = string
-}
-
-variable "asg_desired_capacity" {
-  description = "Desired worker capacity in the autoscaling group"
-  type        = number
-}
-
-variable "consul_version" {
-  description = "Consul version"
+variable "consul_server_fqdn" {
+  description = "Consul server node fqdn"
   type        = string
 }
 
 variable "consul_serf_lan_port" {
   description = "Consul serf lan port"
-  type        = number
-}
-
-variable "consul_replicas" {
-  description = "Number of Consul replicas"
   type        = number
 }

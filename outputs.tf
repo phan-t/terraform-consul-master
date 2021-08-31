@@ -31,5 +31,5 @@ output "bastion_node_public_fqdn" {
 
 output "cts_node_private_fqdn" {
   description = "Private fqdn of CTS node"
-  value       = module.aws.cts_node_private_fqdn
+  value       = module.cts-node.cts_node_private_fqdn
 }

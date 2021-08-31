@@ -78,6 +78,6 @@ variable "consul_replicas" {
 
 variable "consul_serf_lan_port" {
   description = "Consul serf lan port"
-  type        = string
-  default     = "9301"
+  type        = number
+  default     = 9301
 }

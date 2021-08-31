@@ -1,5 +1,5 @@
 locals {
-  key_pair_private_key = file("${path.module}/tphan-hashicorp-aws.pem")
+  key_pair_private_key = file("${path.root}/tphan-hashicorp-aws.pem")
 }
 
 data "aws_ami" "ubuntu20" {
@@ -41,7 +41,7 @@ resource "aws_instance" "bastion-node" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/tphan-hashicorp-aws.pem"
+    source      = "${path.root}/tphan-hashicorp-aws.pem"
     destination = "/home/ubuntu/tphan-hashicorp-aws.pem"
   }
 
