@@ -17,7 +17,7 @@ readonly SCRIPT_NAME="$(basename "$0")"
 
 function print_usage {
   echo
-  echo "Usage: install-consul-terraform-sync [OPTIONS]"
+  echo "Usage: install-consul-cts [OPTIONS]"
   echo
   echo "This script can be used to install Consul-Terraform-Sync and its dependencies. This script has been tested with Ubuntu 20.04."
   echo
