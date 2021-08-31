@@ -5,7 +5,7 @@ locals {
 resource "aws_instance" "cts-node" {
 
   ami             = "ami-0a5c750b077ca430c"
-  instance_type   = "t2.small"
+  instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(var.private_subnet_ids, 1)
   security_groups = [var.security_group_allow_ssh_inbound_id, var.security_group_allow_any_private_inbound_id]
