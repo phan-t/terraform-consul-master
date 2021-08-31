@@ -12,7 +12,7 @@ variable "consul_version" {
   default = "1.10.1"
 }
 
-variable "download_url" {
+variable "consul_download_url" {
   type    = string
   default = "${env("CONSUL_DOWNLOAD_URL")}"
 }
@@ -59,7 +59,7 @@ build {
   }
 
   provisioner "shell" {
-    inline       = ["if test -n \"${var.download_url}\"; then", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --download-url ${var.download_url};", "else", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version};", "fi"]
+    inline       = ["if test -n \"${var.consul_download_url}\"; then", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --download-url ${var.consul_download_url};", "else", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version};", "fi"]
     pause_before = "30s"
   }
 
