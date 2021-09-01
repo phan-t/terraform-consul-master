@@ -18,7 +18,7 @@ resource "aws_instance" "cts-node" {
 }
 
 resource "local_file" "cts-client-config" {
-  content = templatefile("${path.root}/examples/templates/client-config.json", {
+  content = templatefile("${path.root}/examples/templates/consul-client-config.json", {
     deployment_name       = "${var.deployment_name}-aws"
     consul_server_fqdn    = var.consul_server_fqdn
     consul_serf_lan_port  = tostring(var.consul_serf_lan_port)
