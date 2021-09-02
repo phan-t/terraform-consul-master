@@ -18,9 +18,7 @@ CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 WantedBy=multi-user.target
 EOF
 
-# Add the boundary system user and group to ensure we have a no-login
-# user capable of owning and running Boundary
-sudo adduser --system --group boundary || true
+# Change owner of boundary config
 sudo chown boundary:boundary /opt/boundary/config/${NAME}-${TYPE}.hcl
 
 # Make sure to initialize the DB before starting the service. This will result in
