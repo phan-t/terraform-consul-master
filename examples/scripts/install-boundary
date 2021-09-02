@@ -214,6 +214,7 @@ function install_binary {
 
   local -r bin_dir="$install_path/bin"
   local -r boundary_dest_path="$bin_dir/boundary"
+  local -r run_boundary_dest_path="$bin_dir/run-boundary"
 
   unzip -d /tmp "$DOWNLOAD_PACKAGE_PATH"
 
@@ -230,6 +231,10 @@ function install_binary {
     sudo ln -s "$boundary_dest_path" "$symlink_path"
   fi
 
+  log_info "Copying Boundary run script to $run_boundary_dest_path"
+  sudo cp "$SCRIPT_DIR/../run-boundary/run-boundary" "$run_boundary_dest_path"
+  sudo chown "$username:$username" "$run_boundary_dest_path"
+  sudo chmod a+x "$run_boundary_dest_path"
 }
 
 function install {
