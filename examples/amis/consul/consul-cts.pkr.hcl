@@ -52,7 +52,7 @@ source "amazon-ebs" "ubuntu20-ami" {
     application     = "consul"
     consul_version  = "${var.consul_version}"
     owner           = "tphan@hashicorp.com"
-    packer_source   = "https://github.com/phan-t/terraform-aws-consul/blob/master/examples/consul-ami/consul-cts.pkr.hcl"
+    packer_source   = "https://github.com/phan-t/terraform-aws-consul/blob/master/examples/amis/consul/consul-cts.pkr.hcl"
   }
 }
 
