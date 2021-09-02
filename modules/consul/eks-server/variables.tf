@@ -13,6 +13,11 @@ variable "deployment_name" {
   type        = string
 }
 
+variable "deployment_id" {
+  description = "Deployment id"
+  type        = string
+}
+
 variable "key_pair_key_name" {
   description = "Key pair name"
   type        = string
@@ -35,11 +40,6 @@ variable "security_group_allow_ssh_inbound_id" {
 
 variable "security_group_allow_any_private_inbound_id" {
   description = "Security group allow-any-private-inbound id"
-  type        = string
-}
-
-variable "cluster_name" {
-  description = "EKS cluster name"
   type        = string
 }
 

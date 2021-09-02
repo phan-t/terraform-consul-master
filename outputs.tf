@@ -4,9 +4,9 @@ output "aws_region" {
   value       = var.aws_region
 }
 */
-output "aws_eks_cluster_name" {
-  description = "AWS EKS cluster name"
-  value       = local.aws_eks_cluster_name 
+output "deployment_id" {
+  description = "Deployment id"
+  value       = local.deployment_id
 }
 
 output "consul_ui_fqdn" {
@@ -32,4 +32,9 @@ output "bastion_node_public_fqdn" {
 output "cts_node_private_fqdn" {
   description = "Private fqdn of CTS node"
   value       = module.cts-node.cts_node_private_fqdn
+}
+
+output "boundary_controller_public_fqdn" {
+  description = "Public fqdn of boundary controller"
+  value       = module.boundary.controller_public_fqdn
 }

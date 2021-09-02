@@ -13,8 +13,8 @@ variable "ttl" {
   type        = number
 }
 
-variable "deployment_name" {
-  description = "Deployment name, used to prefix resources"
+variable "deployment_id" {
+  description = "Deployment id"
   type        = string
 }
 
@@ -36,9 +36,4 @@ variable "public_subnets" {
 variable "private_subnets" {
   description = "Private subnets"
   type        = list
-}
-
-variable "cluster_name" {
-  description = "EKS cluster name"
-  type        = string
 }

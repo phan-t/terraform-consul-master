@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow-ssh-public-inbound" {
-  name_prefix = "${var.deployment_name}-allow_ssh_public_inbound-"
+  name_prefix = "${var.deployment_id}-allow_ssh_public_inbound-"
   description = "Allow ssh public inbound"
   vpc_id      = module.vpc.vpc_id
 
@@ -19,7 +19,7 @@ resource "aws_security_group" "allow-ssh-public-inbound" {
 }
 
 resource "aws_security_group" "allow-ssh-inbound" {
-  name_prefix = "${var.deployment_name}-allow_ssh_inbound-"
+  name_prefix = "${var.deployment_id}-allow_ssh_inbound-"
   description = "Allow ssh inbound"
   vpc_id      = module.vpc.vpc_id
 
@@ -39,7 +39,7 @@ resource "aws_security_group" "allow-ssh-inbound" {
 }
 
 resource "aws_security_group" "allow-any-private-inbound" {
-  name_prefix = "${var.deployment_name}-allow_any_private_inbound-"
+  name_prefix = "${var.deployment_id}-allow_any_private_inbound-"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
