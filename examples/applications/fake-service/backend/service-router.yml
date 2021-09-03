@@ -1,0 +1,21 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceRouter
+metadata:
+  name: backend-a
+spec:
+  routes:
+    - match:
+        http:
+          pathPrefix: '/c/v1'
+      destination:
+        service: backend-c
+    - match:
+        http:
+          pathPrefix: '/b/v1'
+      destination:
+        service: backend-b
+    - match:
+        http:
+          pathPrefix: '/a/v1'
+      destination:
+        service: backend-a
