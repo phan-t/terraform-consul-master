@@ -31,7 +31,7 @@ spec:
         app: frontend
       annotations:
         consul.hashicorp.com/connect-inject: 'true'
-        consul.hashicorp.com/connect-service-upstreams: 'backend-a:9091'
+        consul.hashicorp.com/connect-service-upstreams: 'virtual-backend:9091'
     spec:
       containers:
         - name: frontend
