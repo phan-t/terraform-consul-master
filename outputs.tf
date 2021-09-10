@@ -1,9 +1,13 @@
-/*
 output "aws_region" {
   description = "AWS region"
   value       = var.aws_region
 }
-*/
+
+output "deployment_name" {
+  description = "Deployment name, used to prefix resources"
+  value       = var.deployment_name
+}
+
 output "deployment_id" {
   description = "Deployment id"
   value       = local.deployment_id
