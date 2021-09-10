@@ -75,12 +75,12 @@ resource "helm_release" "consul" {
 
   set {
     name  = "server.replicas"
-    value = var.consul_replicas
+    value = var.replicas
   }
 
   set {
     name  = "server.bootstrapExpect"
-    value = var.consul_replicas
+    value = var.replicas
   }
 
   set {
@@ -90,7 +90,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "server.ports.serflan.port"
-    value = var.consul_serf_lan_port
+    value = var.serf_lan_port
   }
 
   set {
@@ -159,7 +159,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "meshGateway.replicas"
-    value = var.consul_replicas
+    value = var.replicas
   }
 
   set {
@@ -169,7 +169,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "ingressGateways.defaults.replicas"
-    value = var.consul_replicas
+    value = var.replicas
   }
 
   set {

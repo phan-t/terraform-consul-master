@@ -59,16 +59,16 @@ variable "asg_desired_capacity" {
 }
 
 variable "consul_version" {
-  description = "Consul version"
+  description = "Version"
   type        = string
 }
 
-variable "consul_serf_lan_port" {
-  description = "Consul serf lan port"
+variable "serf_lan_port" {
+  description = "Serf lan port"
   type        = number
 }
 
-variable "consul_replicas" {
-  description = "Number of Consul replicas"
+variable "replicas" {
+  description = "Number of replicas"
   type        = number
 }

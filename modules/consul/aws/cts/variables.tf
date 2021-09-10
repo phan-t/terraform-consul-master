@@ -38,12 +38,12 @@ variable "bastion_public_fqdn" {
   type        =  string 
 }
 
-variable "consul_server_fqdn" {
-  description = "Consul server node fqdn"
+variable "server_private_fqdn" {
+  description = "Server private fqdn"
   type        = string
 }
 
-variable "consul_serf_lan_port" {
-  description = "Consul serf lan port"
+variable "serf_lan_port" {
+  description = "Serf lan port"
   type        = number
 }
