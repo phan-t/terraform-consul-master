@@ -24,14 +24,14 @@ output "consul_server_fqdn" {
   value       = module.consul-aws-server.consul_server_fqdn
 }
 
-output "bastion_node_public_fqdn" {
+output "bastion_public_fqdn" {
   description = "Public fqdn of bastion node"
-  value       = module.aws-infra.bastion_node_public_fqdn
+  value       = module.aws-infra.bastion_public_fqdn
 }
 
-output "cts_node_private_fqdn" {
+output "cts_private_fqdn" {
   description = "Private fqdn of CTS node"
-  value       = module.cts-aws.cts_node_private_fqdn
+  value       = module.cts-aws.cts_private_fqdn
 }
 
 output "boundary_controller_public_address" {

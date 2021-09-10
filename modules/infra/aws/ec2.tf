@@ -22,7 +22,7 @@ data "aws_ami" "ubuntu20" {
   owners = ["099720109477"]
 }
 
-resource "aws_instance" "bastion-node" {
+resource "aws_instance" "bastion" {
   ami             = data.aws_ami.ubuntu20.id
   instance_type   = "t2.micro"
   key_name        = var.key_pair_key_name
@@ -35,7 +35,7 @@ resource "aws_instance" "bastion-node" {
   }
 
   connection {
-    host          = aws_instance.bastion-node.public_dns
+    host          = aws_instance.bastion.public_dns
     user          = "ubuntu"
     private_key   = local.key_pair_private_key
   }

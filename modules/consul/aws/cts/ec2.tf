@@ -2,7 +2,7 @@ locals {
   key_pair_private_key = file("${path.root}/tphan-hashicorp-aws.pem")
 }
 
-resource "aws_instance" "cts-node" {
+resource "aws_instance" "cts" {
 
   ami             = "ami-0a5c750b077ca430c"
   instance_type   = "t3.small"
@@ -22,21 +22,21 @@ resource "local_file" "cts-client-config" {
     deployment_name       = "${var.deployment_name}-aws"
     consul_server_fqdn    = var.consul_server_fqdn
     consul_serf_lan_port  = tostring(var.consul_serf_lan_port)
-    node_name             = aws_instance.cts-node.private_dns
+    node_name             = aws_instance.cts.private_dns
     })
   filename = "${path.module}/cts-client-config.json"
   
   depends_on = [
-    aws_instance.cts-node
+    aws_instance.cts
   ]
 }
 
-resource "null_resource" "cts-node" {
+resource "null_resource" "cts" {
   connection {
-    host          = aws_instance.cts-node.private_dns
+    host          = aws_instance.cts.private_dns
     user          = "ubuntu"
     private_key   = local.key_pair_private_key
-    bastion_host  = var.bastion_node_public_fqdn
+    bastion_host  = var.bastion_public_fqdn
   }
 
   provisioner "file" {

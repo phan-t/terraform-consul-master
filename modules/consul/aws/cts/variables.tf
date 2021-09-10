@@ -33,7 +33,7 @@ variable "security_group_allow_any_private_inbound_id" {
   type        = string
 }
 
-variable "bastion_node_public_fqdn" {
+variable "bastion_public_fqdn" {
   description = "Public fqdn of bastion node"
   type        =  string 
 }

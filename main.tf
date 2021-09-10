@@ -60,7 +60,7 @@ module "cts-aws" {
   private_subnet_ids                          = module.aws-infra.private_subnet_ids
   security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
   security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
-  bastion_node_public_fqdn                    = module.aws-infra.bastion_node_public_fqdn
+  bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
   consul_server_fqdn                          = module.consul-aws-server.consul_server_fqdn
   consul_serf_lan_port                        = var.consul_serf_lan_port
 }
