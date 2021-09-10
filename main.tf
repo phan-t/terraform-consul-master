@@ -9,7 +9,6 @@ provider "aws" {
 }
 
 locals {
-  aws_eks_cluster_name = "${var.deployment_name}-${random_string.suffix.result}"
   deployment_id        = "${var.deployment_name}-${random_string.suffix.result}"
 }
 
@@ -75,6 +74,7 @@ module "boundary" {
   deployment_id                               = local.deployment_id
   key_pair_key_name                           = var.aws_key_pair_key_name
   vpc_id                                      = module.aws.vpc_id
+  public_subnets_cidr_blocks                  = var.aws_public_subnets
   public_subnet_ids                           = module.aws.public_subnet_ids
   security_group_allow_ssh_inbound_id         = module.aws.security_group_allow_ssh_inbound_id
 }
