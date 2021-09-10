@@ -11,35 +11,35 @@ output "deployment_id" {
 
 output "consul_ui_public_address" {
   description = "Consul UI public address"
-  value       = "https://${module.eks-server.consul_ui_fqdn}"
+  value       = "https://${module.consul-aws-server.consul_ui_fqdn}"
 }
 
 output "consul_ingress_gateway_fqdn" {
   description = "Consul ingress gateway fqdn"
-  value       = module.eks-server.consul_ingress_gateway_fqdn
+  value       = "https://${module.consul-aws-server.consul_ingress_gateway_fqdn}:8080"
 }
 
 output "consul_server_fqdn" {
   description = "Consul server fqdn"
-  value       = module.eks-server.consul_server_fqdn
+  value       = module.consul-aws-server.consul_server_fqdn
 }
 
 output "bastion_node_public_fqdn" {
   description = "Public fqdn of bastion node"
-  value       = module.aws.bastion_node_public_fqdn
+  value       = module.aws-infra.bastion_node_public_fqdn
 }
 
 output "cts_node_private_fqdn" {
   description = "Private fqdn of CTS node"
-  value       = module.cts-node.cts_node_private_fqdn
+  value       = module.cts-aws.cts_node_private_fqdn
 }
 
 output "boundary_controller_public_address" {
   description = "Boundary controller public address"
-  value       = "http://${module.boundary.controller_public_fqdn}:9200"
+  value       = "http://${module.boundary-aws-infra.controller_public_fqdn}:9200"
 }
 
 output "boundary_kms_recovery_key_id" {
   description = "Boundary KMS recovery key id"
-  value       =  module.boundary.kms_recovery_key_id
+  value       =  module.boundary-aws-infra.kms_recovery_key_id
 }
