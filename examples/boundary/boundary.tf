@@ -1,11 +1,28 @@
+terraform {
+  required_providers {
+    boundary = {
+      source  = "hashicorp/boundary"
+      version = "1.0.5"
+    }
+  }
+}
+
+data "terraform_remote_state" "tcm" {
+  backend = "local"
+
+  config = {
+    path = "../../terraform.tfstate"
+  }
+}
+
 provider "boundary" {
-  addr             = var.url
+  addr             = data.terraform_remote_state.tcm.outputs.boundary_controller_public_address
   recovery_kms_hcl = <<EOT
 kms "awskms" {
 	purpose    = "recovery"
-  region     = "ap-southeast-2"
 	key_id     = "global_root"
-  kms_key_id = "${var.kms_recovery_key_id}"
+  region     = "${data.terraform_remote_state.tcm.outputs.aws_region}"
+  kms_key_id = "${data.terraform_remote_state.tcm.outputs.boundary_kms_recovery_key_id}"
 }
 EOT
 }
@@ -27,10 +44,8 @@ resource "boundary_scope" "ep-apj" {
 
 # project scope
 resource "boundary_scope" "tphan-test" {
-  name                     = var.deployment_name
+  name                     = data.terraform_remote_state.tcm.outputs.deployment_name
   scope_id                 = boundary_scope.ep-apj.id
-  auto_create_admin_role   = true
-  auto_create_default_role = true
 }
 
 # auth method
@@ -73,18 +88,17 @@ resource "boundary_role" "tphan-test-admin" {
   principal_ids   = concat([for user in boundary_user.users: user.id])
 }
 
-/*
 resource "boundary_host_catalog" "infra" {
-  name        = "Infrastructure"
+  name        = "infrastructure"
   type        = "static"
   scope_id    = boundary_scope.tphan-test.id
 }
 
-resource "boundary_host" "cts-node" {
+resource "boundary_host" "cts" {
   type            = "static"
-  name            = "cts-node"
-  description     = "Consul-Terraform-Sync"
-  address         = "10.200.21.216"
+  name            = "cts"
+  description     = "Consul-Terraform-Sync Node"
+  address         = data.terraform_remote_state.tcm.outputs.cts_private_fqdn
   host_catalog_id = boundary_host_catalog.infra.id
 }
 
@@ -93,46 +107,15 @@ resource "boundary_host_set" "consul-infra" {
   name            = "consul_infra"
   description     = "Consul Infrastructure"
   host_catalog_id = boundary_host_catalog.infra.id
-  host_ids        = [boundary_host.cts-node.id]
+  host_ids        = [boundary_host.cts.id]
 }
 
-resource "boundary_target" "cts-node" {
+resource "boundary_target" "ssh" {
   type                     = "tcp"
-  name                     = "cts-node"
-  description              = "Consul-Terraform-Sync"
+  name                     = "ssh"
+  description              = "SSH Targets"
   scope_id                 = boundary_scope.tphan-test.id
   session_connection_limit = -1
   default_port             = 22
   host_set_ids             = [boundary_host_set.consul-infra.id]
-}
-*/
-
-resource "boundary_host_catalog" "infra" {
-  name        = "Infrastructure"
-  type        = "static"
-  scope_id    = boundary_scope.tphan-test.id
-}
-
-resource "boundary_host" "consul-infra" {
-  for_each        = var.consul_infra_ips
-  type            = "static"
-  name            = "consul_infra_service_${each.value}"
-  address         = each.key
-  host_catalog_id = boundary_host_catalog.infra.id
-}
-
-resource "boundary_host_set" "consul-infra-ssh" {
-  type            = "static"
-  name            = "consul_infra_ssh"
-  host_catalog_id = boundary_host_catalog.infra.id
-  host_ids        = [for host in boundary_host.consul-infra : host.id]
-}
-
-# create target for accessing servers on port :22
-resource "boundary_target" "consul-infra-ssh" {
-  type         = "tcp"
-  name         = "ssh_server"
-  scope_id     = boundary_scope.tphan-test.id
-  default_port = "22"
-  host_set_ids = [boundary_host_set.consul-infra-ssh.id]
 }
