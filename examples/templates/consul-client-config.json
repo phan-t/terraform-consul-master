@@ -4,7 +4,7 @@
   "datacenter" :"${deployment_name}",
   "log_level": "INFO",
   "retry_join": [
-     "${consul_server_fqdn}:${consul_serf_lan_port}"
+     "${server_private_fqdn}:${serf_lan_port}"
   ],
   "node_name": "${node_name}",
   "auto_encrypt": {

@@ -20,8 +20,8 @@ resource "aws_instance" "cts" {
 resource "local_file" "cts-client-config" {
   content = templatefile("${path.root}/examples/templates/consul-client-config.json", {
     deployment_name       = "${var.deployment_name}-aws"
-    consul_server_fqdn    = var.server_private_fqdn
-    consul_serf_lan_port  = tostring(var.serf_lan_port)
+    server_private_fqdn   = var.server_private_fqdn
+    serf_lan_port         = tostring(var.serf_lan_port)
     node_name             = aws_instance.cts.private_dns
     })
   filename = "${path.module}/cts-client-config.json"
