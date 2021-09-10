@@ -11,17 +11,17 @@ output "deployment_id" {
 
 output "consul_ui_public_address" {
   description = "Consul UI public address"
-  value       = "https://${module.consul-aws-server.consul_ui_fqdn}"
+  value       = "https://${module.consul-aws-server.ui_public_fqdn}"
 }
 
-output "consul_ingress_gateway_fqdn" {
+output "consul_ingress_gateway_public_fqdn" {
   description = "Consul ingress gateway fqdn"
-  value       = "https://${module.consul-aws-server.consul_ingress_gateway_fqdn}:8080"
+  value       = "https://${module.consul-aws-server.ingress_gateway_public_fqdn}:8080"
 }
 
-output "consul_server_fqdn" {
+output "consul_server_private_fqdn" {
   description = "Consul server fqdn"
-  value       = module.consul-aws-server.consul_server_fqdn
+  value       = module.consul-aws-server.private_fqdn
 }
 
 output "bastion_public_fqdn" {
@@ -31,7 +31,7 @@ output "bastion_public_fqdn" {
 
 output "cts_private_fqdn" {
   description = "Private fqdn of CTS node"
-  value       = module.cts-aws.cts_private_fqdn
+  value       = module.cts-aws.private_fqdn
 }
 
 output "boundary_controller_public_address" {

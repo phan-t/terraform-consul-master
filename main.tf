@@ -46,8 +46,8 @@ module "consul-aws-server" {
   worker_instance_type                        = var.aws_eks_worker_instance_type
   asg_desired_capacity                        = var.aws_eks_asg_desired_capacity
   consul_version                              = var.consul_version
-  consul_serf_lan_port                        = var.consul_serf_lan_port
-  consul_replicas                             = var.consul_replicas
+  serf_lan_port                               = var.consul_serf_lan_port
+  replicas                                    = var.consul_replicas
 }
 
 module "cts-aws" {
@@ -61,8 +61,8 @@ module "cts-aws" {
   security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
   security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
   bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
-  consul_server_fqdn                          = module.consul-aws-server.consul_server_fqdn
-  consul_serf_lan_port                        = var.consul_serf_lan_port
+  server_private_fqdn                         = module.consul-aws-server.private_fqdn
+  serf_lan_port                               = var.consul_serf_lan_port
 }
 
 module "boundary-aws-infra" {
