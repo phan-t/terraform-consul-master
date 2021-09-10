@@ -1,13 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-  /*default_tags {
-    tags = {
-      owner = var.owner
-      TTL = var.ttl
-    }
-  }*/
-}
-
 locals {
   deployment_id = "${var.deployment_name}-${random_string.suffix.result}"
 }
