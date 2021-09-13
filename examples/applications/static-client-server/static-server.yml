@@ -7,8 +7,7 @@ spec:
   selector:
     app: static-server
   ports:
-    - protocol: TCP
-      port: 80
+    - port: 80
       targetPort: 8080
 ---
 apiVersion: v1
