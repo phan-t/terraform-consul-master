@@ -8,9 +8,9 @@ spec:
   selector:
     app: dashboard
   ports:
-    - protocol: TCP
-      port: 8080
+    - port: 8080
       targetPort: 9002
+      protocol: TCP
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23,7 +23,7 @@ kind: ServiceDefaults
 metadata:
   name: dashboard
 spec:
-  protocol: "tcp"
+  protocol: tcp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,7 +48,6 @@ spec:
         image: hashicorp/dashboard-service:0.0.4
         ports:
         - containerPort: 9002
-          name: http
         env:
         - name: COUNTING_SERVICE_URL
           # Change 'counting' to 'localhost:9001' when not using transparent proxy

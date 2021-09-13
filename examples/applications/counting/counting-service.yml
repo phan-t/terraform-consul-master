@@ -8,9 +8,9 @@ spec:
   selector:
     app: counting
   ports:
-    - protocol: TCP
-      port: 9001
+    - port: 9001
       targetPort: 9001
+      protocol: TCP
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23,7 +23,7 @@ kind: ServiceDefaults
 metadata:
   name: counting
 spec:
-  protocol: "http"
+  protocol: tcp
 ---
 apiVersion: apps/v1
 kind: Deployment
