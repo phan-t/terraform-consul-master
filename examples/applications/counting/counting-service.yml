@@ -10,7 +10,6 @@ spec:
   ports:
     - port: 9001
       targetPort: 9001
-      protocol: TCP
 ---
 apiVersion: v1
 kind: ServiceAccount
