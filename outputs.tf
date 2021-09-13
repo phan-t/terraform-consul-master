@@ -20,7 +20,7 @@ output "consul_ui_public_address" {
 
 output "consul_ingress_gateway_public_fqdn" {
   description = "Consul ingress gateway fqdn"
-  value       = "https://${module.consul-aws-server.ingress_gateway_public_fqdn}:8080"
+  value       = "http://${module.consul-aws-server.ingress_gateway_public_fqdn}:8080"
 }
 
 output "consul_server_private_fqdn" {
