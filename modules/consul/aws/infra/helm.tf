@@ -179,7 +179,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "ingressGateways.defaults.service.ports[0].port"
-    value = 8080
+    value = 80
   }
 
 /*
