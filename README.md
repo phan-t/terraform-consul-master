@@ -11,7 +11,7 @@ aws eks --region $(terraform output -raw aws_region) update-kubeconfig --name $(
 #### Login to Boundary
 ##### Set BOUNDARY_ADDR environmental variable
 ```shell
-export BOUNDARY_ADDR='$(terraform output -raw boundary_controller_public_address)'
+export BOUNDARY_ADDR=$(terraform output -raw boundary_controller_public_address)
 ```
 ##### Authenticate to Boundary
 ```shell
