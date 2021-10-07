@@ -24,7 +24,7 @@ resource "local_file" "cts-client-config" {
     serf_lan_port         = tostring(var.serf_lan_port)
     node_name             = aws_instance.cts.private_dns
     })
-  filename = "${path.module}/cts-client-config.json"
+  filename = "${path.module}/client-config.json"
   
   depends_on = [
     aws_instance.cts
@@ -40,7 +40,7 @@ resource "null_resource" "cts" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/cts-client-config.json"
+    source      = "${path.module}/client-config.json"
     destination = "/tmp/client-config.json"
   }
 
