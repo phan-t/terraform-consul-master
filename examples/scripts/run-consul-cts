@@ -6,7 +6,7 @@ sudo cat << EOF > /etc/systemd/system/${NAME}.service
 Description=${NAME}
 
 [Service]
-ExecStart=/opt/consul-terraform-sync/bin/${NAME} server -config-file /opt/consul-terraform-sync/config/cts-config.hcl
+ExecStart=/opt/consul-terraform-sync/bin/${NAME} -config-file /opt/consul-terraform-sync/config/cts-config.hcl
 User=consul
 Group=consul
 LimitMEMLOCK=infinity
