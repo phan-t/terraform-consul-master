@@ -33,7 +33,7 @@ resource "helm_release" "consul" {
 
   set {
     name  = "global.image"
-    value = "consul:${var.consul_version}"
+    value = "hashicorp/consul-enterprise:${var.consul_version}"
   }
 
   set {
@@ -81,6 +81,16 @@ resource "helm_release" "consul" {
   set {
     name  = "server.bootstrapExpect"
     value = var.replicas
+  }
+
+  set {
+    name  = "server.enterpriseLicense.secretName"
+    value = "consul-ent-license"
+  }
+
+    set {
+    name  = "server.enterpriseLicense.secretKey"
+    value = "key"
   }
 
   set {

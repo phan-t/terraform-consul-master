@@ -53,3 +53,13 @@ resource "local_file" "consul-federation-secret" {
   content = jsonencode(data.kubernetes_secret.consul-federation-secret)
   filename = "${path.module}/consul-federation-secret.json"
 }
+
+resource "kubernetes_secret" "consul-ent-license" {
+  metadata {
+    name = "consul-ent-license"
+  }
+
+  data = {
+    key = var.consul_ent_license
+  }
+}
