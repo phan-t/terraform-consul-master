@@ -43,4 +43,4 @@ terraform.rc
 kubeconfig*
 
 # Ignore license files
-.hclic
+*.hclic
