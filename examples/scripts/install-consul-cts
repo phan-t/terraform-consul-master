@@ -217,7 +217,7 @@ function install_binary {
   local -r run_consul_terraform_sync_dest_path="$bin_dir/run-consul-cts"
 
 
-  unzip -d /tmp "$DOWNLOAD_PACKAGE_PATH"
+  unzip -d -o /tmp "$DOWNLOAD_PACKAGE_PATH"
 
   log_info "Moving Consul-Terraform-Sync binary to $consul_terraform_sync_dest_path"
   sudo mv "/tmp/consul-terraform-sync" "$consul_terraform_sync_dest_path"
