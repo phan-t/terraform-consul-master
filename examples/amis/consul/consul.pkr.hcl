@@ -9,7 +9,7 @@ variable "aws_region" {
 
 variable "consul_version" {
   type    = string
-  default = "1.10.1"
+  default = "1.10.3+ent"
 }
 
 variable "consul_download_url" {
@@ -54,7 +54,7 @@ build {
   }
 
   provisioner "shell" {
-    inline       = ["git clone --branch v0.10.1 https://github.com/hashicorp/terraform-aws-consul.git /tmp/terraform-aws-consul", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version}"]
+    inline       = ["git clone --branch v0.10.1 https://github.com/hashicorp/terraform-aws-consul.git /tmp/terraform-aws-consul"]
     pause_before = "30s"
   }
 

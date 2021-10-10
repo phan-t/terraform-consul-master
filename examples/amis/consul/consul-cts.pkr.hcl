@@ -9,7 +9,7 @@ variable "aws_region" {
 
 variable "consul_version" {
   type    = string
-  default = "1.10.1"
+  default = "1.10.3+ent"
 }
 
 variable "consul_download_url" {
@@ -19,7 +19,7 @@ variable "consul_download_url" {
 
 variable "consul_terraform_sync_version" {
   type    = string
-  default = "0.2.1"
+  default = "0.4.0+ent-beta1"
 }
 
 variable "consul_terraform_sync_download_url" {
@@ -64,7 +64,7 @@ build {
   }
 
   provisioner "shell" {
-    inline       = ["git clone --branch v0.10.1 https://github.com/hashicorp/terraform-aws-consul.git /tmp/terraform-aws-consul", "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version ${var.consul_version}"]
+    inline       = ["git clone --branch v0.10.1 https://github.com/hashicorp/terraform-aws-consul.git /tmp/terraform-aws-consul"]
     pause_before = "30s"
   }
 
@@ -79,7 +79,7 @@ build {
   }
   
   provisioner "shell" {
-    inline       = ["git clone https://github.com/phan-t/terraform-consul-master.git /tmp/terraform-consul-master", "/tmp/terraform-consul-master/examples/scripts/install-consul-cts --version ${var.consul_terraform_sync_version}"]
+    inline       = ["git clone https://github.com/phan-t/terraform-consul-master.git /tmp/terraform-consul-master"]
     pause_before = "30s"
   }
 
