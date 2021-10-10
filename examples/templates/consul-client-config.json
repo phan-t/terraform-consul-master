@@ -10,5 +10,6 @@
   "auto_encrypt": {
      "tls": true
   },
-  "leave_on_terminate": true
+  "leave_on_terminate": true,
+  "license_path": "/opt/consul/bin/consul-ent-license.hclic"
 }
