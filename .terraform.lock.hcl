@@ -152,6 +152,14 @@ provider "registry.terraform.io/hashicorp/random" {
   ]
 }
 
+provider "registry.terraform.io/hashicorp/template" {
+  version     = "2.2.0"
+  constraints = "> 2.1.2"
+  hashes = [
+    "h1:AiZfO/zQLK2qgYCZ8QI+i31JJVcuPOfDFKHfFnGlEbk=",
+  ]
+}
+
 provider "registry.terraform.io/hashicorp/tls" {
   version = "3.1.0"
   hashes = [
