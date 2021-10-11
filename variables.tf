@@ -67,7 +67,13 @@ variable "aws_eks_asg_desired_capacity" {
 variable "consul_version" {
   description = "Consul version"
   type        = string
-  default     = "1.10.1"
+  default     = "1.10.3-ent"
+}
+
+variable "consul_ent_license" {
+  description = "Consul enterprise license"
+  type        = string
+  default     = ""
 }
 
 variable "consul_replicas" {
@@ -81,3 +87,11 @@ variable "consul_serf_lan_port" {
   type        = number
   default     = 9301
 }
+
+/*
+variable "f5bigip_password" {
+  description = "F5 BIG-IP password"
+  type        = string
+  default     = ""
+}
+*/

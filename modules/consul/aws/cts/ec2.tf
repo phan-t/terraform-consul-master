@@ -4,7 +4,7 @@ locals {
 
 resource "aws_instance" "cts" {
 
-  ami             = "ami-0a5c750b077ca430c"
+  ami             = "ami-01a21c7cd84cb237d"
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(var.private_subnet_ids, 1)
@@ -31,7 +31,7 @@ resource "local_file" "cts-client-config" {
   ]
 }
 
-resource "null_resource" "cts" {
+resource "null_resource" "cts-client-config" {
   connection {
     host          = aws_instance.cts.private_dns
     user          = "ubuntu"
@@ -44,14 +44,55 @@ resource "null_resource" "cts" {
     destination = "/tmp/client-config.json"
   }
 
+  provisioner "file" {
+    source      = "${path.root}/consul-ent-license.hclic"
+    destination = "/tmp/consul-ent-license.hclic"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "sudo cp /tmp/client-config.json /opt/consul/config/default.json",
+      "sudo cp /tmp/consul-ent-license.hclic /opt/consul/bin/consul-ent-license.hclic",
       "sudo /opt/consul/bin/run-consul --client --skip-consul-config"
     ]
   }
 
   depends_on = [
     local_file.cts-client-config
+  ]
+}
+
+resource "local_file" "cts-config" {
+  content = templatefile("${path.root}/examples/templates/consul-cts-config.hcl", {
+    })
+  filename = "${path.module}/cts-config.hcl"
+  
+  depends_on = [
+    aws_instance.cts
+  ]
+}
+
+resource "null_resource" "cts-config" {
+  connection {
+    host          = aws_instance.cts.private_dns
+    user          = "ubuntu"
+    private_key   = local.key_pair_private_key
+    bastion_host  = var.bastion_public_fqdn
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/cts-config.hcl"
+    destination = "/tmp/cts-config.hcl"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo cp /tmp/cts-config.hcl /opt/consul-terraform-sync/config/cts-config.hcl",
+      "sudo /opt/consul-terraform-sync/bin/run-consul-cts"
+    ]
+  }
+
+  depends_on = [
+    local_file.cts-config
   ]
 }

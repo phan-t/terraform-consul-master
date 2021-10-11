@@ -7,6 +7,11 @@ resource "random_string" "suffix" {
   special = false
 }
 
+resource "local_file" "consul-ent-license" {
+  content = var.consul_ent_license
+  filename = "${path.root}/consul-ent-license.hclic"
+}
+
 module "aws-infra" {
   source  = "./modules/infra/aws"
   
@@ -36,6 +41,7 @@ module "consul-aws-server" {
   worker_instance_type                        = var.aws_eks_worker_instance_type
   asg_desired_capacity                        = var.aws_eks_asg_desired_capacity
   consul_version                              = var.consul_version
+  consul_ent_license                          = var.consul_ent_license
   serf_lan_port                               = var.consul_serf_lan_port
   replicas                                    = var.consul_replicas
 }
@@ -55,6 +61,22 @@ module "cts-aws" {
   serf_lan_port                               = var.consul_serf_lan_port
 }
 
+module "web-aws" {
+  source = "./modules/consul/aws/web"
+
+  owner                                       = var.owner
+  ttl                                         = var.ttl
+  deployment_name                             = var.deployment_name
+  key_pair_key_name                           = var.aws_key_pair_key_name
+  private_subnet_ids                          = module.aws-infra.private_subnet_ids
+  security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
+  security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
+  bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
+  server_private_fqdn                         = module.consul-aws-server.private_fqdn
+  serf_lan_port                               = var.consul_serf_lan_port
+}
+
+/*
 module "boundary-aws-infra" {
   source = "./modules/boundary/aws/infra"
 
@@ -68,3 +90,16 @@ module "boundary-aws-infra" {
   public_subnet_ids                           = module.aws-infra.public_subnet_ids
   security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
 }
+
+module "bigip" {
+  source                  = "git::https://github.com/f5devcentral/terraform-aws-bigip-module?ref=v0.9.7"
+
+  count                   = 1
+  prefix                  = "${var.deployment_name}-f5bigip"
+  ec2_key_name            = var.aws_key_pair_key_name
+  f5_password             = var.f5bigip_password
+  f5_ami_search_name      = "F5 BIGIP-16.1.0* PAYG-Good 25Mbps*"
+  mgmt_subnet_ids         = [{ "subnet_id" = module.aws-infra.public_subnet_ids[0], "public_ip" = true, "private_ip_primary" = "" }]
+  mgmt_securitygroup_ids  = [module.aws-infra.security_group_allow_ssh_inbound_id, module.aws-infra.security_group_allow_f5_mgmt_inbound_id]
+}
+*/
