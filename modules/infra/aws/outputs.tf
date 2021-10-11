@@ -18,6 +18,13 @@ output "security_group_allow_ssh_inbound_id" {
   value       = aws_security_group.allow-ssh-inbound.id
 }
 
+/*
+output "security_group_allow_f5_mgmt_inbound_id" {
+  description = "Security group allow-f5-inbound id"
+  value       = aws_security_group.allow-f5-mgmt-inbound.id
+}
+*/
+
 output "security_group_allow_any_private_inbound_id" {
   description = "Security group allow-any-private-inbound id"
   value       = aws_security_group.allow-any-private-inbound.id

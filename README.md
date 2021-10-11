@@ -26,3 +26,14 @@ boundary authenticate password \
 ```shell
 terraform destroy -target module.consul-aws-server.helm_release.consul
 ```
+
+### F5 BIG-IP Deployment
+#### Prerequisites
+* hashicorp/template v2.2.0
+
+This provider has been archived, workaround for darwin_arm64:
+
+1. Clone repo: https://github.com/hashicorp/terraform-provider-template
+2. Build from source (eg. `go build`).
+3. Move the resulting binary to the global terraform plugins path: `mv <resulting-binary-path> ~/.terraform.d/plugins/registry.terraform.io/hashicorp/template/2.2.0/darwin_arm64/terraform-provider-template_v2.2.0_x5`
+4. Assign exec permissions (eg. `chmod +x <binary-path-above>`)
