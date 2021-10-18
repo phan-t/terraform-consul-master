@@ -1,0 +1,12 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: fortio
+spec:
+  protocol: http
+  upstreamConfig:
+    defaults:
+      limits:
+        maxConnections: 10
+        maxPendingRequests: 10
+        maxConcurrentRequests: 10
