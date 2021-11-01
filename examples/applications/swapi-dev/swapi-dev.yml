@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: swapi-dev
+spec:
+  type: ExternalName
+  externalName: swapi-dev.service.consul
+  ports:
+  - name: https
+    protocol: TCP
+    port: 443

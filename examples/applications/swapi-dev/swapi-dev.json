@@ -1,0 +1,14 @@
+{
+  "Node": "swapi-dev",
+  "Address": "swapi.dev",
+  "NodeMeta": {
+    "external-node": "true",
+    "external-probe": "true"
+  },
+  "Service": {
+    "Address": "swapi.dev",
+    "ID": "swapi-dev",
+    "Service": "swapi-dev",
+    "Port": 443
+  }
+}
