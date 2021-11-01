@@ -192,6 +192,16 @@ resource "helm_release" "consul" {
     value = 80
   }
 
+  set {
+    name  = "terminatingGateways.enabled"
+    value = true
+  }
+
+  set {
+    name  = "terminatingGateways.defaults.replicas"
+    value = var.replicas
+  }
+
 /*
   set {
     name  = "prometheus.enabled"
