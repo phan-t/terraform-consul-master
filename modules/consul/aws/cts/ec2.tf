@@ -93,6 +93,7 @@ resource "null_resource" "cts-config" {
   }
 
   depends_on = [
+    null_resource.cts-client-config,
     local_file.cts-config
   ]
 }

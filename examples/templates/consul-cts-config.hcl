@@ -1,6 +1,8 @@
 ## Global Config
 log_level = "INFO"
 port = 8558
+license_path = "/opt/consul/bin/consul-ent-license.hclic"
+working_dir = "/home/ubuntu"
 
 syslog {}
 
@@ -18,7 +20,7 @@ consul {
 # Driver "terraform" block
 driver "terraform" {
  # version = "0.14.0"
- # path = ""
+  path = "/home/ubuntu"
   log = false
   persist_log = false
 
@@ -35,13 +37,3 @@ task {
  version     = "0.1.0"
  services    = ["web"]
 }
-
-#Service block
-service {
- name = "web"
- tag = "cts"
- # namespace = "my-team"
- # datacenter  = "dc1"
- description = "Match only services with a specific tag"
-}
-

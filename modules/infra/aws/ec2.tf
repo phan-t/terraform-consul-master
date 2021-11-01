@@ -50,4 +50,8 @@ resource "aws_instance" "bastion" {
       "chmod 400 /home/ubuntu/tphan-hashicorp-aws.pem"
     ]
   }
+
+  lifecycle {
+    ignore_changes = all
+  }
 }
