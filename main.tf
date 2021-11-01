@@ -76,7 +76,7 @@ module "web-aws" {
   serf_lan_port                               = var.consul_serf_lan_port
 }
 
-/*
+
 module "boundary-aws-infra" {
   source = "./modules/boundary/aws/infra"
 
@@ -90,6 +90,8 @@ module "boundary-aws-infra" {
   public_subnet_ids                           = module.aws-infra.public_subnet_ids
   security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
 }
+
+/*
 
 module "bigip" {
   source                  = "git::https://github.com/f5devcentral/terraform-aws-bigip-module?ref=v0.9.7"

@@ -38,7 +38,6 @@ output "cts_private_fqdn" {
   value       = module.cts-aws.private_fqdn
 }
 
-/*
 output "boundary_controller_public_address" {
   description = "Boundary controller public address"
   value       = "http://${module.boundary-aws-infra.controller_public_fqdn}:9200"
@@ -49,6 +48,7 @@ output "boundary_kms_recovery_key_id" {
   value       =  module.boundary-aws-infra.kms_recovery_key_id
 }
 
+/*
 output "f5bigip_public_fqdn" {
   value = "https://${element(module.bigip.0.mgmtPublicDNS, 1)}:8443"
 }
