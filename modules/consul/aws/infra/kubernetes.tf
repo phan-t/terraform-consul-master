@@ -18,7 +18,7 @@ data "kubernetes_service" "consul-ui" {
     name = "consul-ui"
   }
   depends_on = [
-    helm_release.consul
+    helm_release.consul-server
   ]
 }
 
@@ -27,7 +27,7 @@ data "kubernetes_service" "consul-ingress-gateway" {
     name = "consul-ingress-gateway"
   }
   depends_on = [
-    helm_release.consul
+    helm_release.consul-server
   ]
 }
 
@@ -36,7 +36,7 @@ data "kubernetes_pod" "consul-server" {
     name = "consul-server-0"
   }
   depends_on = [
-    helm_release.consul
+    helm_release.consul-server
   ]
 }
 
@@ -45,7 +45,7 @@ data "kubernetes_secret" "consul-federation-secret" {
     name = "consul-federation"
   }
   depends_on = [
-  helm_release.consul
+  helm_release.consul-server
   ]
 }
 

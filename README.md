@@ -24,7 +24,7 @@ boundary authenticate password \
 ### Pre Destroy
 #### Destroy Consul Server
 ```shell
-terraform destroy -target module.consul-aws-server.helm_release.consul
+terraform destroy -target module.consul-aws-server.helm_release.consul-server
 ```
 
 ### F5 BIG-IP Deployment

@@ -10,8 +10,9 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "consul" {
-  name          = "${var.deployment_name}-consul"
+# consul server
+resource "helm_release" "consul-server" {
+  name          = "${var.deployment_name}-consul-server"
   chart         = "consul"
   repository    = "https://helm.releases.hashicorp.com"
   version       = "0.32.1"
@@ -61,18 +62,11 @@ resource "helm_release" "consul" {
     value = true
   }
 
-/*
   set {
     name  = "global.metrics.enabled"
     value = true
   }
-
-  set {
-    name  = "global.metrics.enableGatewayMetrics"
-    value = true
-  }
-*/
-
+  
   set {
     name  = "server.replicas"
     value = var.replicas
@@ -136,8 +130,8 @@ resource "helm_release" "consul" {
   }
   
   set {
-  name  = "connectInject.transparentProxy.defaultEnabled"
-  value = true
+    name  = "connectInject.transparentProxy.defaultEnabled"
+    value = true
   }
 
   set {
@@ -145,17 +139,10 @@ resource "helm_release" "consul" {
     value = "--log-level debug"
   }  
 
-/*
-    set {
-    name  = "connectInject.metrics.defaultEnabled"
-    value = true
-  }
-
-    set {
+  set {
     name  = "connectInject.metrics.defaultEnableMerging"
     value = true
   }
-*/
 
   set {
     name  = "controller.enabled"
@@ -201,11 +188,37 @@ resource "helm_release" "consul" {
     name  = "terminatingGateways.defaults.replicas"
     value = var.replicas
   }
-
 /*
   set {
     name  = "prometheus.enabled"
     value = true
   }
 */
+}
+
+# prometheus
+resource "helm_release" "prometheus" {
+  name          = "${var.deployment_name}-prometheus"
+  chart         = "prometheus"
+  repository    = "https://prometheus-community.github.io/helm-charts"
+  timeout       = "300"
+  wait_for_jobs = true
+  depends_on    = [
+    helm_release.consul-server
+  ]
+
+  set {
+    name  = "alertmanager.enabled"
+    value = false
+  }
+
+  set {
+    name  = "nodeExporter.enabled"
+    value = false
+  }
+
+  set {
+    name  = "pushgateway.enabled"
+    value = false
+  }
 }
