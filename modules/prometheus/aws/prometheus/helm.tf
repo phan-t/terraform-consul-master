@@ -1,26 +1,17 @@
+resource "local_file" "prometheus-helm-values" {
+  content = templatefile("${path.root}/examples/templates/prometheus-helm.yml", {
+    })
+  filename = "${path.module}/helm-values.yml"
+}
+
 # prometheus
 resource "helm_release" "prometheus" {
-  name          = "${var.deployment_name}-prometheus"
+  name          = "prometheus"
   chart         = "prometheus"
   repository    = "https://prometheus-community.github.io/helm-charts"
   timeout       = "300"
   wait_for_jobs = true
-  depends_on    = [
-    helm_release.consul-server
+  values        = [
+    local_file.prometheus-helm-values.content
   ]
-
-  set {
-    name  = "alertmanager.enabled"
-    value = false
-  }
-
-  set {
-    name  = "nodeExporter.enabled"
-    value = false
-  }
-
-  set {
-    name  = "pushgateway.enabled"
-    value = false
-  }
 }
