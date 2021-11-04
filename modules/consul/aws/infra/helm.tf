@@ -10,6 +10,20 @@ provider "helm" {
   }
 }
 
+resource "local_file" "consul-server-helm-values" {
+  content = templatefile("${path.root}/examples/templates/consul-server-primary-helm.yml", {
+    deployment_name       = "${var.deployment_name}-aws"
+    consul_version        = var.consul_version
+    replicas              = var.replicas
+    serf_lan_port         = var.serf_lan_port
+    })
+  filename = "${path.module}/helm-values.yml"
+  
+  depends_on = [
+    module.eks.cluster_id
+  ]
+}
+
 # consul server
 resource "helm_release" "consul-server" {
   name          = "${var.deployment_name}-consul-server"
@@ -18,184 +32,7 @@ resource "helm_release" "consul-server" {
   version       = "0.32.1"
   timeout       = "300"
   wait_for_jobs = true
-  depends_on    = [
-    module.eks.cluster_id
+  values        = [
+    local_file.consul-server-helm-values.content
   ]
-
-  set {
-    name  = "global.enabled"
-    value = true
-  }
-
-  set {
-    name  = "global.name"
-    value = "consul"
-  }
-
-  set {
-    name  = "global.image"
-    value = "hashicorp/consul-enterprise:${var.consul_version}"
-  }
-
-  set {
-    name  = "global.datacenter"
-    value = "${var.deployment_name}-aws"
-  }
-
-  set {
-    name  = "global.tls.enabled"
-    value = true
-  }
-
-  set {
-    name  = "global.tls.enableAutoEncrypt"
-    value = true
-  }
-
-  set {
-    name  = "global.federation.enabled"
-    value = true
-  }
-  
-  set {
-    name  = "global.federation.createFederationSecret"
-    value = true
-  }
-
-  set {
-    name  = "global.metrics.enabled"
-    value = true
-  }
-
-  set {
-    name  = "global.metrics.enableAgentMetrics"
-    value = false
-  }
-  
-  set {
-    name  = "server.replicas"
-    value = var.replicas
-  }
-
-  set {
-    name  = "server.bootstrapExpect"
-    value = var.replicas
-  }
-
-  set {
-    name  = "server.enterpriseLicense.secretName"
-    value = "consul-ent-license"
-  }
-
-    set {
-    name  = "server.enterpriseLicense.secretKey"
-    value = "key"
-  }
-
-  set {
-    name  = "server.exposeGossipAndRPCPorts"
-    value = true
-  }
-
-  set {
-    name  = "server.ports.serflan.port"
-    value = var.serf_lan_port
-  }
-
-  set {
-    name  = "ui.service.type"
-    value = "LoadBalancer"
-  }
-
-/*
-  set {
-    name  = "ui.metrics.enabled"
-    value = true
-  }
-
-  set {
-    name  = "ui.metrics.provider"
-    value = "prometheus"
-  }
-
-  set {
-    name  = "ui.metrics.baseURL"
-    value = "http://prometheus-server"
-  }
-*/
-
-  set {
-    name  = "syncCatalog.enabled"
-    value = true
-  }
-
-  set {
-    name  = "connectInject.enabled"
-    value = true
-  }
-  
-  set {
-    name  = "connectInject.transparentProxy.defaultEnabled"
-    value = true
-  }
-
-  set {
-    name  = "connectInject.envoyExtraArgs"
-    value = "--log-level debug"
-  }  
-
-  set {
-    name  = "connectInject.metrics.defaultEnableMerging"
-    value = true
-  }
-
-  set {
-    name  = "controller.enabled"
-    value = true
-  }
-
-  set {
-    name  = "meshGateway.enabled"
-    value = true
-  }
-
-  set {
-    name  = "meshGateway.replicas"
-    value = var.replicas
-  }
-
-  set {
-    name  = "ingressGateways.enabled"
-    value = true
-  }
-
-  set {
-    name  = "ingressGateways.defaults.replicas"
-    value = var.replicas
-  }
-
-  set {
-    name  = "ingressGateways.defaults.service.type"
-    value = "LoadBalancer"
-  }
-
-  set {
-    name  = "ingressGateways.defaults.service.ports[0].port"
-    value = 80
-  }
-
-  set {
-    name  = "terminatingGateways.enabled"
-    value = true
-  }
-
-  set {
-    name  = "terminatingGateways.defaults.replicas"
-    value = var.replicas
-  }
-
-  set {
-    name  = "prometheus.enabled"
-    value = true
-  }
 }
