@@ -28,6 +28,9 @@ resource "aws_instance" "bastion" {
   key_name        = var.key_pair_key_name
   subnet_id       = element(module.vpc.public_subnets, 1)
   security_groups = [aws_security_group.allow-ssh-public-inbound.id]
+  lifecycle {
+    ignore_changes = all
+  }
 
   tags = {
     owner = var.owner
@@ -49,9 +52,5 @@ resource "aws_instance" "bastion" {
     inline = [
       "chmod 400 /home/ubuntu/tphan-hashicorp-aws.pem"
     ]
-  }
-
-  lifecycle {
-    ignore_changes = all
   }
 }
