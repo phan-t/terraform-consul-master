@@ -17,7 +17,7 @@ resource "aws_instance" "web" {
   
 }
 
-resource "local_file" "web-client-config" {
+resource "local_file" "consul-client-config" {
   content = templatefile("${path.root}/examples/templates/consul-client-config.json", {
     deployment_name       = "${var.deployment_name}-aws"
     server_private_fqdn   = var.server_private_fqdn
@@ -31,7 +31,7 @@ resource "local_file" "web-client-config" {
   ]
 }
 
-resource "null_resource" "web-client-config" {
+resource "null_resource" "consul-client-config" {
   connection {
     host          = aws_instance.web.private_dns
     user          = "ubuntu"
@@ -58,6 +58,6 @@ resource "null_resource" "web-client-config" {
   }
 
   depends_on = [
-    local_file.web-client-config
+    local_file.consul-client-config
   ]
 }

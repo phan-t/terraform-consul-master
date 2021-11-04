@@ -17,7 +17,7 @@ resource "aws_instance" "cts" {
   
 }
 
-resource "local_file" "cts-client-config" {
+resource "local_file" "consul-client-config" {
   content = templatefile("${path.root}/examples/templates/consul-client-config.json", {
     deployment_name       = "${var.deployment_name}-aws"
     server_private_fqdn   = var.server_private_fqdn
@@ -31,7 +31,7 @@ resource "local_file" "cts-client-config" {
   ]
 }
 
-resource "null_resource" "cts-client-config" {
+resource "null_resource" "consul-client-config" {
   connection {
     host          = aws_instance.cts.private_dns
     user          = "ubuntu"
@@ -58,11 +58,11 @@ resource "null_resource" "cts-client-config" {
   }
 
   depends_on = [
-    local_file.cts-client-config
+    local_file.consul-client-config
   ]
 }
 
-resource "local_file" "cts-config" {
+resource "local_file" "consul-cts-config" {
   content = templatefile("${path.root}/examples/templates/consul-cts-config.hcl", {
     })
   filename = "${path.module}/cts-config.hcl"
@@ -72,7 +72,7 @@ resource "local_file" "cts-config" {
   ]
 }
 
-resource "null_resource" "cts-config" {
+resource "null_resource" "consul-cts-config" {
   connection {
     host          = aws_instance.cts.private_dns
     user          = "ubuntu"
@@ -93,7 +93,7 @@ resource "null_resource" "cts-config" {
   }
 
   depends_on = [
-    null_resource.cts-client-config,
-    local_file.cts-config
+    null_resource.consul-client-config,
+    local_file.consul-cts-config
   ]
 }
