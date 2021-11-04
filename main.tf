@@ -15,14 +15,14 @@ resource "local_file" "consul-ent-license" {
 module "aws-infra" {
   source  = "./modules/infra/aws"
   
-  region                = var.aws_region
-  owner                 = var.owner
-  ttl                   = var.ttl
-  deployment_id         = local.deployment_id
-  key_pair_key_name     = var.aws_key_pair_key_name
-  vpc_cidr              = var.aws_vpc_cidr
-  public_subnets        = var.aws_public_subnets
-  private_subnets       = var.aws_private_subnets
+  region                                      = var.aws_region
+  owner                                       = var.owner
+  ttl                                         = var.ttl
+  deployment_id                               = local.deployment_id
+  key_pair_key_name                           = var.aws_key_pair_key_name
+  vpc_cidr                                    = var.aws_vpc_cidr
+  public_subnets                              = var.aws_public_subnets
+  private_subnets                             = var.aws_private_subnets
 }
 
 module "consul-aws-server" {
@@ -76,6 +76,12 @@ module "web-aws" {
   serf_lan_port                               = var.consul_serf_lan_port
 }
 
+module "prometheus" {
+  source = "./modules/prometheus/aws/prometheus"
+
+  deployment_name                             = var.deployment_name
+  cluster_id                                  = module.consul-aws-server.cluster_id
+}
 
 module "boundary-aws-infra" {
   source = "./modules/boundary/aws/infra"
