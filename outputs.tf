@@ -48,6 +48,11 @@ output "boundary_kms_recovery_key_id" {
   value       =  module.boundary-aws-infra.kms_recovery_key_id
 }
 
+output "grafana_public_address" {
+  description = "Grafana public address"
+  value       = "http://${module.grafana.public_fqdn}"
+}
+
 /*
 output "f5bigip_public_fqdn" {
   value = "https://${element(module.bigip.0.mgmtPublicDNS, 1)}:8443"

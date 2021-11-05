@@ -55,7 +55,7 @@ variable "aws_eks_cluster_version" {
 variable "aws_eks_worker_instance_type" {
   description = "EC2 worker node instance type"
   type        = string
-  default     = "m4.large"
+  default     = "m5.large"
 }
 
 variable "aws_eks_asg_desired_capacity" {

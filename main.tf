@@ -79,7 +79,12 @@ module "web-aws" {
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
 
-  deployment_name                             = var.deployment_name
+  cluster_id                                  = module.consul-aws-server.cluster_id
+}
+
+module "grafana" {
+  source = "./modules/grafana/aws/grafana"
+
   cluster_id                                  = module.consul-aws-server.cluster_id
 }
 
