@@ -2,6 +2,10 @@ locals {
   deployment_id = "${var.deployment_name}-${random_string.suffix.result}"
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.aws-infra.cluster_id
+}
+
 resource "random_string" "suffix" {
   length  = 8
   special = false
@@ -23,27 +27,24 @@ module "aws-infra" {
   vpc_cidr                                    = var.aws_vpc_cidr
   public_subnets                              = var.aws_public_subnets
   private_subnets                             = var.aws_private_subnets
-}
-
-module "consul-aws-server" {
-  source = "./modules/consul/aws/infra"
-
-  owner                                       = var.owner
-  ttl                                         = var.ttl
-  deployment_name                             = var.deployment_name
-  deployment_id                               = local.deployment_id
-  key_pair_key_name                           = var.aws_key_pair_key_name
-  vpc_id                                      = module.aws-infra.vpc_id
-  private_subnet_ids                          = module.aws-infra.private_subnet_ids
-  security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
-  security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
   cluster_version                             = var.aws_eks_cluster_version
   worker_instance_type                        = var.aws_eks_worker_instance_type
   asg_desired_capacity                        = var.aws_eks_asg_desired_capacity
+}
+
+module "consul-aws-server" {
+  source = "./modules/consul/aws/consul"
+
+  deployment_name                             = var.deployment_name
+  cluster_id                                  = module.aws-infra.cluster_id
   consul_version                              = var.consul_version
   consul_ent_license                          = var.consul_ent_license
   serf_lan_port                               = var.consul_serf_lan_port
   replicas                                    = var.consul_replicas
+
+  depends_on = [
+    module.aws-infra
+  ]
 }
 
 module "cts-aws" {
@@ -59,6 +60,7 @@ module "cts-aws" {
   bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
   server_private_fqdn                         = module.consul-aws-server.private_fqdn
   serf_lan_port                               = var.consul_serf_lan_port
+
 }
 
 module "web-aws" {
@@ -79,13 +81,21 @@ module "web-aws" {
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
 
-  cluster_id                                  = module.consul-aws-server.cluster_id
+  cluster_id                                  = module.aws-infra.cluster_id
+
+  depends_on = [
+    module.consul-aws-server
+  ]
 }
 
 module "grafana" {
   source = "./modules/grafana/aws/grafana"
 
-  cluster_id                                  = module.consul-aws-server.cluster_id
+  cluster_id                                  = module.aws-infra.cluster_id
+
+  depends_on = [
+    module.prometheus
+  ]
 }
 
 module "boundary-aws-infra" {

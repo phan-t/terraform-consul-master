@@ -37,3 +37,18 @@ variable "private_subnets" {
   description = "Private subnets"
   type        = list
 }
+
+variable "cluster_version" {
+  description = "EKS cluster version"
+  type        = string
+}
+
+variable "worker_instance_type" {
+  description = "EC2 worker node instance type"
+  type        = string
+}
+
+variable "asg_desired_capacity" {
+  description = "Desired worker capacity in the autoscaling group"
+  type        = number
+}

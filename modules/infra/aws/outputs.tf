@@ -34,3 +34,8 @@ output "bastion_public_fqdn" {
   description = "Public fqdn of bastion"
   value       = aws_instance.bastion.public_dns
 }
+
+output "cluster_id" {
+  description = "EKS cluster id"
+  value       = module.eks.cluster_id
+}
