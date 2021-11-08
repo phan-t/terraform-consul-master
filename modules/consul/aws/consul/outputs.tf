@@ -1,8 +1,3 @@
-output "cluster_id" {
-  description = "EKS cluster id"
-  value       = module.eks.cluster_id
-}
-
 output "ui_public_fqdn" {
   description = "UI public fqdn"
   value       = data.kubernetes_service.consul-ui.status.0.load_balancer.0.ingress.0.hostname
