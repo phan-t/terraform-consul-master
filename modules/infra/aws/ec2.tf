@@ -40,6 +40,7 @@ resource "aws_instance" "bastion" {
   connection {
     host          = aws_instance.bastion.public_dns
     user          = "ubuntu"
+    agent         = false
     private_key   = local.key_pair_private_key
   }
 

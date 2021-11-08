@@ -18,6 +18,7 @@ resource "aws_instance" "controller" {
   connection {
     host          = aws_instance.controller.public_dns
     user          = "ubuntu"
+    agent         = false
     private_key   = local.key_pair_private_key
   }
 
@@ -53,6 +54,7 @@ resource "null_resource" "controller" {
   connection {
     host          = aws_instance.controller.public_dns
     user          = "ubuntu"
+    agent         = false
     private_key   = local.key_pair_private_key
   }
 
@@ -89,6 +91,7 @@ resource "aws_instance" "worker" {
   connection {
     host          = aws_instance.worker.public_dns
     user          = "ubuntu"
+    agent         = false
     private_key   = local.key_pair_private_key
   }
 
@@ -123,6 +126,7 @@ resource "null_resource" "worker" {
   connection {
     host          = aws_instance.worker.public_dns
     user          = "ubuntu"
+    agent         = false
     private_key   = local.key_pair_private_key
   }
 

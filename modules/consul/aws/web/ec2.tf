@@ -35,6 +35,7 @@ resource "null_resource" "consul-client-config" {
   connection {
     host          = aws_instance.web.private_dns
     user          = "ubuntu"
+    agent         = false
     private_key   = local.key_pair_private_key
     bastion_host  = var.bastion_public_fqdn
   }
