@@ -32,7 +32,7 @@ module "aws-infra" {
   asg_desired_capacity                        = var.aws_eks_asg_desired_capacity
 }
 
-module "consul-aws-server" {
+module "consul-server-aws" {
   source = "./modules/consul/aws/consul"
 
   deployment_name                             = var.deployment_name
@@ -58,7 +58,7 @@ module "cts-aws" {
   security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
   security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
   bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
-  server_private_fqdn                         = module.consul-aws-server.private_fqdn
+  server_private_fqdn                         = module.consul-server-aws.private_fqdn
   serf_lan_port                               = var.consul_serf_lan_port
 
 }
@@ -74,7 +74,7 @@ module "web-aws" {
   security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
   security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
   bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
-  server_private_fqdn                         = module.consul-aws-server.private_fqdn
+  server_private_fqdn                         = module.consul-server-aws.private_fqdn
   serf_lan_port                               = var.consul_serf_lan_port
 }
 
@@ -84,7 +84,7 @@ module "prometheus" {
   cluster_id                                  = module.aws-infra.cluster_id
 
   depends_on = [
-    module.consul-aws-server
+    module.consul-server-aws
   ]
 }
 

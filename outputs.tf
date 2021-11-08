@@ -15,17 +15,17 @@ output "deployment_id" {
 
 output "consul_ui_public_address" {
   description = "Consul UI public address"
-  value       = "https://${module.consul-aws-server.ui_public_fqdn}"
+  value       = "https://${module.consul-server-aws.ui_public_fqdn}"
 }
 
 output "consul_ingress_gateway_public_fqdn" {
   description = "Consul ingress gateway fqdn"
-  value       = "http://${module.consul-aws-server.ingress_gateway_public_fqdn}"
+  value       = "http://${module.consul-server-aws.ingress_gateway_public_fqdn}"
 }
 
 output "consul_server_private_fqdn" {
   description = "Consul server fqdn"
-  value       = module.consul-aws-server.private_fqdn
+  value       = module.consul-server-aws.private_fqdn
 }
 
 output "bastion_public_fqdn" {
