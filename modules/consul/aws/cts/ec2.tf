@@ -24,7 +24,7 @@ resource "local_file" "consul-client-config" {
     serf_lan_port         = tostring(var.serf_lan_port)
     node_name             = aws_instance.cts.private_dns
     })
-  filename = "${path.module}/client-config.json"
+  filename = "${path.module}/client-config.json.tmp"
   
   depends_on = [
     aws_instance.cts
@@ -41,7 +41,7 @@ resource "null_resource" "consul-client-config" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/client-config.json"
+    source      = "${path.module}/client-config.json.tmp"
     destination = "/tmp/client-config.json"
   }
 
@@ -66,7 +66,7 @@ resource "null_resource" "consul-client-config" {
 resource "local_file" "consul-cts-config" {
   content = templatefile("${path.root}/examples/templates/consul-cts-config.hcl", {
     })
-  filename = "${path.module}/cts-config.hcl"
+  filename = "${path.module}/cts-config.hcl.tmp"
   
   depends_on = [
     aws_instance.cts
@@ -83,7 +83,7 @@ resource "null_resource" "consul-cts-config" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/cts-config.hcl"
+    source      = "${path.module}/cts-config.hcl.tmp"
     destination = "/tmp/cts-config.hcl"
   }
 

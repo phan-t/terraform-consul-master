@@ -5,7 +5,7 @@ resource "local_file" "consul-server-helm-values" {
     replicas              = var.replicas
     serf_lan_port         = var.serf_lan_port
     })
-  filename = "${path.module}/helm-values.yml"
+  filename = "${path.module}/helm-values.yml.tmp"
 }
 
 # consul server

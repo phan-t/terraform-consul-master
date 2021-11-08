@@ -36,7 +36,7 @@ data "kubernetes_secret" "consul-federation-secret" {
 
 resource "local_file" "consul-federation-secret" {
   content = jsonencode(data.kubernetes_secret.consul-federation-secret)
-  filename = "${path.module}/consul-federation-secret.json"
+  filename = "${path.module}/consul-federation-secret.json.tmp"
 }
 
 resource "kubernetes_secret" "consul-ent-license" {

@@ -44,3 +44,6 @@ kubeconfig*
 
 # Ignore license files
 *.hclic
+
+# Ignore temporary files
+*.tmp

@@ -24,7 +24,7 @@ resource "local_file" "consul-client-config" {
     serf_lan_port         = tostring(var.serf_lan_port)
     node_name             = aws_instance.web.private_dns
     })
-  filename = "${path.module}/client-config.json"
+  filename = "${path.module}/client-config.json.tmp"
   
   depends_on = [
     aws_instance.web
@@ -41,7 +41,7 @@ resource "null_resource" "consul-client-config" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/client-config.json"
+    source      = "${path.module}/client-config.json.tmp"
     destination = "/tmp/client-config.json"
   }
 

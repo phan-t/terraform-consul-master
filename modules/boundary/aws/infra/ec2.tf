@@ -43,7 +43,7 @@ resource "local_file" "boundary-controller-config" {
     kms_recovery_key_id    = aws_kms_key.recovery.id
     kms_root_key_id        = aws_kms_key.root.id
     })
-  filename = "${path.module}/boundary-controller-config.hcl"
+  filename = "${path.module}/boundary-controller-config.hcl.tmp"
   
   depends_on = [
     aws_instance.controller
@@ -59,7 +59,7 @@ resource "null_resource" "controller" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/boundary-controller-config.hcl"
+    source      = "${path.module}/boundary-controller-config.hcl.tmp"
     destination = "/tmp/boundary-controller.hcl"
   }
 
@@ -115,7 +115,7 @@ resource "local_file" "boundary-worker-config" {
     kms_type               = var.kms_type
     kms_worker_auth_key_id = aws_kms_key.worker_auth.id
     })
-  filename = "${path.module}/boundary-worker-config.hcl"
+  filename = "${path.module}/boundary-worker-config.hcl.tmp"
   
   depends_on = [
     aws_instance.worker
@@ -131,7 +131,7 @@ resource "null_resource" "worker" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/boundary-worker-config.hcl"
+    source      = "${path.module}/boundary-worker-config.hcl.tmp"
     destination = "/tmp/boundary-worker.hcl"
   }
 

@@ -1,7 +1,7 @@
 resource "local_file" "prometheus-helm-values" {
   content = templatefile("${path.root}/examples/templates/prometheus-helm.yml", {
     })
-  filename = "${path.module}/helm-values.yml"
+  filename = "${path.module}/helm-values.yml.tmp"
 }
 
 # prometheus
