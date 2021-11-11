@@ -30,7 +30,7 @@ output "consul_server_private_fqdn" {
 
 output "bastion_public_fqdn" {
   description = "Public fqdn of bastion node"
-  value       = module.aws-infra.bastion_public_fqdn
+  value       = module.infra-aws.bastion_public_fqdn
 }
 
 output "cts_private_fqdn" {

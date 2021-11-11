@@ -3,7 +3,7 @@ locals {
 }
 
 data "aws_eks_cluster" "cluster" {
-  name = module.aws-infra.cluster_id
+  name = module.infra-aws.cluster_id
 }
 
 resource "random_string" "suffix" {
@@ -16,7 +16,7 @@ resource "local_file" "consul-ent-license" {
   filename = "${path.root}/consul-ent-license.hclic"
 }
 
-module "aws-infra" {
+module "infra-aws" {
   source  = "./modules/infra/aws"
   
   region                                      = var.aws_region
@@ -36,14 +36,14 @@ module "consul-server-aws" {
   source = "./modules/consul/aws/consul"
 
   deployment_name                             = var.deployment_name
-  cluster_id                                  = module.aws-infra.cluster_id
+  cluster_id                                  = module.infra-aws.cluster_id
   consul_version                              = var.consul_version
   consul_ent_license                          = var.consul_ent_license
   serf_lan_port                               = var.consul_serf_lan_port
   replicas                                    = var.consul_replicas
 
   depends_on = [
-    module.aws-infra
+    module.infra-aws
   ]
 }
 
@@ -54,10 +54,10 @@ module "cts-aws" {
   ttl                                         = var.ttl
   deployment_name                             = var.deployment_name
   key_pair_key_name                           = var.aws_key_pair_key_name
-  private_subnet_ids                          = module.aws-infra.private_subnet_ids
-  security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
-  security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
-  bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
+  private_subnet_ids                          = module.infra-aws.private_subnet_ids
+  security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
+  security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
+  bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
   server_private_fqdn                         = module.consul-server-aws.private_fqdn
   serf_lan_port                               = var.consul_serf_lan_port
 
@@ -70,10 +70,10 @@ module "web-aws" {
   ttl                                         = var.ttl
   deployment_name                             = var.deployment_name
   key_pair_key_name                           = var.aws_key_pair_key_name
-  private_subnet_ids                          = module.aws-infra.private_subnet_ids
-  security_group_allow_any_private_inbound_id = module.aws-infra.security_group_allow_any_private_inbound_id
-  security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
-  bastion_public_fqdn                         = module.aws-infra.bastion_public_fqdn
+  private_subnet_ids                          = module.infra-aws.private_subnet_ids
+  security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
+  security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
+  bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
   server_private_fqdn                         = module.consul-server-aws.private_fqdn
   serf_lan_port                               = var.consul_serf_lan_port
 }
@@ -81,7 +81,7 @@ module "web-aws" {
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
 
-  cluster_id                                  = module.aws-infra.cluster_id
+  cluster_id                                  = module.infra-aws.cluster_id
 
   depends_on = [
     module.consul-server-aws
@@ -91,7 +91,7 @@ module "prometheus" {
 module "grafana" {
   source = "./modules/grafana/aws/grafana"
 
-  cluster_id                                  = module.aws-infra.cluster_id
+  cluster_id                                  = module.infra-aws.cluster_id
 
   depends_on = [
     module.prometheus
@@ -106,10 +106,25 @@ module "boundary-aws-infra" {
   deployment_name                             = var.deployment_name
   deployment_id                               = local.deployment_id
   key_pair_key_name                           = var.aws_key_pair_key_name
-  vpc_id                                      = module.aws-infra.vpc_id
+  vpc_id                                      = module.infra-aws.vpc_id
   public_subnets_cidr_blocks                  = var.aws_public_subnets
-  public_subnet_ids                           = module.aws-infra.public_subnet_ids
-  security_group_allow_ssh_inbound_id         = module.aws-infra.security_group_allow_ssh_inbound_id
+  public_subnet_ids                           = module.infra-aws.public_subnet_ids
+  security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
+}
+
+module "hashicups" {
+  source = "./modules/hashicups/aws/hybrid"
+
+  owner                                       = var.owner
+  ttl                                         = var.ttl
+  deployment_name                             = var.deployment_name
+  key_pair_key_name                           = var.aws_key_pair_key_name
+  private_subnet_ids                          = module.infra-aws.private_subnet_ids
+  security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
+  security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
+  bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
+  server_private_fqdn                         = module.consul-server-aws.private_fqdn
+  serf_lan_port                               = var.consul_serf_lan_port
 }
 
 /*
@@ -122,7 +137,7 @@ module "bigip" {
   ec2_key_name            = var.aws_key_pair_key_name
   f5_password             = var.f5bigip_password
   f5_ami_search_name      = "F5 BIGIP-16.1.0* PAYG-Good 25Mbps*"
-  mgmt_subnet_ids         = [{ "subnet_id" = module.aws-infra.public_subnet_ids[0], "public_ip" = true, "private_ip_primary" = "" }]
-  mgmt_securitygroup_ids  = [module.aws-infra.security_group_allow_ssh_inbound_id, module.aws-infra.security_group_allow_f5_mgmt_inbound_id]
+  mgmt_subnet_ids         = [{ "subnet_id" = module.infra-awsa.public_subnet_ids[0], "public_ip" = true, "private_ip_primary" = "" }]
+  mgmt_securitygroup_ids  = [module.infra-aws.security_group_allow_ssh_inbound_id, module.infra-aws.security_group_allow_f5_mgmt_inbound_id]
 }
 */
