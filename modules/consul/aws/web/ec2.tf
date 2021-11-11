@@ -14,7 +14,6 @@ resource "aws_instance" "web" {
     owner = var.owner
     TTL = var.ttl
   }
-  
 }
 
 resource "local_file" "consul-client-config" {
