@@ -1,0 +1,27 @@
+{
+    "service": {
+      "id": "postgres",
+      "name": "postgres",
+      "tags": [
+          "postgres",
+          "database",
+          "hashicups"
+        ],
+      "port": 5432,
+
+      "connect": {
+        "sidecar_service": {}
+        },
+
+      "checks": [
+        {
+          "id": "postgres",
+          "name": "TCP on port 5432",
+          "tcp": "localhost:5432",
+          "interval": "10s",
+          "timeout": "1s"
+        }
+      ]
+  }
+}
+  
