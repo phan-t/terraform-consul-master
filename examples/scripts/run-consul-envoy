@@ -8,7 +8,7 @@ Description=${NAME}
 After=syslog.target network.target
 
 [Service]
-ExecStart=/usr/bin/consul connect envoy -sidecar-for ${APP_NAME}
+ExecStart=/opt/consul/bin/consul connect envoy -sidecar-for ${APP_NAME}
 ExecStop=/bin/sleep 5
 Restart=always
 
