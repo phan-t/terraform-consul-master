@@ -39,7 +39,7 @@ source "amazon-ebs" "ubuntu20-ami" {
   source_ami                  = "${data.amazon-ami.ubuntu20.id}"
   ssh_username                = "ubuntu"
   tags = {
-    application     = "consul"
+    application     = "postgres"
     consul_version  = "${var.consul_version}"
     owner           = "tphan@hashicorp.com"
     packer_source   = "https://github.com/phan-t/terraform-aws-consul/blob/master/examples/amis/consul/consul.pkr.hcl"

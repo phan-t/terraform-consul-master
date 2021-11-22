@@ -44,7 +44,7 @@ source "amazon-ebs" "ubuntu20-ami" {
   source_ami                  = "${data.amazon-ami.ubuntu20.id}"
   ssh_username                = "ubuntu"
   tags = {
-    application     = "consul"
+    application     = "postgres"
     consul_version  = "${var.consul_version}"
     envoy_version   = "${var.envoy_version}"
     owner           = "tphan@hashicorp.com"
