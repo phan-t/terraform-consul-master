@@ -81,8 +81,6 @@ module "web-aws" {
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
 
-  cluster_id                                  = module.infra-aws.cluster_id
-
   depends_on = [
     module.consul-server-aws
   ]
@@ -90,8 +88,6 @@ module "prometheus" {
 
 module "grafana" {
   source = "./modules/grafana/aws/grafana"
-
-  cluster_id                                  = module.infra-aws.cluster_id
 
   depends_on = [
     module.prometheus
