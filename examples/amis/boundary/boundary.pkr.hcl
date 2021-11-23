@@ -9,12 +9,17 @@ variable "aws_region" {
 
 variable "boundary_version" {
   type    = string
-  default = "0.6.0"
+  default = "0.7.0"
 }
 
 variable "boundary_download_url" {
   type    = string
   default = "${env("BOUNDARY_DOWNLOAD_URL")}"
+}
+
+variable "application_name" {
+  type    = string
+  default = "boundary"
 }
 
 data "amazon-ami" "ubuntu20" {
@@ -39,7 +44,7 @@ source "amazon-ebs" "ubuntu20-ami" {
   source_ami                  = "${data.amazon-ami.ubuntu20.id}"
   ssh_username                = "ubuntu"
   tags = {
-    application     = "boundary"
+    application     = "${var.application_name}"
     consul_version  = "${var.boundary_version}"
     owner           = "tphan@hashicorp.com"
     packer_source   = "https://github.com/phan-t/terraform-aws-consul/blob/master/examples/amis/boundary/boundary.pkr.hcl"
@@ -50,7 +55,7 @@ build {
   sources = ["source.amazon-ebs.ubuntu20-ami"]
 
   provisioner "shell" {
-    inline = ["mkdir -p /tmp/terraform-aws-consul/", "sudo mkdir -p /etc/pki/tls/boundary/"]
+    inline = ["sudo mkdir -p /etc/pki/tls/boundary/"]
   }
 
   provisioner "shell" {
