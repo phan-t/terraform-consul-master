@@ -2,7 +2,8 @@
 APP_NAME=$1
 NAME=consul-envoy
 
-sudo cat << EOF > /etc/systemd/system/${NAME}.service
+#sudo cat << EOF > /etc/systemd/system/${NAME}.service
+sudo cat << EOF > /tmp/${NAME}.service
 [Unit]
 Description=${NAME}
 After=syslog.target network.target
@@ -16,7 +17,9 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-sudo chmod 664 /etc/systemd/system/${NAME}.service
+sudo chmod 664 /tmp/${NAME}.service
+sudo cp /tmp/${NAME}.service /etc/systemd/system/${NAME}.service
+#sudo chmod 664 /etc/systemd/system/${NAME}.service
 sudo systemctl daemon-reload
 sudo systemctl enable ${NAME}
 #sudo systemctl start ${NAME}
