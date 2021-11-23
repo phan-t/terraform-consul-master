@@ -4,7 +4,7 @@ locals {
 
 resource "aws_instance" "postgres" {
 
-  ami             = "ami-07a716db8d8573d86"
+  ami             = "ami-0f60f69b4bda184b1"
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(var.private_subnet_ids, 1)
@@ -60,7 +60,7 @@ resource "null_resource" "consul-client-config" {
       "sudo cp /tmp/consul-ent-license.hclic /opt/consul/bin/consul-ent-license.hclic",
       "sudo cp /tmp/consul-service-postgres.json /opt/consul/config/consul-service-postgres.json",
       "sudo /opt/consul/bin/run-consul --client --skip-consul-config",
-      "consul connect envoy -sidecar-for postgres > /tmp/postgres-proxy.log &"
+      "sudo systemctl start consul-envoy"
     ]
   }
 
