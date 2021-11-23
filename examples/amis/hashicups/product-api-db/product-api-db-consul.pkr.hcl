@@ -22,6 +22,11 @@ variable "envoy_version" {
   default = "1.18.3"
 }
 
+variable "application_name" {
+  type    = string
+  default = "postgres"
+}
+
 data "amazon-ami" "ubuntu20" {
   filters = {
     architecture                       = "x86_64"
@@ -44,7 +49,7 @@ source "amazon-ebs" "ubuntu20-ami" {
   source_ami                  = "${data.amazon-ami.ubuntu20.id}"
   ssh_username                = "ubuntu"
   tags = {
-    application     = "postgres"
+    application     = "${var.application_name}"
     consul_version  = "${var.consul_version}"
     envoy_version   = "${var.envoy_version}"
     owner           = "tphan@hashicorp.com"
@@ -56,11 +61,11 @@ build {
   sources = ["source.amazon-ebs.ubuntu20-ami"]
 
   provisioner "shell" {
-    inline = ["mkdir -p /tmp/terraform-aws-consul/"]
+    inline = ["mkdir -p /tmp/terraform-aws-consul/", "mkdir -p /tmp/terraform-consul-master/"]
   }
 
   provisioner "shell" {
-    inline       = ["git clone --branch v0.10.1 https://github.com/hashicorp/terraform-aws-consul.git /tmp/terraform-aws-consul"]
+    inline       = ["git clone --branch v0.10.1 https://github.com/hashicorp/terraform-aws-consul.git /tmp/terraform-aws-consul", "git clone https://github.com/phan-t/terraform-consul-master.git /tmp/terraform-consul-master"]
     pause_before = "30s"
   }
 
@@ -78,6 +83,11 @@ build {
     inline       = ["sudo curl -L https://func-e.io/install.sh | bash -s -- -b /tmp", "/tmp/func-e use ${var.envoy_version}", "sudo cp ~/.func-e/versions/${var.envoy_version}/bin/envoy /usr/local/bin/"]
     pause_before = "30s"
   } 
+
+  provisioner "shell" {
+    inline       = ["/tmp/terraform-consul-master/examples/scripts/run-consul-envoy ${var.application_name}"]
+    pause_before = "30s"
+  }
 
   provisioner "shell" {
     script       = "scripts/product-api-db.sh"
