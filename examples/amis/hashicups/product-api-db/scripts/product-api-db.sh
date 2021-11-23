@@ -4,6 +4,8 @@ export PGPASSWORD=password
 
 sudo apt-get -y install postgresql-12
 sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'password';"
+sudo -u postgres psql -c "CREATE DATABASE products;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE products TO postgres;"
 
 cat << EOF > /tmp/products.sql
 set time zone 'UTC';
@@ -85,7 +87,7 @@ INSERT INTO coffee_ingredients (coffee_id, ingredient_id, quantity, unit, create
 EOF
 
 psql -U postgres \
-  -d postgres \
+  -d products \
   -h localhost \
   -f /tmp/products.sql \
   -a
