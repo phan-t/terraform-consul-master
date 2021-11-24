@@ -24,7 +24,7 @@ variable "envoy_version" {
 
 variable "application_name" {
   type    = string
-  default = "postgres"
+  default = "product-api-db"
 }
 
 data "amazon-ami" "ubuntu20" {

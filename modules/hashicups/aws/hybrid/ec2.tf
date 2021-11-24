@@ -2,9 +2,9 @@ locals {
   key_pair_private_key = file("${path.root}/tphan-hashicorp-aws.pem")
 }
 
-resource "aws_instance" "postgres" {
+resource "aws_instance" "product-api-db" {
 
-  ami             = "ami-0f60f69b4bda184b1"
+  ami             = "ami-09b1dab9b32fd526f"
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(var.private_subnet_ids, 1)
@@ -21,18 +21,18 @@ resource "local_file" "consul-client-config" {
     deployment_name       = "${var.deployment_name}-aws"
     server_private_fqdn   = var.server_private_fqdn
     serf_lan_port         = tostring(var.serf_lan_port)
-    node_name             = aws_instance.postgres.private_dns
+    node_name             = aws_instance.product-api-db.private_dns
     })
   filename = "${path.module}/client-config.json.tmp"
   
   depends_on = [
-    aws_instance.postgres
+    aws_instance.product-api-db
   ]
 }
 
 resource "null_resource" "consul-client-config" {
   connection {
-    host          = aws_instance.postgres.private_dns
+    host          = aws_instance.product-api-db.private_dns
     user          = "ubuntu"
     agent         = false
     private_key   = local.key_pair_private_key
@@ -50,15 +50,15 @@ resource "null_resource" "consul-client-config" {
   }
 
   provisioner "file" {
-    source      = "${path.root}/examples/templates/consul-service-postgres.json"
-    destination = "/tmp/consul-service-postgres.json"
+    source      = "${path.root}/examples/templates/consul-service-product-api-db.json"
+    destination = "/tmp/consul-service-product-api-db.json"
   }
 
   provisioner "remote-exec" {
     inline = [
       "sudo cp /tmp/client-config.json /opt/consul/config/default.json",
       "sudo cp /tmp/consul-ent-license.hclic /opt/consul/bin/consul-ent-license.hclic",
-      "sudo cp /tmp/consul-service-postgres.json /opt/consul/config/consul-service-postgres.json",
+      "sudo cp /tmp/consul-service-product-api-db.json /opt/consul/config/consul-service-product-api-db.json",
       "sudo /opt/consul/bin/run-consul --client --skip-consul-config",
       "sudo systemctl start consul-envoy"
     ]
