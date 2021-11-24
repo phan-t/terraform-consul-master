@@ -7,8 +7,8 @@ spec:
   selector:
     app: product-api
   ports:
-    - port: 9090
-      targetPort: 9090
+    - port: 8080
+      targetPort: 8080
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -31,7 +31,7 @@ data:
   config: |
     {
       "db_connection": "host=localhost port=5432 user=postgres password=password dbname=products sslmode=disable",
-      "bind_address": ":9090",
+      "bind_address": ":8080",
       "metrics_address": ":9103"
     }
 ---
@@ -67,15 +67,14 @@ spec:
         - name: product-api
           image: hashicorpdemoapp/product-api:v0.0.19
           ports:
-            - containerPort: 9090
-            - containerPort: 9103
+            - containerPort: 8080
           env:
             - name: "CONFIG_FILE"
               value: "/config/conf.json"
           livenessProbe:
             httpGet:
               path: /health
-              port: 9090
+              port: 8080
             initialDelaySeconds: 15
             timeoutSeconds: 1
             periodSeconds: 10
