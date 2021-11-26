@@ -7,6 +7,7 @@ module "eks" {
   vpc_id                          = module.vpc.vpc_id
   subnets                         = module.vpc.private_subnets
   cluster_endpoint_private_access = true
+  cluster_service_ipv4_cidr       = var.cluster_service_cidr
 
   workers_group_defaults = {
     root_volume_type = "gp2"

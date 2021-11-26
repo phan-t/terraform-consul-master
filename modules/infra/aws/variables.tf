@@ -43,6 +43,11 @@ variable "cluster_version" {
   type        = string
 }
 
+variable "cluster_service_cidr" {
+  description = "AWS EKS cluster service cidr"
+  type        = string
+}
+
 variable "worker_instance_type" {
   description = "EC2 worker node instance type"
   type        = string
