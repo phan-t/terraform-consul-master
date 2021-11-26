@@ -53,6 +53,11 @@ output "grafana_public_address" {
   value       = "http://${module.grafana.public_fqdn}"
 }
 
+output "gcp_region" {
+  description = "GCP region"
+  value       = var.gcp_region
+}
+
 /*
 output "f5bigip_public_fqdn" {
   value = "https://${element(module.bigip.0.mgmtPublicDNS, 1)}:8443"

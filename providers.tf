@@ -2,7 +2,11 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "~> 3.67.0"
+    }
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 3.90.0"
     }
   }
 }
@@ -15,6 +19,11 @@ provider "aws" {
       TTL = var.ttl
     }
   }*/
+}
+
+provider "google" {
+  project = var.gcp_project_id
+  region  = var.gcp_region
 }
 
 provider "kubernetes" {

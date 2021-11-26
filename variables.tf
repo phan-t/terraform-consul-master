@@ -52,6 +52,12 @@ variable "aws_eks_cluster_version" {
   default     = "1.20"
 }
 
+variable "aws_eks_cluster_service_cidr" {
+  description = "AWS EKS cluster service cidr"
+  type        = string
+  default     = "172.20.0.0/18"
+}
+
 variable "aws_eks_worker_instance_type" {
   description = "EC2 worker node instance type"
   type        = string
@@ -86,6 +92,24 @@ variable "consul_serf_lan_port" {
   description = "Consul serf lan port"
   type        = number
   default     = 9301
+}
+
+variable "gcp_region" {
+  description = "GCP region"
+  type        = string
+  default     = ""
+}
+
+variable "gcp_project_id" {
+  description = "GCP project id"
+  type        = string
+  default     = ""
+}
+
+variable "gcp_gke_cluster_service_cidr" {
+  description = "GCP GKE cluster service cidr"
+  type        = string
+  default     = "172.20.0.0/18"
 }
 
 /*

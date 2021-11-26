@@ -1,5 +1,5 @@
 locals {
-  deployment_id = "${var.deployment_name}-${random_string.suffix.result}"
+  deployment_id = lower("${var.deployment_name}-${random_string.suffix.result}")
 }
 
 data "aws_eks_cluster" "cluster" {
@@ -28,6 +28,7 @@ module "infra-aws" {
   public_subnets                              = var.aws_public_subnets
   private_subnets                             = var.aws_private_subnets
   cluster_version                             = var.aws_eks_cluster_version
+  cluster_service_cidr                        = var.aws_eks_cluster_service_cidr
   worker_instance_type                        = var.aws_eks_worker_instance_type
   asg_desired_capacity                        = var.aws_eks_asg_desired_capacity
 }
@@ -121,6 +122,15 @@ module "hashicups" {
   bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
   server_private_fqdn                         = module.consul-server-aws.private_fqdn
   serf_lan_port                               = var.consul_serf_lan_port
+}
+
+module "infra-gcp" {
+  source  = "./modules/infra/gcp"
+  
+  region                                      = var.gcp_region
+  project_id                                  = var.gcp_project_id
+  deployment_id                               = local.deployment_id
+  cluster_service_cidr                        = var.gcp_gke_cluster_service_cidr
 }
 
 /*

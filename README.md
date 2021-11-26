@@ -7,6 +7,10 @@
 ```shell
 aws eks --region $(terraform output -raw aws_region) update-kubeconfig --name $(terraform output -raw deployment_id)
 ```
+#### Create `kubeconfig` for Google Cloud GKE
+```
+gcloud container clusters get-credentials $(terraform output -raw deployment_id) --region $(terraform output -raw gcp_region)
+```
 
 #### Login to Boundary
 ##### Set BOUNDARY_ADDR environmental variable
