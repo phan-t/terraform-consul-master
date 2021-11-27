@@ -2,10 +2,6 @@ locals {
   deployment_id = lower("${var.deployment_name}-${random_string.suffix.result}")
 }
 
-data "aws_eks_cluster" "cluster" {
-  name = module.infra-aws.cluster_id
-}
-
 resource "random_string" "suffix" {
   length  = 8
   special = false
@@ -35,6 +31,10 @@ module "infra-aws" {
 
 module "consul-server-aws" {
   source = "./modules/consul/aws/consul"
+  providers = {
+    kubernetes = kubernetes.eks
+    helm       = helm.eks
+   }
 
   deployment_name                             = var.deployment_name
   cluster_id                                  = module.infra-aws.cluster_id
