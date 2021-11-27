@@ -9,6 +9,10 @@ resource "aws_instance" "controller" {
   key_name              = var.key_pair_key_name
   subnet_id             = element(var.public_subnet_ids, 1)
   security_groups       = [var.security_group_allow_ssh_inbound_id, aws_security_group.allow-boundary-controller-public-inbound.id]
+  
+  lifecycle {
+    ignore_changes = all
+  }
 
   tags = {
     owner = var.owner
@@ -82,6 +86,10 @@ resource "aws_instance" "worker" {
   key_name              = var.key_pair_key_name
   subnet_id             = element(var.public_subnet_ids, 1)
   security_groups       = [var.security_group_allow_ssh_inbound_id, aws_security_group.allow-boundary-worker-public-inbound.id]
+
+  lifecycle {
+    ignore_changes = all
+  }
 
   tags = {
     owner = var.owner
