@@ -53,3 +53,26 @@ provider "helm" {
     }
   }
 }
+
+data "google_client_config" "default" {}
+
+data "google_container_cluster" "cluster" {
+  name     = local.deployment_id
+  location = var.gcp_region
+}
+
+provider "kubernetes" {
+  alias = "gke"
+  host  = "https://${module.infra-gcp.cluster_endpoint}"
+  token = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.infra-gcp.cluster_ca_certificate)
+}
+
+provider "helm" {
+  alias = "gke"
+  kubernetes {
+    host  = "https://${module.infra-gcp.cluster_endpoint}"
+    token = data.google_client_config.default.access_token
+    cluster_ca_certificate = base64decode(module.infra-gcp.cluster_ca_certificate)
+  }
+}

@@ -64,23 +64,12 @@ module "cts-aws" {
 
 }
 
-module "web-aws" {
-  source = "./modules/consul/aws/web"
-
-  owner                                       = var.owner
-  ttl                                         = var.ttl
-  deployment_name                             = var.deployment_name
-  key_pair_key_name                           = var.aws_key_pair_key_name
-  private_subnet_ids                          = module.infra-aws.private_subnet_ids
-  security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
-  security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
-  bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
-  server_private_fqdn                         = module.consul-server-aws.private_fqdn
-  serf_lan_port                               = var.consul_serf_lan_port
-}
-
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
+  providers = {
+    kubernetes = kubernetes.eks
+    helm       = helm.eks
+   }
 
   depends_on = [
     module.consul-server-aws
@@ -89,7 +78,11 @@ module "prometheus" {
 
 module "grafana" {
   source = "./modules/grafana/aws/grafana"
-
+  providers = {
+    kubernetes = kubernetes.eks
+    helm       = helm.eks
+   }
+   
   depends_on = [
     module.prometheus
   ]
@@ -133,7 +126,40 @@ module "infra-gcp" {
   cluster_service_cidr                        = var.gcp_gke_cluster_service_cidr
 }
 
+module "consul-server-gcp" {
+  source = "./modules/consul/gcp/consul"
+  providers = {
+    kubernetes = kubernetes.gke
+    helm       = helm.gke
+   }
+
+  deployment_name                             = var.deployment_name
+  federation_secret                           = module.consul-server-aws.federation_secret
+  consul_version                              = var.consul_version
+  consul_ent_license                          = var.consul_ent_license
+  serf_lan_port                               = var.consul_serf_lan_port
+  replicas                                    = var.consul_replicas 
+
+  depends_on = [
+    module.infra-gcp
+  ]
+}
+
 /*
+module "web-aws" {
+  source = "./modules/consul/aws/web"
+
+  owner                                       = var.owner
+  ttl                                         = var.ttl
+  deployment_name                             = var.deployment_name
+  key_pair_key_name                           = var.aws_key_pair_key_name
+  private_subnet_ids                          = module.infra-aws.private_subnet_ids
+  security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
+  security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
+  bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
+  server_private_fqdn                         = module.consul-server-aws.private_fqdn
+  serf_lan_port                               = var.consul_serf_lan_port
+}
 
 module "bigip" {
   source                  = "git::https://github.com/f5devcentral/terraform-aws-bigip-module?ref=v0.9.7"

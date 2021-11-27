@@ -12,3 +12,8 @@ output "private_fqdn" {
   description = "Private fqdn"
   value       = data.kubernetes_pod.consul-server.spec.0.node_name
 }
+
+output "federation_secret" {
+  description = "Federation secret"
+  value       = data.kubernetes_secret.consul-federation-secret.data
+}
