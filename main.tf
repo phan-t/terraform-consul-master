@@ -103,7 +103,7 @@ module "boundary-aws-infra" {
 }
 
 module "hashicups" {
-  source = "./modules/hashicups/aws/hybrid"
+  source = "./modules/hashicups/multi-cloud"
 
   owner                                       = var.owner
   ttl                                         = var.ttl
