@@ -44,3 +44,13 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.cluster.token
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
 }
+
+resource "null_resource" "kubeconfig" {
+  provisioner "local-exec" {
+    command = "aws eks --region ${var.region} update-kubeconfig --name ${var.deployment_id}"
+  }
+
+  depends_on = [
+    module.eks
+  ]
+}

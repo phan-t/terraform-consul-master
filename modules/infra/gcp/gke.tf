@@ -30,3 +30,13 @@ provider "kubernetes" {
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(module.gke.ca_certificate)
 }
+
+resource "null_resource" "kubeconfig" {
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.deployment_id} --region ${var.region}"
+  }
+
+  depends_on = [
+    module.gke
+  ]
+}
