@@ -1,0 +1,67 @@
+global:
+  enabled: true
+  name: consul
+  image: "hashicorp/consul-enterprise:${consul_version}"
+  datacenter: ${deployment_name}
+  tls:
+    enabled: true
+    enableAutoEncrypt: true
+    caCert:
+      secretName: consul-federation
+      secretKey: caCert
+    caKey:
+      secretName: consul-federation
+      secretKey: caKey
+  federation:
+    enabled: true
+  metrics:
+    enabled: true
+server:
+  replicas: ${replicas}
+  bootstrapExpect: ${replicas}
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
+  exposeGossipAndRPCPorts: true
+  ports:
+    serflan:
+      port: ${serf_lan_port}
+  extraConfig: |
+    {
+      "telemetry": {
+        "prometheus_retention_time": "1m",
+        "disable_hostname": true
+      }
+    }
+  extraVolumes:
+    - type: secret
+      name: consul-federation
+      items:
+        - key: serverConfigJSON
+          path: config.json
+      load: true
+client:
+  extraConfig: |
+    {
+      "telemetry": {
+        "prometheus_retention_time": "1m",
+        "disable_hostname": true
+      }
+    }
+ui:
+  service:
+    type: LoadBalancer
+connectInject:
+  enabled: true
+  envoyExtraArgs: "--log-level debug"
+  metrics:
+    defaultEnableMerging: true
+controller:
+  enabled: true
+meshGateway:
+  enabled: true
+  replicas: ${replicas}
+terminatingGateways:
+  enabled: true
+  defaults:
+    replicas: ${replicas}
