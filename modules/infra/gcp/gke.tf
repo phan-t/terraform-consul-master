@@ -5,8 +5,8 @@ module "gke" {
   name                   = var.deployment_id
   regional               = true
   region                 = var.region
-  network                = module.gcp-network.network_name
-  subnetwork             = module.gcp-network.subnets_names[0]
+  network                = module.vpc.network_name
+  subnetwork             = module.vpc.subnets_names[0]
   ip_range_pods          = "private-gke-pods"
   ip_range_services      = "private-gke-services"
   create_service_account = true
