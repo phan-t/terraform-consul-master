@@ -3,7 +3,6 @@ locals {
 }
 
 resource "aws_instance" "cts" {
-
   ami             = "ami-01a21c7cd84cb237d"
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name

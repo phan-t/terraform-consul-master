@@ -3,7 +3,6 @@ locals {
 }
 
 resource "aws_instance" "product-api-db" {
-
   ami             = "ami-09b1dab9b32fd526f"
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
