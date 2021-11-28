@@ -1,3 +1,13 @@
+data "kubernetes_service" "consul-ui" {
+  metadata {
+    name = "consul-ui"
+  }
+  
+  depends_on = [
+    helm_release.consul-server
+  ]
+}
+
 resource "kubernetes_secret" "consul-federation-secret" {
   metadata {
     name = "consul-federation"
