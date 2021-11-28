@@ -32,7 +32,7 @@ metadata:
   labels:
     app: product-api-db
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       service: product-api-db
