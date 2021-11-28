@@ -4,6 +4,7 @@ resource "local_file" "consul-server-helm-values" {
     consul_version        = var.consul_version
     replicas              = var.replicas
     serf_lan_port         = var.serf_lan_port
+    cloud                 = "gcp"
     })
   filename = "${path.module}/helm-values.yml.tmp"
 }

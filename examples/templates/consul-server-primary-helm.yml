@@ -61,3 +61,5 @@ terminatingGateways:
   enabled: true
   defaults:
     replicas: ${replicas}
+  gateways:
+    - name: ${cloud}-terminating-gateway
