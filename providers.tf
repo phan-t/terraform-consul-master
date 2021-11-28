@@ -76,3 +76,10 @@ provider "helm" {
     cluster_ca_certificate = base64decode(module.infra-gcp.cluster_ca_certificate)
   }
 }
+
+provider "consul" {
+  address        = "https://${module.consul-server-gcp.ui_public_ip}"
+  datacenter     = "${var.deployment_name}-gcp"
+  scheme         = "https"
+  insecure_https = true
+}
