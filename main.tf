@@ -116,6 +116,7 @@ module "hashicups-multi-cloud" {
   consul_server_private_fqdn                      = module.consul-server-aws.private_fqdn
   consul_serf_lan_port                            = var.consul_serf_lan_port
   gcp_project_id                                  = var.gcp_project_id
+  gcp_vpc_name                                    = module.infra-gcp.vpc_name
 }
 
 module "infra-gcp" {

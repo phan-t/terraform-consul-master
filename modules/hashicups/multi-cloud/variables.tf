@@ -52,3 +52,8 @@ variable "gcp_project_id" {
   description = "GCP project id"
   type        = string
 }
+
+variable "gcp_vpc_name" {
+  description = "GCP vpc name"
+  type        = string
+}
