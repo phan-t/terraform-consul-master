@@ -13,37 +13,42 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "key_pair_key_name" {
+variable "aws_key_pair_key_name" {
   description = "Key pair name"
   type        = string
 }
 
-variable "private_subnet_ids" {
+variable "aws_private_subnet_ids" {
   description = "Private subnets"
   type        = list
 }
 
-variable "security_group_allow_ssh_inbound_id" {
+variable "aws_security_group_allow_ssh_inbound_id" {
   description = "Security group allow-ssh-inbound id"
   type        = string
 }
 
-variable "security_group_allow_any_private_inbound_id" {
+variable "aws_security_group_allow_any_private_inbound_id" {
   description = "Security group allow-any-private-inbound id"
   type        = string
 }
 
-variable "bastion_public_fqdn" {
+variable "aws_bastion_public_fqdn" {
   description = "Public fqdn of bastion node"
   type        =  string 
 }
 
-variable "server_private_fqdn" {
+variable "consul_server_private_fqdn" {
   description = "Server private fqdn"
   type        = string
 }
 
-variable "serf_lan_port" {
+variable "consul_serf_lan_port" {
   description = "Serf lan port"
   type        = number
+}
+
+variable "gcp_project_id" {
+  description = "GCP project id"
+  type        = string
 }

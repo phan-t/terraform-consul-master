@@ -102,19 +102,20 @@ module "boundary-aws-infra" {
   security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
 }
 
-module "hashicups" {
+module "hashicups-multi-cloud" {
   source = "./modules/hashicups/multi-cloud"
 
-  owner                                       = var.owner
-  ttl                                         = var.ttl
-  deployment_name                             = var.deployment_name
-  key_pair_key_name                           = var.aws_key_pair_key_name
-  private_subnet_ids                          = module.infra-aws.private_subnet_ids
-  security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
-  security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
-  bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
-  server_private_fqdn                         = module.consul-server-aws.private_fqdn
-  serf_lan_port                               = var.consul_serf_lan_port
+  owner                                           = var.owner
+  ttl                                             = var.ttl
+  deployment_name                                 = var.deployment_name
+  aws_key_pair_key_name                           = var.aws_key_pair_key_name
+  aws_private_subnet_ids                          = module.infra-aws.private_subnet_ids
+  aws_security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
+  aws_security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
+  aws_bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
+  consul_server_private_fqdn                      = module.consul-server-aws.private_fqdn
+  consul_serf_lan_port                            = var.consul_serf_lan_port
+  gcp_project_id                                  = var.gcp_project_id
 }
 
 module "infra-gcp" {
