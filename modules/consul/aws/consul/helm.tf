@@ -19,4 +19,8 @@ resource "helm_release" "consul-server" {
   values        = [
     local_file.consul-server-helm-values.content
   ]
+
+  depends_on = [
+    kubernetes_secret.consul-ent-license
+  ]
 }

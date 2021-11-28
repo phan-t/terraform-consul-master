@@ -21,6 +21,7 @@ resource "helm_release" "consul-server" {
   ]
 
   depends_on = [
+    kubernetes_secret.consul-ent-license,
     kubernetes_secret.consul-federation-secret
   ]
 }
