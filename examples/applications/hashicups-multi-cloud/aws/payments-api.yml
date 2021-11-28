@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-api
+spec:
+  selector:
+    app: payments-api
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: payments-api
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payments-properties-conf-v1
+data:
+  application.properties: |
+    app.storage=redis
+    app.encryption.enabled=false
+    opentracing.jaeger.http-sender.url=http://jaeger-collector:14268/api/traces
+    opentracing.jaeger.include-jaeger-env-tags=true
+    logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter=DEBUG
+    opentracing.jaeger.enable-b3-propagation=true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments-api
+  template:
+    metadata:
+      labels:
+        app: payments-api
+      annotations:
+        consul.hashicorp.com/connect-inject: "true"
+        consul.hashicorp.com/service-metrics-path: "/actuator/prometheus"
+        consul.hashicorp.com/connect-service-upstreams: "payments-queue:6379:tphan-test-gcp"
+    spec:
+      serviceAccountName: payments-api
+      volumes:
+        - name: properties-conf
+          configMap:
+            name: payments-properties-conf-v1
+      containers:
+        - name: payments-api
+          image: hashicorpdemoapp/payments:v0.0.12
+          volumeMounts:
+            - name: properties-conf
+              mountPath: /config/application.properties
+              subPath: application.properties
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            timeoutSeconds: 1
+            periodSeconds: 5
+            failureThreshold: 3
+            initialDelaySeconds: 30
