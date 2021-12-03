@@ -43,8 +43,10 @@ variable "security_group_allow_ssh_inbound_id" {
   type        = string
 }
 
-variable "num_controllers" {
-  default = 1
+variable "ami_controller_worker" {
+  description = "AMI of controller and worker"
+  type        = string
+  default     = "ami-01cac5c082d1b16cd"
 }
 
 variable "tls_disabled" {
@@ -61,20 +63,4 @@ variable "tls_key_path" {
 
 variable "kms_type" {
   default = "aws"
-}
-
-variable "users" {
-  type    = set(string)
-  default = [
-    "david",
-    "ilche",
-    "tony"
-  ]
-}
-
-variable "consul_infra_ips" {
-  type    = set(string)
-  default = [
-    "10.200.21.216"
-  ]
 }

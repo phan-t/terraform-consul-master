@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_instance" "controller" {
-  ami                   = "ami-001311716238cd89b"
+  ami                   = var.ami_controller_worker
   instance_type         = "t2.micro"
   iam_instance_profile  = aws_iam_instance_profile.boundary.name
   key_name              = var.key_pair_key_name
@@ -80,7 +80,7 @@ resource "null_resource" "controller" {
 }
 
 resource "aws_instance" "worker" {
-  ami                   = "ami-001311716238cd89b"
+  ami                   = var.ami_controller_worker
   instance_type         = "t2.micro"
   iam_instance_profile  = aws_iam_instance_profile.boundary.name
   key_name              = var.key_pair_key_name
