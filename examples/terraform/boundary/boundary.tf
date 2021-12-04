@@ -11,7 +11,7 @@ data "terraform_remote_state" "tcm" {
   backend = "local"
 
   config = {
-    path = "../../terraform.tfstate"
+    path = "../../../terraform.tfstate"
   }
 }
 
@@ -44,7 +44,7 @@ resource "boundary_scope" "ep-apj" {
 
 # project scope
 resource "boundary_scope" "tphan-test" {
-  name                     = data.terraform_remote_state.tcm.outputs.deployment_name
+  name                     = data.terraform_remote_state.tcm.outputs.deployment_id
   scope_id                 = boundary_scope.ep-apj.id
 }
 
