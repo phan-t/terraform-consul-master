@@ -1,6 +1,8 @@
 global:
   enabled: true
   name: consul
+  adminPartitions:
+    enabled: true
   image: "hashicorp/consul-enterprise:${consul_version}"
   datacenter: ${deployment_name}
   tls:
