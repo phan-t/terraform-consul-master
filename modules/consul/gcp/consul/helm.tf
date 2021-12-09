@@ -14,7 +14,7 @@ resource "helm_release" "consul-server" {
   name          = "${var.deployment_name}-consul-server"
   chart         = "consul"
   repository    = "https://helm.releases.hashicorp.com"
-  version       = "0.32.1"
+  version       = var.helm_chart_version
   timeout       = "300"
   wait_for_jobs = true
   values        = [

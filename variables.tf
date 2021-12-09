@@ -70,6 +70,12 @@ variable "aws_eks_asg_desired_capacity" {
   default     = 2
 }
 
+variable "consul_helm_chart_version" {
+  type        = string
+  description = "Helm chart version"
+  default     = "0.38.0"
+}
+
 variable "consul_version" {
   description = "Consul version"
   type        = string

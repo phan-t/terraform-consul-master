@@ -38,6 +38,7 @@ module "consul-server-aws" {
 
   deployment_name                             = var.deployment_name
   cluster_id                                  = module.infra-aws.cluster_id
+  helm_chart_version                          = var.consul_helm_chart_version
   consul_version                              = var.consul_version
   consul_ent_license                          = var.consul_ent_license
   serf_lan_port                               = var.consul_serf_lan_port
@@ -119,6 +120,7 @@ module "consul-server-gcp" {
    }
 
   deployment_name                             = var.deployment_name
+  helm_chart_version                          = var.consul_helm_chart_version
   federation_secret                           = module.consul-server-aws.federation_secret
   consul_version                              = var.consul_version
   consul_ent_license                          = var.consul_ent_license
