@@ -2,12 +2,16 @@ global:
   enabled: true
   name: consul
   adminPartitions:
-    enabled: true
+    enabled: false
   image: "hashicorp/consul-enterprise:${consul_version}"
   datacenter: ${deployment_name}
   tls:
     enabled: true
     enableAutoEncrypt: true
+  enableConsulNamespaces: true
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
   federation:
     enabled: true
     createFederationSecret: true
@@ -16,9 +20,6 @@ global:
 server:
   replicas: ${replicas}
   bootstrapExpect: ${replicas}
-  enterpriseLicense:
-    secretName: consul-ent-license
-    secretKey: key
   exposeGossipAndRPCPorts: true
   ports:
     serflan:
