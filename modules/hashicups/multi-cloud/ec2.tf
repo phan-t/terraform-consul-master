@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_instance" "product-api-db" {
-  ami             = "ami-09b1dab9b32fd526f"
+  ami             = "ami-0f49596e20c522a15"
   instance_type   = "t3.small"
   key_name        = var.aws_key_pair_key_name
   subnet_id       = element(var.aws_private_subnet_ids, 1)

@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_instance" "web" {
-  ami             = "ami-0e2780ddea61cf472"
+  ami             = "ami-097fd6fc7aa830912"
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(var.private_subnet_ids, 1)
