@@ -9,7 +9,7 @@ variable "aws_region" {
 
 variable "consul_version" {
   type    = string
-  default = "1.11.1+ent"
+  default = "1.11.2+ent"
 }
 
 variable "consul_download_url" {
@@ -19,7 +19,7 @@ variable "consul_download_url" {
 
 variable "consul_terraform_sync_version" {
   type    = string
-  default = "0.4.2+ent"
+  default = "0.4.3+ent"
 }
 
 variable "consul_terraform_sync_download_url" {

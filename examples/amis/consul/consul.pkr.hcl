@@ -9,7 +9,7 @@ variable "aws_region" {
 
 variable "consul_version" {
   type    = string
-  default = "1.11.1+ent"
+  default = "1.11.2+ent"
 }
 
 variable "consul_download_url" {

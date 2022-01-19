@@ -79,7 +79,7 @@ variable "consul_helm_chart_version" {
 variable "consul_version" {
   description = "Consul version"
   type        = string
-  default     = "1.11.1-ent"
+  default     = "1.11.2-ent"
 }
 
 variable "consul_ent_license" {
