@@ -49,6 +49,9 @@ client:
         "disable_hostname": true
       }
     }
+dns:
+  enabled: true
+  enableRedirection: true
 ui:
   service:
     type: LoadBalancer
