@@ -4,8 +4,8 @@ metadata:
   name: swapi-dev
 spec:
   type: ExternalName
-  externalName: swapi-dev.service.consul
+  externalName: swapi-dev.virtual.consul
   ports:
-  - name: https
+  - name: http
     protocol: TCP
-    port: 443
+    port: 80

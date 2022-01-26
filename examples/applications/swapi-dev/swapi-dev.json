@@ -9,6 +9,6 @@
     "Address": "swapi.dev",
     "ID": "swapi-dev",
     "Service": "swapi-dev",
-    "Port": 443
+    "Port": 80
   }
 }
