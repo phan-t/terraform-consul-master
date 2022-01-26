@@ -1,7 +1,7 @@
 apiVersion: consul.hashicorp.com/v1alpha1
 kind: TerminatingGateway
 metadata:
-  name: terminating-gateway
+  name: aws-terminating-gateway
 spec:
   services:
     - name: swapi-dev
