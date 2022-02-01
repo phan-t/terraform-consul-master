@@ -1,3 +1,8 @@
+# Enable Kubernetes Engine API service
+resource "google_project_service" "project" {
+  service = "container.googleapis.com"
+}
+
 module "gke" {
   source                 = "terraform-google-modules/kubernetes-engine/google"
 
