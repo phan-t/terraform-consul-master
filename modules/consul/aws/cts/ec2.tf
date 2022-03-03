@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_instance" "cts" {
-  ami             = "ami-02d574895bf50bff5"
+  ami             = "ami-058c0cbbdf3d37ea4"
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(var.private_subnet_ids, 1)
