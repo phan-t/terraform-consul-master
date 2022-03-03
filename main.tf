@@ -150,6 +150,7 @@ module "hashicups-multi-cloud" {
   gcp_vpc_name                                    = module.infra-gcp.vpc_name
 }
 
+
 module "web-aws" {
   source = "./modules/consul/aws/web"
 
@@ -163,17 +164,5 @@ module "web-aws" {
   bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
   server_private_fqdn                         = module.consul-server-aws.private_fqdn
   serf_lan_port                               = var.consul_serf_lan_port
-}
-
-module "bigip" {
-  source                  = "git::https://github.com/f5devcentral/terraform-aws-bigip-module?ref=v0.9.7"
-
-  count                   = 1
-  prefix                  = "${var.deployment_name}-f5bigip"
-  ec2_key_name            = var.aws_key_pair_key_name
-  f5_password             = var.f5bigip_password
-  f5_ami_search_name      = "F5 BIGIP-16.1.0* PAYG-Good 25Mbps*"
-  mgmt_subnet_ids         = [{ "subnet_id" = module.infra-awsa.public_subnet_ids[0], "public_ip" = true, "private_ip_primary" = "" }]
-  mgmt_securitygroup_ids  = [module.infra-aws.security_group_allow_ssh_inbound_id, module.infra-aws.security_group_allow_f5_mgmt_inbound_id]
 }
 */

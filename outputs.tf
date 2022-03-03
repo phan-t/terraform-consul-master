@@ -58,8 +58,3 @@ output "consul_server_private_fqdn" {
   description = "Consul server fqdn"
   value       = module.consul-server-aws.private_fqdn
 }
-
-output "f5bigip_public_fqdn" {
-  value = "https://${element(module.bigip.0.mgmtPublicDNS, 1)}:8443"
-}
-*/
