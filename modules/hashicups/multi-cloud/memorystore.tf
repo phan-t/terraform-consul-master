@@ -1,3 +1,9 @@
+# Enable Redis API service
+resource "google_project_service" "project" {
+  service                     = "redis.googleapis.com"
+  disable_dependent_services  = true
+}
+
 module "memorystore" {
   source                  = "terraform-google-modules/memorystore/google"
 
