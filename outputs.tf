@@ -58,3 +58,4 @@ output "consul_server_private_fqdn" {
   description = "Consul server fqdn"
   value       = module.consul-server-aws.private_fqdn
 }
+*/
