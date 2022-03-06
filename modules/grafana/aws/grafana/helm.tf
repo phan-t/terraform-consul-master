@@ -9,6 +9,7 @@ resource "helm_release" "grafana" {
   name          = "grafana"
   chart         = "grafana"
   repository    = "https://grafana.github.io/helm-charts"
+  namespace     = "consul"
   timeout       = "300"
   wait_for_jobs = true
   values        = [
