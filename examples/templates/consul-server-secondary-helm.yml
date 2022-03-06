@@ -55,11 +55,19 @@ dns:
 ui:
   service:
     type: LoadBalancer
+syncCatalog:
+  enabled: true
+  k8sDenyNamespaces: ["kube-system", "kube-public", "consul"]
+  consulNamespaces:
+    mirroringK8S: true
+  addK8SNamespaceSuffix: false
 connectInject:
   enabled: true
   envoyExtraArgs: "--log-level debug"
   metrics:
     defaultEnableMerging: true
+  consulNamespaces:
+    mirroringK8S: true  
 controller:
   enabled: true
 meshGateway:
