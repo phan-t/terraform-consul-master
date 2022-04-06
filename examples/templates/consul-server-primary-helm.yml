@@ -9,6 +9,9 @@ global:
     enabled: true
     enableAutoEncrypt: true
   enableConsulNamespaces: true
+  acls:
+    manageSystemACLs: true
+    createReplicationToken: true
   enterpriseLicense:
     secretName: consul-ent-license
     secretKey: key
