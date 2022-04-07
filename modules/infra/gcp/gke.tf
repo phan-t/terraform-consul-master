@@ -1,6 +1,7 @@
 # Enable Kubernetes Engine API service
 resource "google_project_service" "project" {
-  service = "container.googleapis.com"
+  service                     = "container.googleapis.com"
+  disable_dependent_services  = true
 }
 
 module "gke" {
