@@ -32,3 +32,12 @@ variable "replicas" {
   description = "Number of replicas"
   type        = number
 }
+
+variable "primary_datacenter_name" {
+  description = "Primary datacenter name"
+}
+
+variable "cluster_api_endpoint" {
+  description = "Kubernetes cluster api endpoint"
+  type        = string
+}

@@ -63,7 +63,7 @@ data "google_container_cluster" "cluster" {
 
 provider "kubernetes" {
   alias = "gke"
-  host  = "https://${module.infra-gcp.cluster_endpoint}"
+  host  = module.infra-gcp.cluster_api_endpoint
   token = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(module.infra-gcp.cluster_ca_certificate)
 }
@@ -71,7 +71,7 @@ provider "kubernetes" {
 provider "helm" {
   alias = "gke"
   kubernetes {
-    host  = "https://${module.infra-gcp.cluster_endpoint}"
+    host  = module.infra-gcp.cluster_api_endpoint
     token = data.google_client_config.default.access_token
     cluster_ca_certificate = base64decode(module.infra-gcp.cluster_ca_certificate)
   }

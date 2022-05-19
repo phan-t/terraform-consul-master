@@ -1,6 +1,6 @@
-output "cluster_endpoint" {
+output "cluster_api_endpoint" {
   description = "GKE cluster endpoint"
-  value       = module.gke.endpoint
+  value       = "https://${module.gke.endpoint}"
 }
 
 output "cluster_ca_certificate" {

@@ -17,3 +17,8 @@ output "federation_secret" {
   description = "Federation secret"
   value       = data.kubernetes_secret.consul-federation-secret.data
 }
+
+output "primary_datacenter_name" {
+  description = "Primary datacenter name"
+  value       = "${var.deployment_name}-aws"
+}

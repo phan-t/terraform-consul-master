@@ -48,7 +48,7 @@ module "consul-server-aws" {
     module.infra-aws
   ]
 }
-
+/*
 module "cts-aws" {
   source = "./modules/consul/aws/cts"
 
@@ -64,7 +64,7 @@ module "cts-aws" {
   serf_lan_port                               = var.consul_serf_lan_port
 
 }
-
+*/
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
   providers = {
@@ -88,7 +88,7 @@ module "grafana" {
     module.prometheus
   ]
 }
-
+/*
 module "boundary-aws-infra" {
   source = "./modules/boundary/aws/infra"
 
@@ -102,7 +102,7 @@ module "boundary-aws-infra" {
   public_subnet_ids                           = module.infra-aws.public_subnet_ids
   security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
 }
-
+*/
 module "infra-gcp" {
   source  = "./modules/infra/gcp"
   
@@ -125,7 +125,9 @@ module "consul-server-gcp" {
   consul_version                              = var.consul_version
   consul_ent_license                          = var.consul_ent_license
   serf_lan_port                               = var.consul_serf_lan_port
-  replicas                                    = var.consul_replicas 
+  replicas                                    = var.consul_replicas
+  primary_datacenter_name                     = module.consul-server-aws.primary_datacenter_name
+  cluster_api_endpoint                        = module.infra-gcp.cluster_api_endpoint
 
   depends_on = [
     module.infra-gcp
