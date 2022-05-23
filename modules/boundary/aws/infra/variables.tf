@@ -46,7 +46,7 @@ variable "security_group_allow_ssh_inbound_id" {
 variable "ami_controller_worker" {
   description = "AMI of controller and worker"
   type        = string
-  default     = "ami-0fb94e275e8b19bb0"
+  default     = "ami-05cfc6a33cd932d04"
 }
 
 variable "tls_disabled" {

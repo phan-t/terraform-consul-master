@@ -9,7 +9,7 @@ variable "aws_region" {
 
 variable "boundary_version" {
   type    = string
-  default = "0.7.4"
+  default = "0.8.1"
 }
 
 variable "boundary_download_url" {
