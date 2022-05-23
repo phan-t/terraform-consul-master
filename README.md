@@ -12,6 +12,11 @@ aws eks --region $(terraform output -raw aws_region) update-kubeconfig --name $(
 gcloud container clusters get-credentials $(terraform output -raw deployment_id) --region $(terraform output -raw gcp_region)
 ```
 
+#### Get Consul ACL Bootstrap Token
+```
+kubectl get --namespace consul secrets/consul-bootstrap-acl-token --template={{.data.token}} | base64 -d)
+```
+
 #### Login to Boundary
 ##### Set BOUNDARY_ADDR environmental variable
 ```shell
