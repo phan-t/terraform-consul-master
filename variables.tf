@@ -49,7 +49,7 @@ variable "aws_public_subnets" {
 variable "aws_eks_cluster_version" {
   description = "AWS EKS cluster version"
   type        = string
-  default     = "1.20"
+  default     = "1.22"
 }
 
 variable "aws_eks_cluster_service_cidr" {
