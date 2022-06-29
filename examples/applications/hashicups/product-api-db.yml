@@ -6,11 +6,19 @@ metadata:
   labels:
     app: product-api-db
 spec:
-  selector:
-    app: product-api-db
+  type: ClusterIP
   ports:
     - port: 5432
       targetPort: 5432
+  selector:
+    app: product-api-db
+---
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceDefaults
+metadata:
+  name: product-api-db
+spec:
+  protocol: "tcp"
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -18,19 +26,10 @@ metadata:
   name: product-api-db
 automountServiceAccountToken: true
 ---
-apiVersion: consul.hashicorp.com/v1alpha1
-kind: ServiceDefaults
-metadata:
-  name: product-api-db
-spec:
-  protocol: tcp
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product-api-db
-  labels:
-    app: product-api-db
 spec:
   replicas: 1
   selector:
@@ -43,14 +42,15 @@ spec:
         service: product-api-db
         app: product-api-db
       annotations:
-        consul.hashicorp.com/connect-inject: "true"
         prometheus.io/scrape: "true"
         prometheus.io/port: "9102"
+        consul.hashicorp.com/connect-inject: "true"
     spec:
       serviceAccountName: product-api-db
       containers:
         - name: product-api-db
-          image: hashicorpdemoapp/product-api-db:v0.0.19
+          image: hashicorpdemoapp/product-api-db:v0.0.22
+          imagePullPolicy: Always
           ports:
             - containerPort: 5432
           env:
@@ -60,8 +60,6 @@ spec:
               value: postgres
             - name: POSTGRES_PASSWORD
               value: password
-          # only listen on loopback so only access is via connect proxy
-          #args: ["-c", "listen_addresses=127.0.0.1"]
           volumeMounts:
             - mountPath: "/var/lib/postgresql/data"
               name: "pgdata"
