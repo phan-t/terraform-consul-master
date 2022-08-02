@@ -44,7 +44,7 @@ variable "cluster_version" {
 }
 
 variable "cluster_service_cidr" {
-  description = "AWS EKS cluster service cidr"
+  description = "EKS cluster service cidr"
   type        = string
 }
 
