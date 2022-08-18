@@ -117,11 +117,3 @@ variable "gcp_gke_cluster_service_cidr" {
   type        = string
   default     = "172.20.0.0/18"
 }
-
-/*
-variable "f5bigip_password" {
-  description = "F5 BIG-IP password"
-  type        = string
-  default     = ""
-}
-*/
