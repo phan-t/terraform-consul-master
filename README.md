@@ -2,7 +2,7 @@
 
 ## How to use this module
 
-### Post Deployment
+### Post deployment
 #### Create `kubeconfig` for Amazon EKS
 ```shell
 aws eks --region $(terraform output -raw aws_region) update-kubeconfig --name $(terraform output -raw deployment_id)
@@ -30,7 +30,7 @@ boundary authenticate password \
          -auth-method-id=ampw_1234567890
 ```
 
-### Pre Destroy
+### Pre destroy
 #### Destroy Consul Server
 ```shell
 terraform destroy -target module.consul-server-aws.helm_release.consul-server

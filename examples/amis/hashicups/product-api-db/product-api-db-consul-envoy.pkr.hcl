@@ -41,8 +41,8 @@ data "amazon-ami" "ubuntu20" {
 }
 
 source "amazon-ebs" "ubuntu20-ami" {
-  ami_description             = "An Ubuntu 20.04 AMI that has Consul installed."
-  ami_name                    = "product-api-db-consul-ubuntu-${formatdate("YYYYMMDDhhmm", timestamp())}"
+  ami_description             = "An Ubuntu 20.04 AMI that has Consul and Envoy installed."
+  ami_name                    = "product-api-db-consul-envoy-ubuntu-${formatdate("YYYYMMDDhhmm", timestamp())}"
   associate_public_ip_address = true
   instance_type               = "t2.micro"
   region                      = "${var.aws_region}"

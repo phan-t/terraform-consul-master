@@ -1,8 +1,12 @@
+// Generic variables
+
 variable "deployment_name" {
   description = "Deployment name, used to prefix resources"
   type        = string
   default     = ""
 }
+
+// HashiCorp identification variables
 
 variable "owner" {
   description = "Resource owner identified using an email address"
@@ -15,6 +19,16 @@ variable "ttl" {
   type        = number
   default     = 48
 }
+
+// Enable & disable modules
+
+variable "enable_cts_aws" {
+  description = "Deploy Consul-Terraform-Sync node in Amazon Web Services (AWS)"
+  type        = bool
+  default     = false
+}
+
+// Amazon Web Services (AWS) variables
 
 variable "aws_region" {
   description = "AWS region"
@@ -70,6 +84,28 @@ variable "aws_eks_asg_desired_capacity" {
   default     = 2
 }
 
+// Google Cloud Platform (GCP) variables
+
+variable "gcp_region" {
+  description = "GCP region"
+  type        = string
+  default     = ""
+}
+
+variable "gcp_project_id" {
+  description = "GCP project id"
+  type        = string
+  default     = ""
+}
+
+variable "gcp_gke_cluster_service_cidr" {
+  description = "GCP GKE cluster service cidr"
+  type        = string
+  default     = "172.20.0.0/18"
+}
+
+// HashiCorp Consul variavles
+
 variable "consul_helm_chart_version" {
   type        = string
   description = "Helm chart version"
@@ -100,20 +136,10 @@ variable "consul_serf_lan_port" {
   default     = 9301
 }
 
-variable "gcp_region" {
-  description = "GCP region"
-  type        = string
-  default     = ""
-}
+// Fake-service variables
 
-variable "gcp_project_id" {
-  description = "GCP project id"
+variable "ami_fake_service" {
+  description = "AMI of fake-service"
   type        = string
-  default     = ""
-}
-
-variable "gcp_gke_cluster_service_cidr" {
-  description = "GCP GKE cluster service cidr"
-  type        = string
-  default     = "172.20.0.0/18"
+  default     = "ami-075f2e577e993d4ea"
 }
