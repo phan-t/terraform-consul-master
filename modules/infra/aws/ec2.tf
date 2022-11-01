@@ -27,7 +27,7 @@ resource "aws_instance" "bastion" {
   instance_type   = "t2.micro"
   key_name        = var.key_pair_key_name
   subnet_id       = element(module.vpc.public_subnets, 1)
-  security_groups = [aws_security_group.allow-ssh-public-inbound.id]
+  security_groups = [module.sg-ssh.security_group_id]
   
   lifecycle {
     ignore_changes = all
