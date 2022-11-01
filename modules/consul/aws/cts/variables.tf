@@ -23,13 +23,8 @@ variable "private_subnet_ids" {
   type        = list
 }
 
-variable "security_group_allow_ssh_inbound_id" {
-  description = "Security group allow-ssh-inbound id"
-  type        = string
-}
-
-variable "security_group_allow_any_private_inbound_id" {
-  description = "Security group allow-any-private-inbound id"
+variable "security_group_ssh_id" {
+  description = "Security group ssh id"
   type        = string
 }
 

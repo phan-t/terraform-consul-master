@@ -19,7 +19,7 @@ module "eks" {
       instance_type                 = var.worker_instance_type
       key_name                      = var.key_pair_key_name
       asg_desired_capacity          = var.asg_desired_capacity
-      additional_security_group_ids = [aws_security_group.allow-ssh-inbound.id, aws_security_group.allow-any-private-inbound.id]
+      additional_security_group_ids = [module.sg-ssh.security_group_id]
     }
   ]
   

@@ -13,22 +13,15 @@ output "private_subnet_ids" {
   value       = module.vpc.private_subnets
 }
 
-output "security_group_allow_ssh_inbound_id" {
+output "security_group_ssh_id" {
   description = "Security group allow-ssh-inbound id"
-  value       = aws_security_group.allow-ssh-inbound.id
+  value       = module.sg-ssh.security_group_id
 }
 
-/*
-output "security_group_allow_f5_mgmt_inbound_id" {
-  description = "Security group allow-f5-inbound id"
-  value       = aws_security_group.allow-f5-mgmt-inbound.id
-}
-*/
-
-output "security_group_allow_any_private_inbound_id" {
-  description = "Security group allow-any-private-inbound id"
-  value       = aws_security_group.allow-any-private-inbound.id
-}
+# output "security_group_allow_any_private_inbound_id" {
+#   description = "Security group allow-any-private-inbound id"
+#   value       = aws_security_group.allow-any-private-inbound.id
+# }
 
 output "bastion_public_fqdn" {
   description = "Public fqdn of bastion"
