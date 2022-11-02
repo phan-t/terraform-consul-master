@@ -18,11 +18,6 @@ output "security_group_ssh_id" {
   value       = module.sg-ssh.security_group_id
 }
 
-# output "security_group_allow_any_private_inbound_id" {
-#   description = "Security group allow-any-private-inbound id"
-#   value       = aws_security_group.allow-any-private-inbound.id
-# }
-
 output "bastion_public_fqdn" {
   description = "Public fqdn of bastion"
   value       = aws_instance.bastion.public_dns
