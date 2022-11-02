@@ -38,22 +38,27 @@ variable "private_subnets" {
   type        = list
 }
 
-variable "cluster_version" {
+variable "eks_cluster_version" {
   description = "EKS cluster version"
   type        = string
 }
 
-variable "cluster_service_cidr" {
+variable "eks_cluster_service_cidr" {
   description = "EKS cluster service cidr"
   type        = string
 }
 
-variable "worker_instance_type" {
-  description = "EC2 worker node instance type"
+variable "eks_worker_instance_type" {
+  description = "EKS worker nodes instance type"
   type        = string
 }
 
-variable "asg_desired_capacity" {
-  description = "Desired worker capacity in the autoscaling group"
+variable "eks_worker_desired_capacity" {
+  description = "EKS worker nodes desired capacity"
   type        = number
+}
+
+variable "consul_serf_lan_port" {
+  description = "Consul serf lan port"
+  type        = number  
 }

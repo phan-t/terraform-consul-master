@@ -8,25 +8,26 @@ resource "random_string" "suffix" {
 }
 
 resource "local_file" "consul-ent-license" {
-  content = var.consul_ent_license
+  content  = var.consul_ent_license
   filename = "${path.root}/consul-ent-license.hclic"
 }
 
 module "infra-aws" {
   source  = "./modules/infra/aws"
   
-  region                                      = var.aws_region
-  owner                                       = var.owner
-  ttl                                         = var.ttl
-  deployment_id                               = local.deployment_id
-  key_pair_key_name                           = var.aws_key_pair_key_name
-  vpc_cidr                                    = var.aws_vpc_cidr
-  public_subnets                              = var.aws_public_subnets
-  private_subnets                             = var.aws_private_subnets
-  cluster_version                             = var.aws_eks_cluster_version
-  cluster_service_cidr                        = var.aws_eks_cluster_service_cidr
-  worker_instance_type                        = var.aws_eks_worker_instance_type
-  asg_desired_capacity                        = var.aws_eks_asg_desired_capacity
+  region                      = var.aws_region
+  owner                       = var.owner
+  ttl                         = var.ttl
+  deployment_id               = local.deployment_id
+  key_pair_key_name           = var.aws_key_pair_key_name
+  vpc_cidr                    = var.aws_vpc_cidr
+  public_subnets              = var.aws_public_subnets
+  private_subnets             = var.aws_private_subnets
+  eks_cluster_version         = var.aws_eks_cluster_version
+  eks_cluster_service_cidr    = var.aws_eks_cluster_service_cidr
+  eks_worker_instance_type    = var.aws_eks_worker_instance_type
+  eks_worker_desired_capacity = var.aws_eks_worker_desired_capacity
+  consul_serf_lan_port        = var.consul_serf_lan_port
 }
 
 module "consul-server-aws" {
@@ -36,13 +37,13 @@ module "consul-server-aws" {
     helm       = helm.eks
    }
 
-  deployment_name                             = var.deployment_name
-  cluster_id                                  = module.infra-aws.cluster_id
-  helm_chart_version                          = var.consul_helm_chart_version
-  consul_version                              = var.consul_version
-  consul_ent_license                          = var.consul_ent_license
-  serf_lan_port                               = var.consul_serf_lan_port
-  replicas                                    = var.consul_replicas
+  deployment_name     = var.deployment_name
+  cluster_id          = module.infra-aws.cluster_id
+  helm_chart_version  = var.consul_helm_chart_version
+  consul_version      = var.consul_version
+  consul_ent_license  = var.consul_ent_license
+  serf_lan_port       = var.consul_serf_lan_port
+  replicas            = var.consul_replicas
 
   depends_on = [
     module.infra-aws
@@ -79,24 +80,24 @@ module "cts-aws" {
   source = "./modules/consul/aws/cts"
   count  = var.enable_cts_aws ? 1 : 0
 
-  owner                                       = var.owner
-  ttl                                         = var.ttl
-  deployment_name                             = var.deployment_name
-  key_pair_key_name                           = var.aws_key_pair_key_name
-  private_subnet_ids                          = module.infra-aws.private_subnet_ids
-  security_group_ssh_id   = module.infra-aws.security_group_ssh_id
-  bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
-  server_private_fqdn                         = module.consul-server-aws.private_fqdn
-  serf_lan_port                               = var.consul_serf_lan_port
+  owner                 = var.owner
+  ttl                   = var.ttl
+  deployment_name       = var.deployment_name
+  key_pair_key_name     = var.aws_key_pair_key_name
+  private_subnet_ids    = module.infra-aws.private_subnet_ids
+  security_group_ssh_id = module.infra-aws.security_group_ssh_id
+  bastion_public_fqdn   = module.infra-aws.bastion_public_fqdn
+  server_private_fqdn   = module.consul-server-aws.private_fqdn
+  serf_lan_port         = var.consul_serf_lan_port
 }
 
 module "infra-gcp" {
   source  = "./modules/infra/gcp"
   
-  region                                      = var.gcp_region
-  project_id                                  = var.gcp_project_id
-  deployment_id                               = local.deployment_id
-  cluster_service_cidr                        = var.gcp_gke_cluster_service_cidr
+  region                = var.gcp_region
+  project_id            = var.gcp_project_id
+  deployment_id         = local.deployment_id
+  cluster_service_cidr  = var.gcp_gke_cluster_service_cidr
 }
 
 module "consul-server-gcp" {
@@ -106,15 +107,15 @@ module "consul-server-gcp" {
     helm       = helm.gke
    }
 
-  deployment_name                             = var.deployment_name
-  helm_chart_version                          = var.consul_helm_chart_version
-  federation_secret                           = module.consul-server-aws.federation_secret
-  consul_version                              = var.consul_version
-  consul_ent_license                          = var.consul_ent_license
-  serf_lan_port                               = var.consul_serf_lan_port
-  replicas                                    = var.consul_replicas
-  primary_datacenter_name                     = module.consul-server-aws.primary_datacenter_name
-  cluster_api_endpoint                        = module.infra-gcp.cluster_api_endpoint
+  deployment_name         = var.deployment_name
+  helm_chart_version      = var.consul_helm_chart_version
+  federation_secret       = module.consul-server-aws.federation_secret
+  consul_version          = var.consul_version
+  consul_ent_license      = var.consul_ent_license
+  serf_lan_port           = var.consul_serf_lan_port
+  replicas                = var.consul_replicas
+  primary_datacenter_name = module.consul-server-aws.primary_datacenter_name
+  cluster_api_endpoint    = module.infra-gcp.cluster_api_endpoint
 
   depends_on = [
     module.infra-gcp

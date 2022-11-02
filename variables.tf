@@ -75,10 +75,10 @@ variable "aws_eks_cluster_service_cidr" {
 variable "aws_eks_worker_instance_type" {
   description = "EC2 worker node instance type"
   type        = string
-  default     = "m5.large"
+  default     = "t4g.medium"
 }
 
-variable "aws_eks_asg_desired_capacity" {
+variable "aws_eks_worker_desired_capacity" {
   description = "Desired worker capacity in the autoscaling group"
   type        = number
   default     = 2
