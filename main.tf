@@ -38,7 +38,7 @@ module "consul-server-aws" {
    }
 
   deployment_name     = var.deployment_name
-  cluster_id          = module.infra-aws.cluster_id
+  cluster_id          = module.infra-aws.eks_cluster_id
   helm_chart_version  = var.consul_helm_chart_version
   consul_version      = var.consul_version
   consul_ent_license  = var.consul_ent_license
@@ -91,36 +91,36 @@ module "cts-aws" {
   serf_lan_port         = var.consul_serf_lan_port
 }
 
-module "infra-gcp" {
-  source  = "./modules/infra/gcp"
+# module "infra-gcp" {
+#   source  = "./modules/infra/gcp"
   
-  region                = var.gcp_region
-  project_id            = var.gcp_project_id
-  deployment_id         = local.deployment_id
-  cluster_service_cidr  = var.gcp_gke_cluster_service_cidr
-}
+#   region                = var.gcp_region
+#   project_id            = var.gcp_project_id
+#   deployment_id         = local.deployment_id
+#   cluster_service_cidr  = var.gcp_gke_cluster_service_cidr
+# }
 
-module "consul-server-gcp" {
-  source = "./modules/consul/gcp/consul"
-  providers = {
-    kubernetes = kubernetes.gke
-    helm       = helm.gke
-   }
+# module "consul-server-gcp" {
+#   source = "./modules/consul/gcp/consul"
+#   providers = {
+#     kubernetes = kubernetes.gke
+#     helm       = helm.gke
+#    }
 
-  deployment_name         = var.deployment_name
-  helm_chart_version      = var.consul_helm_chart_version
-  federation_secret       = module.consul-server-aws.federation_secret
-  consul_version          = var.consul_version
-  consul_ent_license      = var.consul_ent_license
-  serf_lan_port           = var.consul_serf_lan_port
-  replicas                = var.consul_replicas
-  primary_datacenter_name = module.consul-server-aws.primary_datacenter_name
-  cluster_api_endpoint    = module.infra-gcp.cluster_api_endpoint
+#   deployment_name         = var.deployment_name
+#   helm_chart_version      = var.consul_helm_chart_version
+#   federation_secret       = module.consul-server-aws.federation_secret
+#   consul_version          = var.consul_version
+#   consul_ent_license      = var.consul_ent_license
+#   serf_lan_port           = var.consul_serf_lan_port
+#   replicas                = var.consul_replicas
+#   primary_datacenter_name = module.consul-server-aws.primary_datacenter_name
+#   cluster_api_endpoint    = module.infra-gcp.cluster_api_endpoint
 
-  depends_on = [
-    module.infra-gcp
-  ]
-}
+#   depends_on = [
+#     module.infra-gcp
+#   ]
+# }
 
 # module "boundary-aws-infra" {
 #   source = "./modules/boundary/aws/infra"

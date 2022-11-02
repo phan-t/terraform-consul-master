@@ -31,7 +31,7 @@ provider "google" {
 }
 
 data "aws_eks_cluster" "cluster" {
-  name = module.infra-aws.cluster_id
+  name = module.infra-aws.eks_cluster_id
 }
 
 provider "kubernetes" {
