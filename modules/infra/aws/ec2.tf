@@ -19,7 +19,7 @@ data "aws_ami" "ubuntu20" {
     values = ["hvm"]
   }
   most_recent = true
-  owners = ["099720109477"]
+  owners      = ["099720109477"]
 }
 
 resource "aws_instance" "bastion" {
@@ -35,7 +35,7 @@ resource "aws_instance" "bastion" {
 
   tags = {
     owner = var.owner
-    TTL = var.ttl
+    TTL   = var.ttl
   }
 
   connection {
