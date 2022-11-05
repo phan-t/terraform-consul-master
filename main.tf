@@ -12,6 +12,8 @@ resource "local_file" "consul-ent-license" {
   filename = "${path.root}/consul-ent-license.hclic"
 }
 
+// Amazon Web Services (AWS) infrastructure
+
 module "infra-aws" {
   source  = "./modules/infra/aws"
   
@@ -27,8 +29,25 @@ module "infra-aws" {
   eks_cluster_service_cidr    = var.aws_eks_cluster_service_cidr
   eks_worker_instance_type    = var.aws_eks_worker_instance_type
   eks_worker_desired_capacity = var.aws_eks_worker_desired_capacity
+  hcp_hvn_provider_account_id = module.hcp_hvn.provider_account_id
+  hcp_hvn_cidr                = var.hcp_hvn_cidr
   consul_serf_lan_port        = var.consul_serf_lan_port
 }
+
+// HashiCorp Cloud Platform (HCP) infrastructure
+
+module "hcp_hvn" {
+  source = "./modules/hcp/hvn"
+
+  region                     = var.aws_region
+  deployment_id              = local.deployment_id
+  cidr                       = var.hcp_hvn_cidr
+  aws_vpc_cidr               = var.aws_vpc_cidr
+  aws_tgw_id                 = module.infra-aws.tgw_id
+  aws_ram_resource_share_arn = module.infra-aws.ram_resource_share_arn
+}
+
+// Consul datacenter
 
 module "consul-server-aws" {
   source    = "./modules/consul/aws/consul"
@@ -89,6 +108,14 @@ module "cts-aws" {
   bastion_public_fqdn   = module.infra-aws.bastion_public_fqdn
   server_private_fqdn   = module.consul-server-aws.private_fqdn
   serf_lan_port         = var.consul_serf_lan_port
+}
+
+module "hcp-vault" {
+  source = "./modules/hcp/vault"
+
+  deployment_id = local.deployment_id
+  hcp_hvn_id    = module.hcp_hvn.id
+  tier          = var.hcp_vault_tier
 }
 
 # module "infra-gcp" {

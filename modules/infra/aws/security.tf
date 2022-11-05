@@ -78,6 +78,13 @@ module "sg-consul" {
       cidr_blocks = "${module.vpc.vpc_cidr_block}"
     },
     {
+      from_port   = 8080
+      to_port     = 8080
+      protocol    = "tcp"
+      description = "consul-connect-injector-tcp"
+      cidr_blocks = "${module.vpc.vpc_cidr_block}"
+    },
+    {
       from_port   = var.consul_serf_lan_port
       to_port     = var.consul_serf_lan_port
       protocol    = "tcp"

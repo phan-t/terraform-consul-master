@@ -75,7 +75,7 @@ variable "aws_eks_cluster_service_cidr" {
 variable "aws_eks_worker_instance_type" {
   description = "EC2 worker node instance type"
   type        = string
-  default     = "t4g.medium"
+  default     = "m5.large"
 }
 
 variable "aws_eks_worker_desired_capacity" {
@@ -104,7 +104,40 @@ variable "gcp_gke_cluster_service_cidr" {
   default     = "172.20.0.0/18"
 }
 
-// HashiCorp Consul variavles
+// HashiCorp Cloud Platform (HCP) variables
+
+variable "hcp_region" {
+  description = "HCP region"
+  type        = string
+  default     = ""
+}
+
+variable "hcp_client_id" {
+  description = "HCP client id"
+  type        = string
+  default     = ""
+}
+
+variable "hcp_client_secret" {
+  description = "HCP client secret"
+  type        = string
+  default     = ""
+}
+
+variable "hcp_hvn_cidr" {
+  description = "HCP HVN cidr"
+  type        = string
+  default     = "172.25.16.0/20"
+}
+
+variable "hcp_vault_tier" {
+  description = "HCP Vault cluster tier"
+  type        = string
+  default     = "dev"
+}
+
+
+// HashiCorp Consul variables
 
 variable "consul_helm_chart_version" {
   type        = string

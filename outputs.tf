@@ -1,7 +1,7 @@
-output "deployment_id" {
-  description = "Deployment id"
-  value       = local.deployment_id
-}
+# output "deployment_id" {
+#   description = "Deployment id"
+#   value       = local.deployment_id
+# }
 
 output "aws_region" {
   description = "AWS region"
@@ -72,3 +72,14 @@ output "grafana_public_address" {
 #   description = "Boundary KMS recovery key id"
 #   value       =  module.boundary-aws-infra.kms_recovery_key_id
 # }
+
+output "hcp_vault_admin_token" {
+  description = "HCP vault admin token"
+  value       = module.hcp-vault.admin_token
+  sensitive   = true
+}
+
+output "hcp_vault_public_endpoint_url" {
+  description = "HCP vault public url"
+  value       = module.hcp-vault.public_endpoint_url
+}
