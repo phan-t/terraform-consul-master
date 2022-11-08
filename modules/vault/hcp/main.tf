@@ -7,4 +7,8 @@ resource "hcp_vault_cluster" "vault" {
 
 resource "hcp_vault_cluster_admin_token" "token" {
   cluster_id = var.deployment_id
+
+  depends_on = [
+    hcp_vault_cluster.vault
+  ]
 }

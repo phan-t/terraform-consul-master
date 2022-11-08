@@ -29,15 +29,15 @@ module "infra-aws" {
   eks_cluster_service_cidr    = var.aws_eks_cluster_service_cidr
   eks_worker_instance_type    = var.aws_eks_worker_instance_type
   eks_worker_desired_capacity = var.aws_eks_worker_desired_capacity
-  hcp_hvn_provider_account_id = module.hcp_hvn.provider_account_id
+  hcp_hvn_provider_account_id = module.hcp-hvn.provider_account_id
   hcp_hvn_cidr                = var.hcp_hvn_cidr
   consul_serf_lan_port        = var.consul_serf_lan_port
 }
 
 // HashiCorp Cloud Platform (HCP) infrastructure
 
-module "hcp_hvn" {
-  source = "./modules/hcp/hvn"
+module "hcp-hvn" {
+  source = "./modules/infra/hcp"
 
   region                     = var.aws_region
   deployment_id              = local.deployment_id
@@ -111,15 +111,15 @@ module "cts-aws" {
 }
 
 module "hcp-vault" {
-  source = "./modules/hcp/vault"
+  source = "./modules/vault/hcp"
 
   deployment_id = local.deployment_id
-  hcp_hvn_id    = module.hcp_hvn.id
+  hcp_hvn_id    = module.hcp-hvn.id
   tier          = var.hcp_vault_tier
 }
 
 module "hcp-boundary" {
-  source = "./modules/hcp/boundary"
+  source = "./modules/boundary/hcp"
 
   deployment_id = local.deployment_id
   username      = var.hcp_boundary_username
