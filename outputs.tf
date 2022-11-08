@@ -63,16 +63,6 @@ output "grafana_public_address" {
 #   value       = module.consul-server-aws.private_fqdn
 # }
 
-# output "boundary_controller_public_address" {
-#   description = "Boundary controller public address"
-#   value       = "http://${module.boundary-aws-infra.controller_public_fqdn}:9200"
-# }
-
-# output "boundary_kms_recovery_key_id" {
-#   description = "Boundary KMS recovery key id"
-#   value       =  module.boundary-aws-infra.kms_recovery_key_id
-# }
-
 output "hcp_vault_admin_token" {
   description = "HCP vault admin token"
   value       = module.hcp-vault.admin_token
