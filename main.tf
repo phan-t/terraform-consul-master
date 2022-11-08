@@ -118,6 +118,14 @@ module "hcp-vault" {
   tier          = var.hcp_vault_tier
 }
 
+module "hcp-boundary" {
+  source = "./modules/hcp/boundary"
+
+  deployment_id = local.deployment_id
+  username      = var.hcp_boundary_username
+  password      = var.hcp_boundary_password
+}
+
 # module "infra-gcp" {
 #   source  = "./modules/infra/gcp"
   

@@ -83,3 +83,8 @@ output "hcp_vault_public_endpoint_url" {
   description = "HCP vault public url"
   value       = module.hcp-vault.public_endpoint_url
 }
+
+output "hcp_boundary_public_endpoint_url" {
+  description = "HCP boundary public url"
+  value       = module.hcp-boundary.public_endpoint_url
+}

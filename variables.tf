@@ -136,6 +136,17 @@ variable "hcp_vault_tier" {
   default     = "dev"
 }
 
+variable "hcp_boundary_username" {
+  description = "Initial admin user"
+  type        = string
+  default     = "admin"
+}
+
+variable "hcp_boundary_password" {
+  description = "Initial admin user password"
+  type        = string
+  default     = "HashiCorp1!"
+}
 
 // HashiCorp Consul variables
 
