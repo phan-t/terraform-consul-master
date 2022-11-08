@@ -1,5 +1,5 @@
 locals {
-  key_pair_private_key = file("${path.root}/tphan-hashicorp-aws.pem")
+  key_pair_private_key = file("${path.root}/tphan-test.pem")
 }
 
 resource "aws_instance" "cts" {

@@ -1,5 +1,5 @@
 locals {
-  key_pair_private_key = file("${path.root}/tphan-hashicorp-aws.pem")
+  key_pair_private_key = file("${path.root}/tphan-test.pem")
 }
 
 data "aws_ami" "ubuntu20" {
@@ -46,13 +46,13 @@ resource "aws_instance" "bastion" {
   }
 
   provisioner "file" {
-    source      = "${path.root}/tphan-hashicorp-aws.pem"
-    destination = "/home/ubuntu/tphan-hashicorp-aws.pem"
+    source      = "${path.root}/tphan-test.pem"
+    destination = "/home/ubuntu/tphan-test.pem"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "chmod 400 /home/ubuntu/tphan-hashicorp-aws.pem"
+      "chmod 400 /home/ubuntu/tphan-test.pem"
     ]
   }
 }
