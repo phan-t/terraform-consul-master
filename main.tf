@@ -157,20 +157,6 @@ module "hcp-boundary" {
 #   ]
 # }
 
-# module "boundary-aws-infra" {
-#   source = "./modules/boundary/aws/infra"
-
-#   owner                                       = var.owner
-#   ttl                                         = var.ttl
-#   deployment_name                             = var.deployment_name
-#   deployment_id                               = local.deployment_id
-#   key_pair_key_name                           = var.aws_key_pair_key_name
-#   vpc_id                                      = module.infra-aws.vpc_id
-#   public_subnets_cidr_blocks                  = var.aws_public_subnets
-#   public_subnet_ids                           = module.infra-aws.public_subnet_ids
-#   security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
-# }
-
 # module "hashicups-multi-cloud" {
 #   source = "./modules/hashicups/multi-cloud"
 
