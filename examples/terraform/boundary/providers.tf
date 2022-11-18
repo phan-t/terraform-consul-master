@@ -2,19 +2,14 @@ terraform {
   required_providers {
     boundary = {
       source  = "hashicorp/boundary"
-      version = "~>1.0.5"
+      version = "~>1.1.2"
     }
   }
 }
 
 provider "boundary" {
-  addr             = data.terraform_remote_state.tcm.outputs.boundary_controller_public_address
-  recovery_kms_hcl = <<EOT
-kms "awskms" {
-	purpose    = "recovery"
-	key_id     = "global_root"
-  region     = "${data.terraform_remote_state.tcm.outputs.aws_region}"
-  kms_key_id = "${data.terraform_remote_state.tcm.outputs.boundary_kms_recovery_key_id}"
-}
-EOT
+  addr                            = data.terraform_remote_state.tcm.outputs.hcp_boundary_public_endpoint_url
+  auth_method_id                  = jsondecode(data.http.auth-method.response_body).items[0].id
+  password_auth_method_login_name = var.init_user
+  password_auth_method_password   = var.init_pass
 }
