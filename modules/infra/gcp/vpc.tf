@@ -1,26 +1,26 @@
 module "vpc" {
   source       = "terraform-google-modules/network/google"
-  version      = "4.0.1"
+  version      = "5.2.0"
 
   project_id   = var.project_id
   network_name = var.deployment_id
 
   subnets = [
     {
-      subnet_name           = "gke-cluster"
-      subnet_ip             = "10.210.21.0/24"
+      subnet_name           = "private"
+      subnet_ip             = var.private_subnets[0]
       subnet_region         = var.region
     },
   ]
   secondary_ranges = {
-    gke-cluster = [
+    private = [
       {
-        range_name    = "private-gke-pods"
-        ip_cidr_range = "172.20.64.0/18"
+        range_name    = "gke-pods"
+        ip_cidr_range = var.gke_pod_subnet
       },
       {
-        range_name    = "private-gke-services"
-        ip_cidr_range = var.cluster_service_cidr
+        range_name    = "gke-services"
+        ip_cidr_range = var.gke_cluster_service_cidr
       },
     ]
   }

@@ -28,6 +28,50 @@ variable "enable_cts_aws" {
   default     = false
 }
 
+// HashiCorp Cloud Platform (HCP) variables
+
+variable "hcp_region" {
+  description = "HCP region"
+  type        = string
+  default     = ""
+}
+
+variable "hcp_client_id" {
+  description = "HCP client id"
+  type        = string
+  default     = ""
+}
+
+variable "hcp_client_secret" {
+  description = "HCP client secret"
+  type        = string
+  default     = ""
+}
+
+variable "hcp_hvn_cidr" {
+  description = "HCP HVN cidr"
+  type        = string
+  default     = "172.25.16.0/20"
+}
+
+variable "hcp_vault_tier" {
+  description = "HCP Vault cluster tier"
+  type        = string
+  default     = "dev"
+}
+
+variable "hcp_boundary_init_user" {
+  description = "Initial admin user"
+  type        = string
+  default     = "admin"
+}
+
+variable "hcp_boundary_init_pass" {
+  description = "Initial admin user password"
+  type        = string
+  default     = "HashiCorp1!"
+}
+
 // Amazon Web Services (AWS) variables
 
 variable "aws_region" {
@@ -98,54 +142,22 @@ variable "gcp_project_id" {
   default     = ""
 }
 
+variable "gcp_private_subnets" {
+  description = "GCP private subnets"
+  type        = list
+  default     = ["10.210.20.0/24", "10.210.21.0/24", "10.210.22.0/24"]
+}
+
+variable "gcp_gke_pod_subnet" {
+  description = "GCP GKE pod subnet"
+  type        = string
+  default     = "10.211.20.0/23"
+}
+
 variable "gcp_gke_cluster_service_cidr" {
   description = "GCP GKE cluster service cidr"
   type        = string
   default     = "172.20.0.0/18"
-}
-
-// HashiCorp Cloud Platform (HCP) variables
-
-variable "hcp_region" {
-  description = "HCP region"
-  type        = string
-  default     = ""
-}
-
-variable "hcp_client_id" {
-  description = "HCP client id"
-  type        = string
-  default     = ""
-}
-
-variable "hcp_client_secret" {
-  description = "HCP client secret"
-  type        = string
-  default     = ""
-}
-
-variable "hcp_hvn_cidr" {
-  description = "HCP HVN cidr"
-  type        = string
-  default     = "172.25.16.0/20"
-}
-
-variable "hcp_vault_tier" {
-  description = "HCP Vault cluster tier"
-  type        = string
-  default     = "dev"
-}
-
-variable "hcp_boundary_username" {
-  description = "Initial admin user"
-  type        = string
-  default     = "admin"
-}
-
-variable "hcp_boundary_password" {
-  description = "Initial admin user password"
-  type        = string
-  default     = "HashiCorp1!"
 }
 
 // HashiCorp Consul variables
@@ -153,13 +165,13 @@ variable "hcp_boundary_password" {
 variable "consul_helm_chart_version" {
   type        = string
   description = "Helm chart version"
-  default     = "0.41.1"
+  default     = "0.49.1"
 }
 
 variable "consul_version" {
   description = "Consul version"
   type        = string
-  default     = "1.11.4-ent"
+  default     = "1.13.3-ent"
 }
 
 variable "consul_ent_license" {

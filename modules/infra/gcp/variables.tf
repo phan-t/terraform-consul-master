@@ -13,7 +13,17 @@ variable "deployment_id" {
   type        = string
 }
 
-variable "cluster_service_cidr" {
+variable "private_subnets" {
+  description = "GCP private subnets"
+  type        = list
+}
+
+variable "gke_pod_subnet" {
+  description = "GCP pod subnet"
+  type        = string
+}
+
+variable "gke_cluster_service_cidr" {
   description = "GCP GKE cluster service cidr"
   type        = string
 }
