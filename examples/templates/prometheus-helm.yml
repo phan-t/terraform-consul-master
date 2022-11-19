@@ -15,6 +15,7 @@ extraScrapeConfigs: |
     scheme: https
     tls_config:
        insecure_skip_verify: true
+    bearer_token: ${consul_acl_token}
     kubernetes_sd_configs:
     - role: pod
     relabel_configs:

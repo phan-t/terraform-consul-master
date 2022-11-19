@@ -87,8 +87,9 @@ provider "helm" {
 }
 
 provider "consul" {
-  address        = "https://${module.consul-server-gcp.ui_public_ip}"
-  datacenter     = "${var.deployment_name}-gcp"
+  address        = "https://${module.consul-server-aws.ui_public_fqdn}"
   scheme         = "https"
+  datacenter     = "${var.deployment_name}-aws"
+  token          = module.consul-server-aws.bootstrap_acl_token
   insecure_https = true
 }

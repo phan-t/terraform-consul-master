@@ -1,5 +1,6 @@
 resource "local_file" "prometheus-helm-values" {
   content = templatefile("${path.root}/examples/templates/prometheus-helm.yml", {
+    consul_acl_token = var.consul_acl_token_secret
     })
   filename = "${path.module}/helm-values.yml.tmp"
 }

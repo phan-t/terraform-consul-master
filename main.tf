@@ -128,6 +128,8 @@ module "cts-aws" {
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
 
+  consul_acl_token_secret = module.consul-server-aws.prometheus_acl_token_secret
+
   providers = {
     kubernetes = kubernetes.eks
     helm       = helm.eks

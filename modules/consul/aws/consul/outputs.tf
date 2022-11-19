@@ -18,7 +18,16 @@ output "federation_secret" {
   value       = data.kubernetes_secret.consul-federation-secret.data
 }
 
+output "bootstrap_acl_token" {
+  description = "ACL bootstrap token"
+  value       = data.kubernetes_secret.consul-bootstrap-acl-token.data.token
+}
+
 output "primary_datacenter_name" {
   description = "Primary datacenter name"
   value       = "${var.deployment_name}-aws"
+}
+
+output "prometheus_acl_token_secret" {
+  value = data.consul_acl_token_secret_id.prometheus.secret_id
 }

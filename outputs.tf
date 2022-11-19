@@ -1,36 +1,21 @@
-# output "deployment_id" {
-#   description = "Deployment id"
-#   value       = local.deployment_id
-# }
-
 output "aws_region" {
   description = "AWS region"
   value       = var.aws_region
 }
-
-# output "aws_private_subnet_ids" {
-#   description = "Private subnet ids"
-#   value       = module.infra-aws.private_subnet_ids
-# }
-
-# output "aws_security_group_allow_ssh_inbound_id" {
-#   description = "Security group allow-ssh-inbound id"
-#   value       = module.infra-aws.security_group_allow_ssh_inbound_id
-# }
-
-# output "aws_security_group_allow_any_private_inbound_id" {
-#   description = "Security group allow-any-private-inbound id"
-#   value       = module.infra-aws.security_group_allow_any_private_inbound_id
-# }
 
 output "bastion_public_fqdn" {
   description = "Public fqdn of bastion node"
   value       = module.infra-aws.bastion_public_fqdn
 }
 
-output "consul_ui_public_address" {
-  description = "Consul UI public address"
+output "consul_primary_ui_public_address" {
+  description = "Consul datacenter primary ui public address"
   value       = "https://${module.consul-server-aws.ui_public_fqdn}"
+}
+
+output "consul_secondary_ui_public_address" {
+  description = "Consul datacenter secondary ui public address"
+  value       = "https://${module.consul-server-gcp.ui_public_ip}"
 }
 
 output "consul_ingress_gateway_public_fqdn" {
@@ -38,30 +23,16 @@ output "consul_ingress_gateway_public_fqdn" {
   value       = "http://${module.consul-server-aws.ingress_gateway_public_fqdn}"
 }
 
-# output "cts_private_fqdn" {
-#   description = "Private fqdn of CTS node"
-#   value       = module.cts-aws.private_fqdn
-# }
+output "consul_bootstrap_acl_token" {
+  description = "Consul acl bootstrap token"
+  value       = module.consul-server-aws.bootstrap_acl_token
+  sensitive   = true
+}
 
 output "grafana_public_address" {
   description = "Grafana public address"
   value       = "http://${module.grafana.public_fqdn}"
 }
-
-# output "gcp_region" {
-#   description = "GCP region"
-#   value       = var.gcp_region
-# }
-
-# output "deployment_name" {
-#   description = "Deployment name, used to prefix resources"
-#   value       = var.deployment_name
-# }
-
-# output "consul_server_private_fqdn" {
-#   description = "Consul server fqdn"
-#   value       = module.consul-server-aws.private_fqdn
-# }
 
 output "hcp_vault_admin_token" {
   description = "HCP vault admin token"

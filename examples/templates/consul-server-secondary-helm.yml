@@ -23,7 +23,7 @@ global:
     secretKey: key
   federation:
     enabled: true
-    primaryDatacenter: tphan-test-aws
+    primaryDatacenter: ${primary_datacenter}
     k8sAuthMethodHost: ${cluster_endpoint}
   metrics:
     enabled: true

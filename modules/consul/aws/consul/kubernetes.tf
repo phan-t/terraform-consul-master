@@ -42,6 +42,17 @@ data "kubernetes_secret" "consul-federation-secret" {
   ]
 }
 
+data "kubernetes_secret" "consul-bootstrap-acl-token" {
+  metadata {
+    name = "consul-bootstrap-acl-token"
+    namespace = "consul"
+  }
+
+  depends_on = [
+  helm_release.consul-server
+  ]
+}
+
 resource "kubernetes_namespace" "consul" {
   metadata {
     name      = "consul"
