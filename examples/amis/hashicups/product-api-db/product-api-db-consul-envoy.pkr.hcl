@@ -9,7 +9,7 @@ variable "aws_region" {
 
 variable "consul_version" {
   type    = string
-  default = "1.11.4+ent"
+  default = "1.14.0+ent"
 }
 
 variable "consul_download_url" {
@@ -19,7 +19,7 @@ variable "consul_download_url" {
 
 variable "envoy_version" {
   type    = string
-  default = "1.20.2"
+  default = "1.24.0"
 }
 
 variable "application_name" {
@@ -41,7 +41,7 @@ data "amazon-ami" "ubuntu20" {
 }
 
 source "amazon-ebs" "ubuntu20-ami" {
-  ami_description             = "An Ubuntu 20.04 AMI that has Consul and Envoy installed."
+  ami_description             = "An Ubuntu 20.04 AMI that has HashiCup's Product API Database, Consul and Envoy installed."
   ami_name                    = "product-api-db-consul-envoy-ubuntu-${formatdate("YYYYMMDDhhmm", timestamp())}"
   associate_public_ip_address = true
   instance_type               = "t2.micro"

@@ -9,7 +9,7 @@ variable "aws_region" {
 
 variable "consul_version" {
   type    = string
-  default = "1.11.4+ent"
+  default = "1.14.0+ent"
 }
 
 variable "consul_download_url" {
@@ -19,7 +19,7 @@ variable "consul_download_url" {
 
 variable "consul_terraform_sync_version" {
   type    = string
-  default = "0.5.1+ent"
+  default = "0.7.0+ent"
 }
 
 variable "consul_terraform_sync_download_url" {
@@ -41,7 +41,7 @@ data "amazon-ami" "ubuntu20" {
 }
 
 source "amazon-ebs" "ubuntu20-ami" {
-  ami_description             = "An Ubuntu 20.04 AMI that has Consul installed."
+  ami_description             = "An Ubuntu 20.04 AMI that has Consul and Consul-Terraform-Sync installed."
   ami_name                    = "consul-cts-ubuntu-${formatdate("YYYYMMDDhhmm", timestamp())}"
   associate_public_ip_address = true
   instance_type               = "t2.micro"
