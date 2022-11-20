@@ -13,6 +13,11 @@ variable "deployment_name" {
   type        = string
 }
 
+variable "ami" {
+  description = "AMI for ec2 instance"
+  type        = string
+}
+
 variable "key_pair_key_name" {
   description = "Key pair name"
   type        = string

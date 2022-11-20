@@ -1,9 +1,9 @@
 locals {
-  key_pair_private_key = file("${path.root}/tphan-test.pem")
+  key_pair_private_key = file("${path.root}/${var.key_pair_key_name}.pem")
 }
 
 resource "aws_instance" "cts" {
-  ami             = "ami-058c0cbbdf3d37ea4"
+  ami             = var.ami
   instance_type   = "t3.small"
   key_name        = var.key_pair_key_name
   subnet_id       = element(var.private_subnet_ids, 1)
