@@ -14,8 +14,13 @@ output "private_subnet_ids" {
 }
 
 output "security_group_ssh_id" {
-  description = "Security group allow-ssh-inbound id"
+  description = "Security group ssh id"
   value       = module.sg-ssh.security_group_id
+}
+
+output "security_group_consul_id" {
+  description = "Security group consul id"
+  value       = module.sg-consul.security_group_id
 }
 
 output "tgw_id"{

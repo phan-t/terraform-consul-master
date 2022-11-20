@@ -1,4 +1,22 @@
+// consul admin partitions
+
+resource "consul_admin_partition" "frontend" {
+  provider = consul.aws
+
+  name        = "frontend"
+  description = "Partition for frontend team"
+}
+
+resource "consul_admin_partition" "payments" {
+  provider = consul.gcp
+
+  name        = "payments"
+  description = "Partition for payments team"
+}
+
 resource "consul_node" "memorystore" {
+  provider = consul.gcp
+
   name    = "payments-queue"
   address = module.memorystore.host
 
@@ -8,7 +26,11 @@ resource "consul_node" "memorystore" {
   }
 }
 
+// consul external service registration
+
 resource "consul_service" "memorystore" {
+  provider = consul.gcp
+
   name = "payments-queue"
   node = consul_node.memorystore.name
   port = module.memorystore.port
@@ -23,7 +45,11 @@ resource "consul_service" "memorystore" {
   }
 }
 
+// consul terminating gateway registration
+
 resource "consul_config_entry" "gcp-terminating_gateway" {
+  provider = consul.gcp
+
   name = "gcp-terminating-gateway"
   kind = "terminating-gateway"
 

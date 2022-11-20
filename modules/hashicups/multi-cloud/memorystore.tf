@@ -1,5 +1,5 @@
-# Enable Redis API service
-resource "google_project_service" "project" {
+// Enable google cloud platform (gcp) redis api service
+resource "google_project_service" "redis" {
   service                     = "redis.googleapis.com"
   disable_dependent_services  = true
 }
@@ -14,4 +14,8 @@ module "memorystore" {
   memory_size_gb          = "1"
   tier                    = "BASIC"
   transit_encryption_mode	= "DISABLED"
+
+  depends_on = [
+    google_project_service.redis
+  ]
 }
