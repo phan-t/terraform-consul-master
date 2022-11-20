@@ -12,7 +12,7 @@ resource "local_file" "consul-ent-license" {
   filename = "${path.root}/consul-ent-license.hclic"
 }
 
-// HashiCorp Cloud Platform (HCP) infrastructure
+// hashicorp cloud platform (hcp) infrastructure
 
 module "hcp-hvn" {
   source = "./modules/infra/hcp"
@@ -25,7 +25,7 @@ module "hcp-hvn" {
   aws_ram_resource_share_arn = module.infra-aws.ram_resource_share_arn
 }
 
-// Amazon Web Services (AWS) infrastructure
+// amazon web services (aws) infrastructure
 
 module "infra-aws" {
   source  = "./modules/infra/aws"
@@ -47,7 +47,7 @@ module "infra-aws" {
   consul_serf_lan_port        = var.consul_serf_lan_port
 }
 
-// Google Cloud Platform (GCP) infrastructure
+// google cloud platform (gcp) infrastructure
 
 module "infra-gcp" {
   source  = "./modules/infra/gcp"
@@ -60,13 +60,14 @@ module "infra-gcp" {
   gke_cluster_service_cidr = var.gcp_gke_cluster_service_cidr
 }
 
-// Consul datacenter (primary) in AWS
+// consul datacenter (primary) in aws
 
 module "consul-server-aws" {
   source    = "./modules/consul/aws/consul"
   providers = {
     kubernetes = kubernetes.eks
     helm       = helm.eks
+    consul     = consul.aws
    }
 
   deployment_name     = var.deployment_name
@@ -82,31 +83,29 @@ module "consul-server-aws" {
   ]
 }
 
-// Consul datacenter (secondary) in GCP
+// consul datacenter (secondary) in gcp
 
 module "consul-server-gcp" {
   source = "./modules/consul/gcp/consul"
   providers = {
     kubernetes = kubernetes.gke
     helm       = helm.gke
+    consul     = consul.gcp
    }
 
   deployment_name         = var.deployment_name
   helm_chart_version      = var.consul_helm_chart_version
-  federation_secret       = module.consul-server-aws.federation_secret
   consul_version          = var.consul_version
   consul_ent_license      = var.consul_ent_license
   serf_lan_port           = var.consul_serf_lan_port
   replicas                = var.consul_replicas
-  primary_datacenter_name = module.consul-server-aws.primary_datacenter_name
-  cluster_api_endpoint    = module.infra-gcp.cluster_api_endpoint
 
   depends_on = [
     module.infra-gcp
   ]
 }
 
-// Consul-Terraform-Sync in AWS
+// consul-terraform-sync instance in aws
 
 module "cts-aws" {
   source = "./modules/consul/aws/cts"
@@ -115,6 +114,7 @@ module "cts-aws" {
   owner                 = var.owner
   ttl                   = var.ttl
   deployment_name       = var.deployment_name
+  ami                   = var.aws_ami_consul_terraform_sync
   key_pair_key_name     = var.aws_key_pair_key_name
   private_subnet_ids    = module.infra-aws.private_subnet_ids
   security_group_ssh_id = module.infra-aws.security_group_ssh_id
@@ -123,7 +123,7 @@ module "cts-aws" {
   serf_lan_port         = var.consul_serf_lan_port
 }
 
-// Prometheus and Grafana in AWS
+// prometheus and grafana on aws eks
 
 module "prometheus" {
   source = "./modules/prometheus/aws/prometheus"
@@ -153,7 +153,7 @@ module "grafana" {
   ]
 }
 
-// HCP Vault
+// hcp vault
 
 module "hcp-vault" {
   source = "./modules/vault/hcp"
@@ -163,7 +163,7 @@ module "hcp-vault" {
   tier          = var.hcp_vault_tier
 }
 
-// HCP Boundary
+// hcp boundary
 
 module "hcp-boundary" {
   source = "./modules/boundary/hcp"
@@ -173,19 +173,26 @@ module "hcp-boundary" {
   init_pass     = var.hcp_boundary_init_pass
 }
 
-# module "hashicups-multi-cloud" {
-#   source = "./modules/hashicups/multi-cloud"
+// hashicups multi-cloud
 
-#   owner                                           = var.owner
-#   ttl                                             = var.ttl
-#   deployment_name                                 = var.deployment_name
-#   aws_key_pair_key_name                           = var.aws_key_pair_key_name
-#   aws_private_subnet_ids                          = module.infra-aws.private_subnet_ids
-#   aws_security_group_allow_ssh_inbound_id         = module.infra-aws.security_group_allow_ssh_inbound_id
-#   aws_security_group_allow_any_private_inbound_id = module.infra-aws.security_group_allow_any_private_inbound_id
-#   aws_bastion_public_fqdn                         = module.infra-aws.bastion_public_fqdn
-#   consul_server_private_fqdn                      = module.consul-server-aws.private_fqdn
-#   consul_serf_lan_port                            = var.consul_serf_lan_port
-#   gcp_project_id                                  = var.gcp_project_id
-#   gcp_vpc_name                                    = module.infra-gcp.vpc_name
-# }
+module "hashicups-multi-cloud" {
+  source = "./modules/hashicups/multi-cloud"
+  providers = {
+    consul.aws = consul.aws
+    consul.gcp = consul.gcp
+   }
+
+  owner                         = var.owner
+  ttl                           = var.ttl
+  deployment_name               = var.deployment_name
+  ami                           = var.aws_ami_hashicups_product_api_db
+  aws_key_pair_key_name         = var.aws_key_pair_key_name
+  aws_private_subnet_ids        = module.infra-aws.private_subnet_ids
+  aws_security_group_ssh_id     = module.infra-aws.security_group_ssh_id
+  aws_security_group_consul_id  = module.infra-aws.security_group_consul_id
+  aws_bastion_public_fqdn       = module.infra-aws.bastion_public_fqdn
+  consul_server_private_fqdn    = module.consul-server-aws.private_fqdn
+  consul_serf_lan_port          = var.consul_serf_lan_port
+  gcp_project_id                = var.gcp_project_id
+  gcp_vpc_name                  = module.infra-gcp.vpc_name
+}
