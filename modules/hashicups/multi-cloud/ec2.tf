@@ -1,13 +1,13 @@
 locals {
-  aws_key_pair_private_key = file("${path.root}/tphan-hashicorp-aws.pem")
+  aws_key_pair_private_key = file("${path.root}/${var.aws_key_pair_key_name}.pem")
 }
 
 resource "aws_instance" "product-api-db" {
-  ami             = "ami-01006f3395141993f"
+  ami             = var.ami
   instance_type   = "t3.small"
   key_name        = var.aws_key_pair_key_name
   subnet_id       = element(var.aws_private_subnet_ids, 1)
-  security_groups = [var.aws_security_group_allow_ssh_inbound_id, var.aws_security_group_allow_any_private_inbound_id]
+  security_groups = [var.aws_security_group_ssh_id, var.aws_security_group_consul_id]
 
   tags = {
     owner = var.owner
