@@ -13,6 +13,11 @@ variable "deployment_name" {
   type        = string
 }
 
+variable "ami" {
+  description = "AMI for ec2 instance"
+  type        = string
+}
+
 variable "aws_key_pair_key_name" {
   description = "Key pair name"
   type        = string
@@ -23,29 +28,19 @@ variable "aws_private_subnet_ids" {
   type        = list
 }
 
-variable "aws_security_group_allow_ssh_inbound_id" {
-  description = "Security group allow-ssh-inbound id"
+variable "aws_security_group_ssh_id" {
+  description = "Security group ssh id"
   type        = string
 }
 
-variable "aws_security_group_allow_any_private_inbound_id" {
-  description = "Security group allow-any-private-inbound id"
+variable "aws_security_group_consul_id" {
+  description = "Security group consul id"
   type        = string
 }
 
 variable "aws_bastion_public_fqdn" {
   description = "Public fqdn of bastion node"
   type        =  string 
-}
-
-variable "consul_server_private_fqdn" {
-  description = "Server private fqdn"
-  type        = string
-}
-
-variable "consul_serf_lan_port" {
-  description = "Serf lan port"
-  type        = number
 }
 
 variable "gcp_project_id" {
@@ -56,4 +51,14 @@ variable "gcp_project_id" {
 variable "gcp_vpc_name" {
   description = "GCP vpc name"
   type        = string
+}
+
+variable "consul_server_private_fqdn" {
+  description = "Server private fqdn"
+  type        = string
+}
+
+variable "consul_serf_lan_port" {
+  description = "Serf lan port"
+  type        = number
 }
