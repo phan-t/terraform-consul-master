@@ -1,4 +1,4 @@
-// Generic variables
+// generic variables
 
 variable "deployment_name" {
   description = "Deployment name, used to prefix resources"
@@ -6,7 +6,7 @@ variable "deployment_name" {
   default     = ""
 }
 
-// HashiCorp identification variables
+// hashicorp identification variables
 
 variable "owner" {
   description = "Resource owner identified using an email address"
@@ -20,7 +20,7 @@ variable "ttl" {
   default     = 48
 }
 
-// Enable & disable modules
+// enable & disable modules
 
 variable "enable_cts_aws" {
   description = "Deploy Consul-Terraform-Sync node in Amazon Web Services (AWS)"
@@ -28,7 +28,7 @@ variable "enable_cts_aws" {
   default     = false
 }
 
-// HashiCorp Cloud Platform (HCP) variables
+// hashicorp cloud platform (hcp) variables
 
 variable "hcp_region" {
   description = "HCP region"
@@ -72,7 +72,7 @@ variable "hcp_boundary_init_pass" {
   default     = "HashiCorp1!"
 }
 
-// Amazon Web Services (AWS) variables
+// amazon web services (aws) variables
 
 variable "aws_region" {
   description = "AWS region"
@@ -117,18 +117,30 @@ variable "aws_eks_cluster_service_cidr" {
 }
 
 variable "aws_eks_worker_instance_type" {
-  description = "EC2 worker node instance type"
+  description = "AWS EKS EC2 worker node instance type"
   type        = string
   default     = "m5.large"
 }
 
 variable "aws_eks_worker_desired_capacity" {
-  description = "Desired worker capacity in the autoscaling group"
+  description = "AWS EKS desired worker capacity in the autoscaling group"
   type        = number
   default     = 2
 }
 
-// Google Cloud Platform (GCP) variables
+variable "aws_ami_consul_terraform_sync" {
+  description = "AWS AMI for consul-terraform-sync"
+  type        = string
+  default     = "ami-0fc2c7bc0d520a239"
+}
+
+variable "aws_ami_hashicups_product_api_db" {
+  description = "AWS AMI for hashicups product-api-db"
+  type        = string
+  default     = "ami-082c7add2ac0c19f6"
+}
+
+// google cloud platform (gcp) variables
 
 variable "gcp_region" {
   description = "GCP region"
@@ -160,7 +172,7 @@ variable "gcp_gke_cluster_service_cidr" {
   default     = "172.20.0.0/18"
 }
 
-// HashiCorp Consul variables
+// hashiCorp consul variables
 
 variable "consul_helm_chart_version" {
   type        = string
@@ -190,12 +202,4 @@ variable "consul_serf_lan_port" {
   description = "Consul serf lan port"
   type        = number
   default     = 9301
-}
-
-// Fake-service variables
-
-variable "ami_fake_service" {
-  description = "AMI of fake-service"
-  type        = string
-  default     = "ami-075f2e577e993d4ea"
 }
