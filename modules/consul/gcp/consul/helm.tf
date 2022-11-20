@@ -1,12 +1,10 @@
 resource "local_file" "consul-server-helm-values" {
-  content = templatefile("${path.root}/examples/templates/consul-server-secondary-helm.yml", {
+  content = templatefile("${path.root}/examples/templates/consul-server-helm.yml", {
     deployment_name       = "${var.deployment_name}-gcp"
     consul_version        = var.consul_version
     replicas              = var.replicas
     serf_lan_port         = var.serf_lan_port
     cloud                 = "gcp"
-    primary_datacenter    = var.primary_datacenter_name
-    cluster_endpoint      = var.cluster_api_endpoint
     })
   filename = "${path.module}/helm-values.yml.tmp"
 }
@@ -27,6 +25,5 @@ resource "helm_release" "consul-server" {
   depends_on    = [
     kubernetes_namespace.consul,
     kubernetes_secret.consul-ent-license,
-    kubernetes_secret.consul-federation-secret
   ]
 }

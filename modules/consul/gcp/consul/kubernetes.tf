@@ -9,19 +9,21 @@ data "kubernetes_service" "consul-ui" {
   ]
 }
 
+data "kubernetes_secret" "consul-bootstrap-acl-token" {
+  metadata {
+    name = "consul-bootstrap-acl-token"
+    namespace = "consul"
+  }
+
+  depends_on = [
+  helm_release.consul-server
+  ]
+}
+
 resource "kubernetes_namespace" "consul" {
   metadata {
     name      = "consul"
   }
-}  
-
-resource "kubernetes_secret" "consul-federation-secret" {
-  metadata {
-    name = "consul-federation"
-    namespace = "consul"
-  }
-
-  data = var.federation_secret
 }
 
 resource "kubernetes_secret" "consul-ent-license" {

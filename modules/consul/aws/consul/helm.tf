@@ -1,5 +1,5 @@
 resource "local_file" "consul-server-helm-values" {
-  content = templatefile("${path.root}/examples/templates/consul-server-primary-helm.yml", {
+  content = templatefile("${path.root}/examples/templates/consul-server-helm.yml", {
     deployment_name       = "${var.deployment_name}-aws"
     consul_version        = var.consul_version
     replicas              = var.replicas

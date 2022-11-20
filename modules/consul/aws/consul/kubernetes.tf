@@ -11,7 +11,7 @@ data "kubernetes_service" "consul-ui" {
 
 data "kubernetes_service" "consul-ingress-gateway" {
   metadata {
-    name = "consul-ingress-gateway"
+    name = "consul-aws-ingress-gateway"
     namespace = "consul"
   }
 
@@ -31,17 +31,6 @@ data "kubernetes_pod" "consul-server" {
   ]
 }
 
-data "kubernetes_secret" "consul-federation-secret" {
-  metadata {
-    name = "consul-federation"
-    namespace = "consul"
-  }
-
-  depends_on = [
-  helm_release.consul-server
-  ]
-}
-
 data "kubernetes_secret" "consul-bootstrap-acl-token" {
   metadata {
     name = "consul-bootstrap-acl-token"
@@ -58,11 +47,6 @@ resource "kubernetes_namespace" "consul" {
     name      = "consul"
   }
 }  
-
-resource "local_file" "consul-federation-secret" {
-  content = jsonencode(data.kubernetes_secret.consul-federation-secret)
-  filename = "${path.root}/consul-federation-secret.json.tmp"
-}
 
 resource "kubernetes_secret" "consul-ent-license" {
   metadata {

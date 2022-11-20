@@ -12,6 +12,10 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.5.0"
     }
+    consul = {
+      source  = "hashicorp/consul"
+      version = "~> 2.16.2"
+    }
   }
 }
 
@@ -87,9 +91,19 @@ provider "helm" {
 }
 
 provider "consul" {
+  alias = "aws"
   address        = "https://${module.consul-server-aws.ui_public_fqdn}"
   scheme         = "https"
   datacenter     = "${var.deployment_name}-aws"
   token          = module.consul-server-aws.bootstrap_acl_token
+  insecure_https = true
+}
+
+provider "consul" {
+  alias = "gcp"
+  address        = "https://${module.consul-server-gcp.ui_public_fqdn}"
+  scheme         = "https"
+  datacenter     = "${var.deployment_name}-gcp"
+  token          = module.consul-server-gcp.bootstrap_acl_token
   insecure_https = true
 }

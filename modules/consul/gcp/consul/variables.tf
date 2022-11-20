@@ -13,11 +13,6 @@ variable "consul_version" {
   type        = string
 }
 
-variable "federation_secret" {
-  description = "Federation secret"
-  type        = map
-}
-
 variable "consul_ent_license" {
   description = "Consul enterprise license"
   type        = string
@@ -31,13 +26,4 @@ variable "serf_lan_port" {
 variable "replicas" {
   description = "Number of replicas"
   type        = number
-}
-
-variable "primary_datacenter_name" {
-  description = "Primary datacenter name"
-}
-
-variable "cluster_api_endpoint" {
-  description = "Kubernetes cluster api endpoint"
-  type        = string
 }
