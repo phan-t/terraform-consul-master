@@ -10,26 +10,26 @@ output "aws_bastion_public_fqdn" {
   value       = module.infra-aws.bastion_public_fqdn
 }
 
-output "aws_consul_ui_public_fqdn" {
-  description = "AWS consul datacenter ui public fqdn"
-  value       = "https://${module.consul-server-aws.ui_public_fqdn}"
-}
+# output "aws_consul_ui_public_fqdn" {
+#   description = "AWS consul datacenter ui public fqdn"
+#   value       = "https://${module.consul-server-aws.ui_public_fqdn}"
+# }
 
-output "aws_consul_ingress_gateway_public_fqdn" {
-  description = "Consul ingress gateway fqdn"
-  value       = "http://${module.consul-server-aws.ingress_gateway_public_fqdn}"
-}
+# output "aws_consul_ingress_gateway_public_fqdn" {
+#   description = "Consul ingress gateway fqdn"
+#   value       = "http://${module.consul-server-aws.ingress_gateway_public_fqdn}"
+# }
 
-output "aws_consul_bootstrap_acl_token" {
-  description = "Consul acl bootstrap token"
-  value       = module.consul-server-aws.bootstrap_acl_token
-  sensitive   = true
-}
+# output "aws_consul_bootstrap_acl_token" {
+#   description = "Consul acl bootstrap token"
+#   value       = module.consul-server-aws.bootstrap_acl_token
+#   sensitive   = true
+# }
 
-output "aws_grafana_public_fqdn" {
-  description = "Grafana public fqdn"
-  value       = "http://${module.grafana.public_fqdn}"
-}
+# output "aws_grafana_public_fqdn" {
+#   description = "Grafana public fqdn"
+#   value       = "http://${module.grafana.public_fqdn}"
+# }
 
 // Google Cloud Platform (GCP) outputs
 
@@ -45,6 +45,17 @@ output "gcp_consul_bootstrap_acl_token" {
 }
 
 // HashiCorp Cloud Platform (HCP) outputs
+
+output "hcp_consul_public_fqdn" {
+  description = "HCP consul public fqdn"
+  value       = module.hcp-consul.public_endpoint_url
+}
+
+output "hcp_consul_root_token" {
+  description = "HCP consul root token"
+  value       = module.hcp-consul.root_token
+  sensitive   = true
+}
 
 output "hcp_vault_admin_token" {
   description = "HCP vault admin token"

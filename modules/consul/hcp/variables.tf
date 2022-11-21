@@ -9,7 +9,11 @@ variable "hvn_id" {
 }
 
 variable "tier" {
-  description = "Vault cluster tier"
+  description = "Consul cluster tier"
   type        = string
 }
 
+variable "min_version" {
+  description = "Consul minimum version"
+  type        = string
+}

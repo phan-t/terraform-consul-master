@@ -16,3 +16,10 @@ resource "consul_acl_token" "prometheus" {
 data "consul_acl_token_secret_id" "prometheus" {
     accessor_id = consul_acl_token.prometheus.id
 }
+
+# // consul admin partitions
+
+# resource "consul_admin_partition" "frontend" {
+#   name        = "frontend"
+#   description = "Partition for frontend team"
+# }

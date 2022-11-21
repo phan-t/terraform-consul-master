@@ -54,6 +54,18 @@ variable "hcp_hvn_cidr" {
   default     = "172.25.16.0/20"
 }
 
+variable "hcp_consul_tier" {
+  description = "HCP Consul cluster tier"
+  type        = string
+  default     = "development"
+}
+
+variable "hcp_consul_min_version" {
+  description = "HCP Consul minimum version"
+  type        = string
+  default     = "1.14.0"
+}
+
 variable "hcp_vault_tier" {
   description = "HCP Vault cluster tier"
   type        = string
@@ -172,7 +184,7 @@ variable "gcp_gke_cluster_service_cidr" {
   default     = "172.20.0.0/18"
 }
 
-// hashiCorp consul variables
+// hashicorp self-managed consul variables
 
 variable "consul_helm_chart_version" {
   type        = string

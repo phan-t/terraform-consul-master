@@ -1,5 +1,5 @@
 locals {
-  deployment_id           = lower("${var.deployment_name}-${random_string.suffix.result}")
+  deployment_id = lower("${var.deployment_name}-${random_string.suffix.result}")
 }
 
 resource "random_string" "suffix" {
@@ -60,28 +60,28 @@ module "infra-gcp" {
   gke_cluster_service_cidr = var.gcp_gke_cluster_service_cidr
 }
 
-// consul datacenter (primary) in aws
+# // consul datacenter (primary) in aws
 
-module "consul-server-aws" {
-  source    = "./modules/consul/aws/consul"
-  providers = {
-    kubernetes = kubernetes.eks
-    helm       = helm.eks
-    consul     = consul.aws
-   }
+# module "consul-server-aws" {
+#   source    = "./modules/consul/aws/consul"
+#   providers = {
+#     kubernetes = kubernetes.eks
+#     helm       = helm.eks
+#     consul     = consul.aws
+#    }
 
-  deployment_name     = var.deployment_name
-  cluster_id          = module.infra-aws.eks_cluster_id
-  helm_chart_version  = var.consul_helm_chart_version
-  consul_version      = var.consul_version
-  consul_ent_license  = var.consul_ent_license
-  serf_lan_port       = var.consul_serf_lan_port
-  replicas            = var.consul_replicas
+#   deployment_name     = var.deployment_name
+#   cluster_id          = module.infra-aws.eks_cluster_id
+#   helm_chart_version  = var.consul_helm_chart_version
+#   consul_version      = var.consul_version
+#   consul_ent_license  = var.consul_ent_license
+#   serf_lan_port       = var.consul_serf_lan_port
+#   replicas            = var.consul_replicas
 
-  depends_on = [
-    module.infra-aws
-  ]
-}
+#   depends_on = [
+#     module.infra-aws
+#   ]
+# }
 
 // consul datacenter (secondary) in gcp
 
@@ -105,52 +105,63 @@ module "consul-server-gcp" {
   ]
 }
 
-// consul-terraform-sync instance in aws
+# // consul-terraform-sync instance in aws
 
-module "cts-aws" {
-  source = "./modules/consul/aws/cts"
-  count  = var.enable_cts_aws ? 1 : 0
+# module "cts-aws" {
+#   source = "./modules/consul/aws/cts"
+#   count  = var.enable_cts_aws ? 1 : 0
 
-  owner                 = var.owner
-  ttl                   = var.ttl
-  deployment_name       = var.deployment_name
-  ami                   = var.aws_ami_consul_terraform_sync
-  key_pair_key_name     = var.aws_key_pair_key_name
-  private_subnet_ids    = module.infra-aws.private_subnet_ids
-  security_group_ssh_id = module.infra-aws.security_group_ssh_id
-  bastion_public_fqdn   = module.infra-aws.bastion_public_fqdn
-  server_private_fqdn   = module.consul-server-aws.private_fqdn
-  serf_lan_port         = var.consul_serf_lan_port
-}
+#   owner                 = var.owner
+#   ttl                   = var.ttl
+#   deployment_name       = var.deployment_name
+#   ami                   = var.aws_ami_consul_terraform_sync
+#   key_pair_key_name     = var.aws_key_pair_key_name
+#   private_subnet_ids    = module.infra-aws.private_subnet_ids
+#   security_group_ssh_id = module.infra-aws.security_group_ssh_id
+#   bastion_public_fqdn   = module.infra-aws.bastion_public_fqdn
+#   server_private_fqdn   = module.consul-server-aws.private_fqdn
+#   serf_lan_port         = var.consul_serf_lan_port
+# }
 
-// prometheus and grafana on aws eks
+# // prometheus and grafana on aws eks
 
-module "prometheus" {
-  source = "./modules/prometheus/aws/prometheus"
+# module "prometheus" {
+#   source = "./modules/prometheus/aws/prometheus"
 
-  consul_acl_token_secret = module.consul-server-aws.prometheus_acl_token_secret
+#   consul_acl_token_secret = module.consul-server-aws.prometheus_acl_token_secret
 
-  providers = {
-    kubernetes = kubernetes.eks
-    helm       = helm.eks
-   }
+#   providers = {
+#     kubernetes = kubernetes.eks
+#     helm       = helm.eks
+#    }
 
-  depends_on = [
-    module.consul-server-aws
-  ]
-}
+#   depends_on = [
+#     module.consul-server-aws
+#   ]
+# }
 
-module "grafana" {
-  source = "./modules/grafana/aws/grafana"
+# module "grafana" {
+#   source = "./modules/grafana/aws/grafana"
 
-  providers = {
-    kubernetes = kubernetes.eks
-    helm       = helm.eks
-   }
+#   providers = {
+#     kubernetes = kubernetes.eks
+#     helm       = helm.eks
+#    }
    
-  depends_on = [
-    module.prometheus
-  ]
+#   depends_on = [
+#     module.prometheus
+#   ]
+# }
+
+// hcp consul
+
+module "hcp-consul" {
+  source = "./modules/consul/hcp"
+
+  deployment_id = local.deployment_id
+  hvn_id        = module.hcp-hvn.id
+  tier          = var.hcp_consul_tier
+  min_version   = var.hcp_consul_min_version
 }
 
 // hcp vault
@@ -159,7 +170,7 @@ module "hcp-vault" {
   source = "./modules/vault/hcp"
 
   deployment_id = local.deployment_id
-  hcp_hvn_id    = module.hcp-hvn.id
+  hvn_id        = module.hcp-hvn.id
   tier          = var.hcp_vault_tier
 }
 
@@ -175,24 +186,24 @@ module "hcp-boundary" {
 
 // hashicups multi-cloud
 
-module "hashicups-multi-cloud" {
-  source = "./modules/hashicups/multi-cloud"
-  providers = {
-    consul.aws = consul.aws
-    consul.gcp = consul.gcp
-   }
+# module "hashicups-multi-cloud" {
+#   source = "./modules/hashicups/multi-cloud"
+#   providers = {
+#     consul.aws = consul.aws
+#     consul.gcp = consul.gcp
+#    }
 
-  owner                         = var.owner
-  ttl                           = var.ttl
-  deployment_name               = var.deployment_name
-  ami                           = var.aws_ami_hashicups_product_api_db
-  aws_key_pair_key_name         = var.aws_key_pair_key_name
-  aws_private_subnet_ids        = module.infra-aws.private_subnet_ids
-  aws_security_group_ssh_id     = module.infra-aws.security_group_ssh_id
-  aws_security_group_consul_id  = module.infra-aws.security_group_consul_id
-  aws_bastion_public_fqdn       = module.infra-aws.bastion_public_fqdn
-  consul_server_private_fqdn    = module.consul-server-aws.private_fqdn
-  consul_serf_lan_port          = var.consul_serf_lan_port
-  gcp_project_id                = var.gcp_project_id
-  gcp_vpc_name                  = module.infra-gcp.vpc_name
-}
+#   owner                         = var.owner
+#   ttl                           = var.ttl
+#   deployment_name               = var.deployment_name
+#   ami                           = var.aws_ami_hashicups_product_api_db
+#   aws_key_pair_key_name         = var.aws_key_pair_key_name
+#   aws_private_subnet_ids        = module.infra-aws.private_subnet_ids
+#   aws_security_group_ssh_id     = module.infra-aws.security_group_ssh_id
+#   aws_security_group_consul_id  = module.infra-aws.security_group_consul_id
+#   aws_bastion_public_fqdn       = module.infra-aws.bastion_public_fqdn
+#   consul_server_private_fqdn    = module.consul-server-aws.private_fqdn
+#   consul_serf_lan_port          = var.consul_serf_lan_port
+#   gcp_project_id                = var.gcp_project_id
+#   gcp_vpc_name                  = module.infra-gcp.vpc_name
+# }
