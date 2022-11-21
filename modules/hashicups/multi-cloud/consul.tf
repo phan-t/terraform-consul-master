@@ -1,24 +1,9 @@
-// consul admin partitions
-
-resource "consul_admin_partition" "frontend" {
-  provider = consul.aws
-
-  name        = "frontend"
-  description = "Partition for frontend team"
-}
-
-resource "consul_admin_partition" "payments" {
-  provider = consul.gcp
-
-  name        = "payments"
-  description = "Partition for payments team"
-}
-
 resource "consul_node" "memorystore" {
   provider = consul.gcp
 
-  name    = "payments-queue"
-  address = module.memorystore.host
+  address   = module.memorystore.host
+  name      = "payments-queue"
+  partition = "payments"
 
   meta = {
     "external-node"  = "true"
@@ -31,9 +16,10 @@ resource "consul_node" "memorystore" {
 resource "consul_service" "memorystore" {
   provider = consul.gcp
 
-  name = "payments-queue"
-  node = consul_node.memorystore.name
-  port = module.memorystore.port
+  name      = "payments-queue"
+  node      = consul_node.memorystore.name
+  port      = module.memorystore.port
+  partition = "payments"
 
   check {
     check_id = "service:redis"
