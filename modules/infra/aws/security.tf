@@ -85,6 +85,13 @@ module "sg-consul" {
       cidr_blocks = "${module.vpc.vpc_cidr_block}"
     },
     {
+      from_port   = 20000
+      to_port     = 21255
+      protocol    = "tcp"
+      description = "consul-connect-envoy-tcp"
+      cidr_blocks = "${module.vpc.vpc_cidr_block}"
+    },
+    {
       from_port   = var.consul_serf_lan_port
       to_port     = var.consul_serf_lan_port
       protocol    = "tcp"
