@@ -33,29 +33,14 @@ server:
         "disable_hostname": true
       }
     }
-client:
-  extraConfig: |
-    {
-      "telemetry": {
-        "prometheus_retention_time": "1m",
-        "disable_hostname": true
-      }
-    }
 dns:
   enabled: true
   enableRedirection: true
 ui:
   service:
     type: LoadBalancer
-syncCatalog:
-  enabled: true
-  k8sDenyNamespaces: ["kube-system", "kube-public", "consul"]
-  consulNamespaces:
-    mirroringK8S: true
-  addK8SNamespaceSuffix: false
 connectInject:
   enabled: true
-  envoyExtraArgs: "--log-level info"
   metrics:
     defaultEnableMerging: true
   consulNamespaces:
