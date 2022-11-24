@@ -63,7 +63,7 @@ variable "hcp_consul_tier" {
 variable "hcp_consul_min_version" {
   description = "HCP Consul minimum version"
   type        = string
-  default     = "1.14.0"
+  default     = "1.14.1"
 }
 
 variable "hcp_vault_tier" {
