@@ -107,3 +107,11 @@ provider "consul" {
   token          = module.consul-server-gcp.bootstrap_acl_token
   insecure_https = true
 }
+
+provider "consul" {
+  alias = "hcp"
+  address        = module.hcp-consul.public_endpoint_url
+  scheme         = "https"
+  datacenter     = "${var.deployment_name}-hcp"
+  token          = module.hcp-consul.root_token
+}

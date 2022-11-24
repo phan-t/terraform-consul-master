@@ -157,11 +157,16 @@ module "consul-server-gcp" {
 
 module "hcp-consul" {
   source = "./modules/consul/hcp"
+  providers = {
+    consul     = consul.hcp
+   }
 
-  deployment_id = local.deployment_id
-  hvn_id        = module.hcp-hvn.id
-  tier          = var.hcp_consul_tier
-  min_version   = var.hcp_consul_min_version
+  deployment_name         = var.deployment_name
+  hvn_id                  = module.hcp-hvn.id
+  tier                    = var.hcp_consul_tier
+  min_version             = var.hcp_consul_min_version
+  replicas                = var.consul_replicas
+  kubernetes_api_endpoint = data.aws_eks_cluster.cluster.endpoint
 }
 
 // hcp vault
@@ -169,9 +174,9 @@ module "hcp-consul" {
 module "hcp-vault" {
   source = "./modules/vault/hcp"
 
-  deployment_id = local.deployment_id
-  hvn_id        = module.hcp-hvn.id
-  tier          = var.hcp_vault_tier
+  deployment_name = var.deployment_name
+  hvn_id          = module.hcp-hvn.id
+  tier            = var.hcp_vault_tier
 }
 
 // hcp boundary
@@ -179,9 +184,9 @@ module "hcp-vault" {
 module "hcp-boundary" {
   source = "./modules/boundary/hcp"
 
-  deployment_id = local.deployment_id
-  init_user     = var.hcp_boundary_init_user
-  init_pass     = var.hcp_boundary_init_pass
+  deployment_name = var.deployment_name
+  init_user       = var.hcp_boundary_init_user
+  init_pass       = var.hcp_boundary_init_pass
 }
 
 // hashicups multi-cloud
