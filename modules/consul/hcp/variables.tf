@@ -1,5 +1,5 @@
-variable "deployment_id" {
-  description = "Deployment id"
+variable "deployment_name" {
+  description = "Deployment name, used to prefix resources"
   type        = string
 }
 
@@ -15,5 +15,15 @@ variable "tier" {
 
 variable "min_version" {
   description = "Consul minimum version"
+  type        = string
+}
+
+variable "replicas" {
+  description = "Number of replicas"
+  type        = number
+}
+
+variable "kubernetes_api_endpoint" {
+  description = "Kubernetes api endpoint"
   type        = string
 }
