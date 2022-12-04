@@ -20,8 +20,8 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
-  /*default_tags {
+  /*region = var.aws_region
+  default_tags {
     tags = {
       owner = var.owner
       TTL = var.ttl
