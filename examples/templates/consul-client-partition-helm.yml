@@ -12,7 +12,7 @@ global:
     enabled: true
     enableAutoEncrypt: true
     caCert:
-      secretName: ${deployment_name}-hcp
+      secretName: ${deployment_name}-client-secrets
       secretKey: caCert
   enableConsulNamespaces: true
   acls:
@@ -21,7 +21,7 @@ global:
       secretName: ${deployment_name}-bootstrap-token
       secretKey: token
   gossipEncryption:
-    secretName: ${deployment_name}
+    secretName: ${deployment_name}-client-secrets
     secretKey: gossipEncryptionKey
   metrics:
     enabled: true
