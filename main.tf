@@ -60,28 +60,25 @@ module "infra-gcp" {
   gke_cluster_service_cidr = var.gcp_gke_cluster_service_cidr
 }
 
-# // consul datacenter (primary) in aws
+// consul client in aws
 
-# module "consul-server-aws" {
-#   source    = "./modules/consul/aws/consul"
-#   providers = {
-#     kubernetes = kubernetes.eks
-#     helm       = helm.eks
-#     consul     = consul.aws
-#    }
+module "consul-client-aws" {
+  source    = "./modules/consul/aws/consul"
+  providers = {
+    kubernetes = kubernetes.eks
+    helm       = helm.eks
+   }
+  deployment_name    = var.deployment_name
+  helm_chart_version = var.consul_helm_chart_version
+  bootstrap_token    = module.hcp-consul.bootstrap_token
+  gossip_encrypt_key = module.hcp-consul.gossip_encrypt_key
+  client_ca_cert     = module.hcp-consul.client_ca_cert
+  client-helm-values = module.hcp-consul.client-default-partition-helm-values
 
-#   deployment_name     = var.deployment_name
-#   cluster_id          = module.infra-aws.eks_cluster_id
-#   helm_chart_version  = var.consul_helm_chart_version
-#   consul_version      = var.consul_version
-#   consul_ent_license  = var.consul_ent_license
-#   serf_lan_port       = var.consul_serf_lan_port
-#   replicas            = var.consul_replicas
-
-#   depends_on = [
-#     module.infra-aws
-#   ]
-# }
+  depends_on = [
+    module.infra-aws
+  ]
+}
 
 // consul datacenter (secondary) in gcp
 

@@ -3,32 +3,26 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "cluster_id" {
-  description = "EKS cluster id"
-  type        = string
-}
-
 variable "helm_chart_version" {
   type        = string
   description = "Helm chart version"
 }
 
-variable "consul_version" {
-  description = "Version"
+variable "bootstrap_token" {
+  description = "ACL bootstrap token"
   type        = string
 }
 
-variable "consul_ent_license" {
-  description = "Consul enterprise license"
+variable "gossip_encrypt_key" {
+  description = "Gossip encryption key"
   type        = string
 }
 
-variable "serf_lan_port" {
-  description = "Serf lan port"
-  type        = number
+variable "client_ca_cert" {
+  description = "Client ca certificate"
+  type        = string
 }
 
-variable "replicas" {
-  description = "Number of replicas"
-  type        = number
+variable "client-helm-values" {
+  description = "Client default partition helm values"
 }

@@ -1,29 +1,20 @@
-// Amazon Web Services (AWS) outputs
+// generic outputs
 
-# output "aws_region" {
-#   description = "AWS region"
-#   value       = var.aws_region
-# }
+output "deployment_id" {
+  description = "Deployment identifier"
+  value       = local.deployment_id
+}
+
+// amazon web services (aws) outputs
 
 output "aws_bastion_public_fqdn" {
   description = "AWS public fqdn of bastion node"
   value       = module.infra-aws.bastion_public_fqdn
 }
 
-# output "aws_consul_ui_public_fqdn" {
-#   description = "AWS consul datacenter ui public fqdn"
-#   value       = "https://${module.consul-server-aws.ui_public_fqdn}"
-# }
-
 # output "aws_consul_ingress_gateway_public_fqdn" {
 #   description = "Consul ingress gateway fqdn"
 #   value       = "http://${module.consul-server-aws.ingress_gateway_public_fqdn}"
-# }
-
-# output "aws_consul_bootstrap_acl_token" {
-#   description = "Consul acl bootstrap token"
-#   value       = module.consul-server-aws.bootstrap_acl_token
-#   sensitive   = true
 # }
 
 # output "aws_grafana_public_fqdn" {
@@ -31,7 +22,7 @@ output "aws_bastion_public_fqdn" {
 #   value       = "http://${module.grafana.public_fqdn}"
 # }
 
-// Google Cloud Platform (GCP) outputs
+// google gloud platform (gcp) outputs
 
 output "gcp_consul_ui_public_fqdn" {
   description = "GCP consul datacenter ui public fqdn"
@@ -44,7 +35,7 @@ output "gcp_consul_bootstrap_acl_token" {
   sensitive   = true
 }
 
-// HashiCorp Cloud Platform (HCP) outputs
+// hashiCorp cloud platform (hcp) outputs
 
 output "hcp_consul_public_fqdn" {
   description = "HCP consul public fqdn"

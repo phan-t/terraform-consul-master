@@ -1,14 +1,3 @@
-data "kubernetes_service" "consul-ui" {
-  metadata {
-    name = "consul-ui"
-    namespace = "consul"
-  }
-  
-  depends_on = [
-    helm_release.consul-server
-  ]
-}
-
 data "kubernetes_service" "consul-ingress-gateway" {
   metadata {
     name = "consul-aws-ingress-gateway"
@@ -16,45 +5,35 @@ data "kubernetes_service" "consul-ingress-gateway" {
   }
 
   depends_on = [
-    helm_release.consul-server
-  ]
-}
-
-data "kubernetes_pod" "consul-server" {
-  metadata {
-    name = "consul-server-0"
-    namespace = "consul"
-  }
-
-  depends_on = [
-    helm_release.consul-server
-  ]
-}
-
-data "kubernetes_secret" "consul-bootstrap-acl-token" {
-  metadata {
-    name = "consul-bootstrap-acl-token"
-    namespace = "consul"
-  }
-
-  depends_on = [
-  helm_release.consul-server
+    helm_release.consul-client
   ]
 }
 
 resource "kubernetes_namespace" "consul" {
   metadata {
-    name      = "consul"
+    name = "consul"
   }
-}  
+}
 
-resource "kubernetes_secret" "consul-ent-license" {
+resource "kubernetes_secret" "consul-bootstrap-token" {
   metadata {
-    name      = "consul-ent-license"
+    name      = "tphan-test-hcp-bootstrap-token"
     namespace = "consul"
   }
 
   data = {
-    key = var.consul_ent_license
+    token = var.bootstrap_token
+  }
+}
+
+resource "kubernetes_secret" "consul-client-secrets" {
+  metadata {
+    name      = "tphan-test-hcp-client-secrets"
+    namespace = "consul"
+  }
+
+  data = {
+    gossipEncryptionKey = var.gossip_encrypt_key
+    caCert              = var.client_ca_cert
   }
 }
