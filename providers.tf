@@ -20,7 +20,8 @@ terraform {
 }
 
 provider "aws" {
-  /*region = var.aws_region
+  region = var.aws_region
+  /*
   default_tags {
     tags = {
       owner = var.owner
@@ -30,13 +31,13 @@ provider "aws" {
 }
 
 provider "hcp" {
-  # client_id     = var.hcp_client_id
-  # client_secret = var.hcp_client_secret
+  client_id     = var.hcp_client_id
+  client_secret = var.hcp_client_secret
 }
 
 provider "google" {
-  # project = var.gcp_project_id
-  # region  = var.gcp_region
+  project = var.gcp_project_id
+  region  = var.gcp_region
 }
 
 data "aws_eks_cluster" "cluster" {
