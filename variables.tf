@@ -63,7 +63,7 @@ variable "hcp_consul_tier" {
 variable "hcp_consul_min_version" {
   description = "HCP Consul minimum version"
   type        = string
-  default     = "1.14.1"
+  default     = "1.14.2"
 }
 
 variable "hcp_vault_tier" {
@@ -189,13 +189,13 @@ variable "gcp_gke_cluster_service_cidr" {
 variable "consul_helm_chart_version" {
   type        = string
   description = "Helm chart version"
-  default     = "0.49.1"
+  default     = "1.0.2"
 }
 
 variable "consul_version" {
   description = "Consul version"
   type        = string
-  default     = "1.13.3-ent"
+  default     = "1.14.2-ent"
 }
 
 variable "consul_ent_license" {
