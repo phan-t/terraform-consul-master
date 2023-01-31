@@ -19,6 +19,7 @@ module "eks" {
       desired_size           = var.eks_worker_desired_capacity
 
       instance_types         = ["${var.eks_worker_instance_type}"]
+      capacity_type          = "SPOT"
       key_name               = var.key_pair_key_name
       vpc_security_group_ids = [module.sg-consul.security_group_id]
     }
