@@ -5,17 +5,27 @@ output "deployment_id" {
   value       = local.deployment_id
 }
 
+output "deployment_name" {
+  description = "Deployment name, used to prefix resources"
+  value       = var.deployment_name
+}
+
 // amazon web services (aws) outputs
+
+output "aws_vpc_id" {
+  description = "VPC id"
+  value       = module.infra-aws.vpc_id
+}
 
 output "aws_bastion_public_fqdn" {
   description = "AWS public fqdn of bastion node"
   value       = module.infra-aws.bastion_public_fqdn
 }
 
-# output "aws_consul_ingress_gateway_public_fqdn" {
-#   description = "Consul ingress gateway fqdn"
-#   value       = "http://${module.consul-server-aws.ingress_gateway_public_fqdn}"
-# }
+output "aws_consul_default_ingress_public_fqdn" {
+  description = "Consul ingress gateway fqdn"
+  value       = "http://${module.consul-client-aws.ingress_public_fqdn}"
+}
 
 # output "aws_grafana_public_fqdn" {
 #   description = "Grafana public fqdn"
@@ -24,14 +34,19 @@ output "aws_bastion_public_fqdn" {
 
 // google gloud platform (gcp) outputs
 
+output "gcp_project_id" {
+  description = "GCP project"
+  value       = var.gcp_project_id
+}
+
 output "gcp_consul_ui_public_fqdn" {
   description = "GCP consul datacenter ui public fqdn"
   value       = "https://${module.consul-server-gcp.ui_public_fqdn}"
 }
 
-output "gcp_consul_bootstrap_acl_token" {
-  description = "Consul acl bootstrap token"
-  value       = module.consul-server-gcp.bootstrap_acl_token
+output "gcp_consul_bootstrap_token" {
+  description = "GCP consul acl bootstrap token"
+  value       = module.consul-server-gcp.bootstrap_token
   sensitive   = true
 }
 

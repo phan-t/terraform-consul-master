@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 4.43.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.17.0"
+    }
     helm = {
       source  = "hashicorp/helm"
       version = "~> 2.5.0"
@@ -19,20 +23,13 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = var.aws_region
-  /*
-  default_tags {
-    tags = {
-      owner = var.owner
-      TTL = var.ttl
-    }
-  }*/
-}
-
 provider "hcp" {
   client_id     = var.hcp_client_id
   client_secret = var.hcp_client_secret
+}
+
+provider "aws" {
+  region = var.aws_region
 }
 
 provider "google" {
@@ -70,10 +67,10 @@ provider "helm" {
 
 data "google_client_config" "default" {}
 
-data "google_container_cluster" "cluster" {
-  name     = local.deployment_id
-  location = var.gcp_region
-}
+# data "google_container_cluster" "cluster" {
+#   name     = local.deployment_id
+#   location = var.gcp_region
+# }
 
 provider "kubernetes" {
   alias = "gke"
@@ -92,12 +89,11 @@ provider "helm" {
 }
 
 provider "consul" {
-  alias = "aws"
-  address        = "https://${module.consul-server-aws.ui_public_fqdn}"
+  alias = "hcp"
+  address        = module.hcp-consul.public_endpoint_url
   scheme         = "https"
-  datacenter     = "${var.deployment_name}-aws"
-  token          = module.consul-server-aws.bootstrap_acl_token
-  insecure_https = true
+  datacenter     = "${var.deployment_name}-hcp"
+  token          = module.hcp-consul.root_token
 }
 
 provider "consul" {
@@ -107,12 +103,4 @@ provider "consul" {
   datacenter     = "${var.deployment_name}-gcp"
   token          = module.consul-server-gcp.bootstrap_acl_token
   insecure_https = true
-}
-
-provider "consul" {
-  alias = "hcp"
-  address        = module.hcp-consul.public_endpoint_url
-  scheme         = "https"
-  datacenter     = "${var.deployment_name}-hcp"
-  token          = module.hcp-consul.root_token
 }

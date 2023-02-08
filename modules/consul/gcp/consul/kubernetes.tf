@@ -9,7 +9,7 @@ data "kubernetes_service" "consul-ui" {
   ]
 }
 
-data "kubernetes_secret" "consul-bootstrap-acl-token" {
+data "kubernetes_secret" "consul-bootstrap-token" {
   metadata {
     name = "consul-bootstrap-acl-token"
     namespace = "consul"

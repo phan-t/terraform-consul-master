@@ -24,5 +24,5 @@ output "private_endpoint_url" {
 }
 
 output "client-default-partition-helm-values" {
-  value = local_file.client-default-partition-helm-values.content
+  value = local_file.eks-client-default-partition-helm-values.content
 }

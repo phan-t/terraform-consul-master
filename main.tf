@@ -60,27 +60,43 @@ module "infra-gcp" {
   gke_cluster_service_cidr = var.gcp_gke_cluster_service_cidr
 }
 
-// consul client in aws
+// hcp consul
 
-module "consul-client-aws" {
-  source    = "./modules/consul/aws/consul"
+module "hcp-consul" {
+  source = "./modules/consul/hcp"
   providers = {
-    kubernetes = kubernetes.eks
-    helm       = helm.eks
+    consul     = consul.hcp
    }
-  deployment_name    = var.deployment_name
-  helm_chart_version = var.consul_helm_chart_version
-  bootstrap_token    = module.hcp-consul.bootstrap_token
-  gossip_encrypt_key = module.hcp-consul.gossip_encrypt_key
-  client_ca_cert     = module.hcp-consul.client_ca_cert
-  client-helm-values = module.hcp-consul.client-default-partition-helm-values
 
-  depends_on = [
-    module.infra-aws
-  ]
+  deployment_name         = var.deployment_name
+  hvn_id                  = module.hcp-hvn.id
+  tier                    = var.hcp_consul_tier
+  min_version             = var.hcp_consul_min_version
+  replicas                = var.consul_replicas
+  kubernetes_api_endpoint = data.aws_eks_cluster.cluster.endpoint
 }
 
-// consul datacenter (secondary) in gcp
+// hcp vault
+
+module "hcp-vault" {
+  source = "./modules/vault/hcp"
+
+  deployment_name = var.deployment_name
+  hvn_id          = module.hcp-hvn.id
+  tier            = var.hcp_vault_tier
+}
+
+// hcp boundary
+
+module "hcp-boundary" {
+  source = "./modules/boundary/hcp"
+
+  deployment_name = var.deployment_name
+  init_user       = var.hcp_boundary_init_user
+  init_pass       = var.hcp_boundary_init_pass
+}
+
+// consul datacenter in gcp
 
 module "consul-server-gcp" {
   source = "./modules/consul/gcp/consul"
@@ -99,6 +115,26 @@ module "consul-server-gcp" {
 
   depends_on = [
     module.infra-gcp
+  ]
+}
+
+// consul client (default partition) in aws
+
+module "consul-client-aws" {
+  source    = "./modules/consul/aws/consul"
+  providers = {
+    kubernetes = kubernetes.eks
+    helm       = helm.eks
+   }
+  deployment_name    = var.deployment_name
+  helm_chart_version = var.consul_helm_chart_version
+  bootstrap_token    = module.hcp-consul.bootstrap_token
+  gossip_encrypt_key = module.hcp-consul.gossip_encrypt_key
+  client_ca_cert     = module.hcp-consul.client_ca_cert
+  client-helm-values = module.hcp-consul.client-default-partition-helm-values
+
+  depends_on = [
+    module.infra-aws
   ]
 }
 
@@ -149,42 +185,6 @@ module "consul-server-gcp" {
 #     module.prometheus
 #   ]
 # }
-
-// hcp consul
-
-module "hcp-consul" {
-  source = "./modules/consul/hcp"
-  providers = {
-    consul     = consul.hcp
-   }
-
-  deployment_name         = var.deployment_name
-  hvn_id                  = module.hcp-hvn.id
-  tier                    = var.hcp_consul_tier
-  min_version             = var.hcp_consul_min_version
-  replicas                = var.consul_replicas
-  kubernetes_api_endpoint = data.aws_eks_cluster.cluster.endpoint
-}
-
-// hcp vault
-
-module "hcp-vault" {
-  source = "./modules/vault/hcp"
-
-  deployment_name = var.deployment_name
-  hvn_id          = module.hcp-hvn.id
-  tier            = var.hcp_vault_tier
-}
-
-// hcp boundary
-
-module "hcp-boundary" {
-  source = "./modules/boundary/hcp"
-
-  deployment_name = var.deployment_name
-  init_user       = var.hcp_boundary_init_user
-  init_pass       = var.hcp_boundary_init_pass
-}
 
 // hashicups multi-cloud
 
