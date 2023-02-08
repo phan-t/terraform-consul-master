@@ -24,7 +24,7 @@ module "gke" {
       machine_type              = "e2-medium"
       min_count                 = 1
       max_count                 = 2
-      max_pods_per_node	        = 64
+      max_pods_per_node	        = 16
       auto_repair               = true
       auto_upgrade              = true
     },
