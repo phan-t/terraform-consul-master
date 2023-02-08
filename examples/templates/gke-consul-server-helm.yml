@@ -1,45 +1,41 @@
 global:
-  enabled: false
+  enabled: true
   name: consul
   peering:
     enabled: true
   adminPartitions:
     enabled: true
-    name: ${partition_name}
   image: "hashicorp/consul-enterprise:${consul_version}"
   datacenter: ${deployment_name}
   tls:
     enabled: true
     enableAutoEncrypt: true
-    caCert:
-      secretName: ${deployment_name}-client-secrets
-      secretKey: caCert
-    caKey:
-      secretName: ${deployment_name}-client-secrets
-      secretKey: caKey
   enableConsulNamespaces: true
   acls:
     manageSystemACLs: true
-    bootstrapToken:
-      secretName: ${deployment_name}-bootstrap-token
-      secretKey: token
-  gossipEncryption:
-    secretName: ${deployment_name}-client-secrets
-    secretKey: gossipEncryptionKey
+  enterpriseLicense:
+    secretName: consul-ent-license
+    secretKey: key
   metrics:
     enabled: true
-externalServers:
+server:
+  replicas: ${replicas}
+  bootstrapExpect: ${replicas}
+  exposeGossipAndRPCPorts: true
+dns:
   enabled: true
-  hosts: ['${external_server_private_fqdn}']
-  httpsPort: ${external_server_https_port}
-  tlsServerName: server.${deployment_name}.consul
-  k8sAuthMethodHost: ${kubernetes_api_endpoint}
+  enableRedirection: true
+ui:
+  service:
+    type: LoadBalancer
 connectInject:
   enabled: true
   metrics:
     defaultEnableMerging: true
   consulNamespaces:
     mirroringK8S: true  
+controller:
+  enabled: true
 meshGateway:
   enabled: true
   replicas: ${replicas}

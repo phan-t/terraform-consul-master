@@ -23,16 +23,16 @@ server:
   replicas: ${replicas}
   bootstrapExpect: ${replicas}
   exposeGossipAndRPCPorts: true
-  ports:
-    serflan:
-      port: ${serf_lan_port}
-  extraConfig: |
-    {
-      "telemetry": {
-        "prometheus_retention_time": "1m",
-        "disable_hostname": true
-      }
-    }
+  # ports:
+  #   serflan:
+  #     port: ${serf_lan_port}
+  # extraConfig: |
+  #   {
+  #     "telemetry": {
+  #       "prometheus_retention_time": "1m",
+  #       "disable_hostname": true
+  #     }
+  #   }
 dns:
   enabled: true
   enableRedirection: true
