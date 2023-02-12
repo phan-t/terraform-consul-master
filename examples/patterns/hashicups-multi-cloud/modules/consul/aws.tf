@@ -3,10 +3,8 @@
 resource "kubernetes_namespace" "eks-consul" {
   provider = kubernetes.eks-hashicups
 
-  for_each = toset(var.config.aws.eks-namespaces)
-
   metadata {
-    name = each.key
+    name = "consul"
   }
 }
 
@@ -90,3 +88,18 @@ data "kubernetes_service" "eks-consul-ingress-gateway" {
     helm_release.eks-consul-client-hashicups
   ]
 }
+
+# // set consul default partition cluster peering through mesh gateways
+
+# resource "consul_config_entry" "eks-mesh" {
+#   provider = consul.hcp
+
+#   name      = "mesh"
+#   kind      = "mesh"
+
+#   config_json = jsonencode({
+#       Peering = {
+#           PeerThroughMeshGateways = true
+#       }
+#   })
+# }

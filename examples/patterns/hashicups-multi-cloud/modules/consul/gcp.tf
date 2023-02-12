@@ -50,10 +50,8 @@ resource "consul_admin_partition" "gke-hashicups" {
 resource "kubernetes_namespace" "gke-consul" {
   provider = kubernetes.gke-hashicups
 
-  for_each = toset(var.config.gcp.gke-namespaces)
-
   metadata {
-    name = each.key
+    name = "consul"
   }
 }
 
@@ -128,29 +126,27 @@ resource "helm_release" "gke-consul-client-hashicups" {
   ]
 }
 
-# // set cluster peering through mesh gateways
+# // set consul default partition cluster peering through mesh gateways
 
 # resource "consul_config_entry" "gke-mesh" {
 #   provider = consul.gcp
 
 #   name      = "mesh"
 #   kind      = "mesh"
-#   partition = "default"
-#   namespace = "default"
 
 #   config_json = jsonencode({
-#       Peering = {
-#           PeerThroughMeshGateways = true
-#       }
+#     Peering = {
+#       PeerThroughMeshGateways = true
+#     }
 #   })
 # }
 
-// create cluster peering connection between aws and gcp
+// create hashicups partition cluster peering connection between aws and gcp
 
-# resource "consul_peering" "aws-gcp" {
-#   provider = consul.gcp
+resource "consul_peering" "aws-gcp-hashicups" {
+  provider = consul.gcp
 
-#   peer_name     = "aws-gcp"
-#   peering_token = consul_peering_token.aws-gcp.peering_token
-#   partition     = "hashicups"
-# }
+  peer_name     = "aws-gcp-hashicups"
+  peering_token = consul_peering_token.aws-gcp-hashicups.peering_token
+  partition     = consul_admin_partition.gke-hashicups.name
+}
