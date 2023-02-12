@@ -101,6 +101,6 @@ provider "consul" {
   address        = "https://${module.consul-server-gcp.ui_public_fqdn}"
   scheme         = "https"
   datacenter     = "${var.deployment_name}-gcp"
-  token          = module.consul-server-gcp.bootstrap_acl_token
+  token          = module.consul-server-gcp.bootstrap_token
   insecure_https = true
 }

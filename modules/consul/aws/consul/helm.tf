@@ -8,7 +8,7 @@ resource "helm_release" "consul-client" {
   timeout       = "300"
   wait_for_jobs = true
   values        = [
-    var.client-helm-values
+    var.client_helm_values
   ]
 
   depends_on    = [

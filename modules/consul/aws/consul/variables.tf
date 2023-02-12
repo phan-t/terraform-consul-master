@@ -23,6 +23,6 @@ variable "client_ca_cert" {
   type        = string
 }
 
-variable "client-helm-values" {
+variable "client_helm_values" {
   description = "Client default partition helm values"
 }

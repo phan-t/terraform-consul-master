@@ -50,7 +50,7 @@ output "gcp_consul_bootstrap_token" {
   sensitive   = true
 }
 
-// hashiCorp cloud platform (hcp) outputs
+// hashicorp cloud platform (hcp) outputs
 
 output "hcp_consul_public_fqdn" {
   description = "HCP consul public fqdn"
@@ -77,4 +77,16 @@ output "hcp_vault_public_fqdn" {
 output "hcp_boundary_public_fqdn" {
   description = "HCP boundary public fqdn"
   value       = module.hcp-boundary.public_endpoint_url
+}
+
+// hashicorp self-managed consul outputs
+
+output "consul_helm_chart_version" {
+  description = "Helm chart version"
+  value       = var.consul_helm_chart_version
+}
+
+output "consul_version" {
+  description = "Consul version"
+  value       = var.consul_version
 }
