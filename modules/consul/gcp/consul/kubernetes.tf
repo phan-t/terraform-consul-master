@@ -36,3 +36,9 @@ resource "kubernetes_secret" "consul-ent-license" {
     key = var.consul_ent_license
   }
 }
+
+// set consul default partition cluster peering through mesh gateways via kubernetes custom resource definition (crd), terraform resource consul_config_entry is not working, needs investigation.
+
+resource "kubernetes_manifest" "gke-consul-mesh" {
+  manifest = yamldecode(file("${path.root}/examples/manifests/consul_mesh_peering_mesh_gateway.yml"))
+}

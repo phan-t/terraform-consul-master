@@ -16,3 +16,13 @@
 # data "consul_acl_token_secret_id" "prometheus" {
 #     accessor_id = consul_acl_token.prometheus.id
 # }
+
+// create default partition cluster peering token for aws-gcp
+
+resource "consul_peering_token" "aws-gcp-default" {
+  peer_name = "aws-gcp-default"
+
+  depends_on = [
+    helm_release.consul-client
+  ]
+}

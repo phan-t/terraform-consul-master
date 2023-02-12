@@ -27,3 +27,8 @@ variable "replicas" {
   description = "Number of replicas"
   type        = number
 }
+
+variable "default_peering_token" {
+  description = "Consul peering token"
+  type        = string
+} 

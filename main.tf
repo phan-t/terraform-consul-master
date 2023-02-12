@@ -106,12 +106,13 @@ module "consul-server-gcp" {
     consul     = consul.gcp
    }
 
-  deployment_name         = var.deployment_name
-  helm_chart_version      = var.consul_helm_chart_version
-  consul_version          = var.consul_version
-  consul_ent_license      = var.consul_ent_license
-  serf_lan_port           = var.consul_serf_lan_port
-  replicas                = var.consul_replicas
+  deployment_name       = var.deployment_name
+  helm_chart_version    = var.consul_helm_chart_version
+  consul_version        = var.consul_version
+  consul_ent_license    = var.consul_ent_license
+  serf_lan_port         = var.consul_serf_lan_port
+  replicas              = var.consul_replicas
+  default_peering_token = module.consul-client-aws.default_peering_token
 
   depends_on = [
     module.infra-gcp
@@ -125,13 +126,14 @@ module "consul-client-aws" {
   providers = {
     kubernetes = kubernetes.eks
     helm       = helm.eks
+    consul     = consul.hcp
    }
   deployment_name    = var.deployment_name
   helm_chart_version = var.consul_helm_chart_version
   bootstrap_token    = module.hcp-consul.bootstrap_token
   gossip_encrypt_key = module.hcp-consul.gossip_encrypt_key
   client_ca_cert     = module.hcp-consul.client_ca_cert
-  client-helm-values = module.hcp-consul.client-default-partition-helm-values
+  client_helm_values = module.hcp-consul.client_default_partition_helm_values
 
   depends_on = [
     module.infra-aws
