@@ -103,3 +103,11 @@ data "kubernetes_service" "eks-consul-ingress-gateway" {
 #       }
 #   })
 # }
+
+// set consul default partition cluster peering through mesh gateways via kubernetes custom resource definition (crd), terraform resource consul_config_entry is not working, needs investigation.
+
+resource "kubernetes_manifest" "eks-consul-mesh" {
+  provider = kubernetes.eks
+
+  manifest = yamldecode(file("${path.root}/manifests/mesh.yml"))
+}

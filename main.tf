@@ -112,7 +112,7 @@ module "consul-server-gcp" {
   consul_ent_license    = var.consul_ent_license
   serf_lan_port         = var.consul_serf_lan_port
   replicas              = var.consul_replicas
-  default_peering_token = module.consul-client-aws.default_peering_token
+  # default_peering_token = module.consul-client-aws.default_peering_token
 
   depends_on = [
     module.infra-gcp

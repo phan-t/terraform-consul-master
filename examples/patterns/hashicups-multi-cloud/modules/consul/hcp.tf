@@ -21,28 +21,29 @@ resource "consul_admin_partition" "hcp-hashicups" {
   description = "Partition for hashicups team"
 }
 
-# // set cluster peering through mesh gateways
+// create default partition cluster peering token for aws and gcp
 
-# resource "consul_config_entry" "eks-mesh" {
-#   provider = consul.hcp
+resource "consul_peering_token" "aws-gcp-default" {
+  provider = consul.hcp
 
-#   name      = "mesh"
-#   kind      = "mesh"
-#   partition = "default"
-#   namespace = "default"
+  peer_name = "aws-gcp-default"
 
-#   config_json = jsonencode({
-#       Peering = {
-#           PeerThroughMeshGateways = true
-#       }
-#   })
-# }
+  depends_on = [
+    kubernetes_manifest.eks-consul-mesh,
+    kubernetes_manifest.gke-consul-mesh
+  ]
+}
 
-// create cluster peering token for aws-gcp
+// create hashicups partition cluster peering token for aws and gcp
 
-# resource "consul_peering_token" "aws-gcp" {
-#   provider = consul.hcp
+resource "consul_peering_token" "aws-gcp-hashicups" {
+  provider = consul.hcp
 
-#   peer_name = "aws-gcp"
-#   partition = "hashicups"
-# }
+  peer_name = "aws-gcp-hashicups"
+  partition = consul_admin_partition.hcp-hashicups.name
+
+  depends_on = [
+    kubernetes_manifest.eks-consul-mesh,
+    kubernetes_manifest.gke-consul-mesh
+  ]
+}

@@ -141,6 +141,23 @@ resource "helm_release" "gke-consul-client-hashicups" {
 #   })
 # }
 
+// set consul default partition cluster peering through mesh gateways via kubernetes custom resource definition (crd), terraform resource consul_config_entry is not working, needs investigation.
+
+resource "kubernetes_manifest" "gke-consul-mesh" {
+  provider = kubernetes.gke
+
+  manifest = yamldecode(file("${path.root}/manifests/mesh.yml"))
+}
+
+// create default partition cluster peering connection between aws and gcp
+
+resource "consul_peering" "aws-gcp-default" {
+  provider = consul.gcp
+
+  peer_name     = "aws-gcp-default"
+  peering_token = consul_peering_token.aws-gcp-default.peering_token
+}
+
 // create hashicups partition cluster peering connection between aws and gcp
 
 resource "consul_peering" "aws-gcp-hashicups" {

@@ -28,7 +28,7 @@ variable "replicas" {
   type        = number
 }
 
-variable "default_peering_token" {
-  description = "Consul peering token"
-  type        = string
-} 
+# variable "default_peering_token" {
+#   description = "Consul peering token"
+#   type        = string
+# } 

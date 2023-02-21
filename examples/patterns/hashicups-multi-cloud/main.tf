@@ -46,6 +46,7 @@ module "infra-gcp" {
 module "consul" {
   source = "./modules/consul"
   providers = {
+    kubernetes.eks           = kubernetes.eks
     kubernetes.eks-hashicups = kubernetes.eks-hashicups
     kubernetes.gke           = kubernetes.gke
     kubernetes.gke-hashicups = kubernetes.gke-hashicups
@@ -61,17 +62,14 @@ module "consul" {
   replicas                    = var.consul_replicas
   eks_kubernetes_api_endpoint = data.aws_eks_cluster.hashicups.endpoint
   gke_kubernetes_api_endpoint = module.infra-gcp.cluster_api_endpoint
-  config                      = var.config
 }
 
-# // hashicups
+// hashicups
 
-# module "hashicups" {
-#   source = "./modules/hashicups"
-#   providers = {
-#     kubernetes.eks-hashicups = kubernetes.eks-hashicups
-#     kubernetes.gke-hashicups = kubernetes.gke-hashicups
-#     consul.hcp               = consul.hcp
-#     consul.gcp               = consul.gcp
-#   }
-# }
+module "hashicups" {
+  source = "./modules/hashicups"
+  providers = {
+    kubernetes.eks-hashicups = kubernetes.eks-hashicups
+    kubernetes.gke-hashicups = kubernetes.gke-hashicups
+  }
+}

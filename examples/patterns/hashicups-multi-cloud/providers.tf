@@ -37,8 +37,23 @@ provider "google" {
   region  = var.gcp_region
 }
 
+data "aws_eks_cluster" "default" {
+  name = data.terraform_remote_state.tcm.outputs.deployment_id
+}
+
 data "aws_eks_cluster" "hashicups" {
   name = module.infra-aws.eks_cluster_id
+}
+
+provider "kubernetes" {
+  alias = "eks"
+  host                   = data.aws_eks_cluster.default.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.default.certificate_authority.0.data)
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.default.name]
+    command     = "aws"
+  }
 }
 
 provider "kubernetes" {
