@@ -3,11 +3,6 @@ variable "deployment_name" {
   type        = string
 }
 
-variable "config" {
-  description = "Map of configuration variables"
-  type        = map
-}
-
 variable "helm_chart_version" {
   type        = string
   description = "Helm chart version"
