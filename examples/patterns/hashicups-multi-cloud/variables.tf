@@ -1,18 +1,3 @@
-// generic variables
-
-variable "config" {
-  description = "Map of configuration variables"
-  type        = map
-  default     = {
-    aws = {
-      eks-namespaces = ["consul", "frontend", "product"]
-    }
-    gcp = {
-      gke-namespaces = ["consul", "payments"]
-    }
-  }
-}
-
 // hashicorp cloud platform (hcp) variables
 
 variable "hcp_region" {
