@@ -12,6 +12,11 @@ output "deployment_name" {
 
 // amazon web services (aws) outputs
 
+output "aws_region" {
+  description = "AWS region"
+  value       = var.aws_region
+}
+
 output "aws_vpc_id" {
   description = "VPC id"
   value       = module.infra-aws.vpc_id
@@ -34,6 +39,11 @@ output "aws_consul_default_ingress_public_fqdn" {
 
 // google gloud platform (gcp) outputs
 
+output "gcp_region" {
+  description = "GCP region"
+  value       = var.gcp_region
+}
+
 output "gcp_project_id" {
   description = "GCP project"
   value       = var.gcp_project_id
@@ -51,6 +61,23 @@ output "gcp_consul_bootstrap_token" {
 }
 
 // hashicorp cloud platform (hcp) outputs
+
+output "hcp_region" {
+  description = "HCP region"
+  value       = var.hcp_region
+}
+
+output "hcp_client_id" {
+  description = "HCP client id"
+  value       = var.hcp_client_id
+  sensitive   = true
+}
+
+output "hcp_client_secret" {
+  description = "HCP client secret"
+  value       = var.hcp_client_secret
+  sensitive   = true
+}
 
 output "hcp_consul_public_fqdn" {
   description = "HCP consul public fqdn"

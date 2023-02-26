@@ -20,7 +20,7 @@ module "infra-aws" {
   source  = "./modules/infra/aws"
   
   deployment_id               = data.terraform_remote_state.tcm.outputs.deployment_id
-  region                      = var.aws_region
+  region                      = data.terraform_remote_state.tcm.outputs.aws_region
   key_pair_key_name           = var.aws_key_pair_key_name
   vpc_id                      = data.terraform_remote_state.tcm.outputs.aws_vpc_id
   eks_cluster_version         = var.aws_eks_cluster_version
@@ -34,7 +34,7 @@ module "infra-aws" {
 module "infra-gcp" {
   source = "./modules/infra/gcp"
 
-  region              = var.gcp_region
+  region              = data.terraform_remote_state.tcm.outputs.gcp_region
   project_id          = data.terraform_remote_state.tcm.outputs.gcp_project_id
   deployment_id       = data.terraform_remote_state.tcm.outputs.deployment_id
   vpc_name            = data.google_compute_network.vpc.name

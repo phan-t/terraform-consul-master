@@ -24,17 +24,17 @@ terraform {
 }
 
 provider "hcp" {
-  client_id     = var.hcp_client_id
-  client_secret = var.hcp_client_secret
+  client_id     = data.terraform_remote_state.tcm.outputs.hcp_client_id
+  client_secret = data.terraform_remote_state.tcm.outputs.hcp_client_secret
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = data.terraform_remote_state.tcm.outputs.aws_region
 }
 
 provider "google" {
   project = data.terraform_remote_state.tcm.outputs.gcp_project_id
-  region  = var.gcp_region
+  region  = data.terraform_remote_state.tcm.outputs.gcp_region
 }
 
 data "aws_eks_cluster" "default" {
@@ -84,7 +84,7 @@ data "google_client_config" "default" {}
 
 data "google_container_cluster" "default" {
   name     = "${data.terraform_remote_state.tcm.outputs.deployment_id}"
-  location = var.gcp_region
+  location = data.terraform_remote_state.tcm.outputs.gcp_region
 }
 
 provider "kubernetes" {
