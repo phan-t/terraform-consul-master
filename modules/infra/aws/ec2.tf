@@ -29,11 +29,6 @@ resource "aws_instance" "bastion" {
     ignore_changes = all
   }
 
-  tags = {
-    owner = var.owner
-    TTL   = var.ttl
-  }
-
   connection {
     host          = aws_instance.bastion.public_dns
     user          = "ubuntu"

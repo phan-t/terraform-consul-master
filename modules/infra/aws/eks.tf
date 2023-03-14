@@ -24,11 +24,6 @@ module "eks" {
       vpc_security_group_ids = [module.sg-consul.security_group_id]
     }
   }
-  
-  tags = {
-    owner = var.owner
-    TTL   = var.ttl
-  }
 }
 
 resource "null_resource" "kubeconfig" {

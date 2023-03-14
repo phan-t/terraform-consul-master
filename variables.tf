@@ -12,20 +12,6 @@ variable "consul_version" {
   default     = "1.14.4"
 }
 
-// hashicorp identification variables
-
-variable "owner" {
-  description = "Resource owner identified using an email address"
-  type        = string
-  default     = ""
-}
-
-variable "ttl" {
-  description = "Resource TTL (time-to-live)"
-  type        = number
-  default     = 48
-}
-
 // enable & disable modules
 
 variable "enable_cts_aws" {

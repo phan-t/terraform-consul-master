@@ -3,16 +3,6 @@ variable "region" {
   type        = string
 }
 
-variable "owner" {
-  description = "Resource owner identified using an email address"
-  type        = string
-}
-
-variable "ttl" {
-  description = "Resource TTL (time-to-live)"
-  type        = number
-}
-
 variable "deployment_id" {
   description = "Deployment id"
   type        = string

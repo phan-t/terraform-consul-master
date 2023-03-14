@@ -31,8 +31,6 @@ module "infra-aws" {
   source  = "./modules/infra/aws"
   
   region                      = var.aws_region
-  owner                       = var.owner
-  ttl                         = var.ttl
   deployment_id               = local.deployment_id
   vpc_cidr                    = var.aws_vpc_cidr
   public_subnets              = var.aws_public_subnets
@@ -145,8 +143,6 @@ module "consul-client-aws" {
 #   source = "./modules/consul/aws/cts"
 #   count  = var.enable_cts_aws ? 1 : 0
 
-#   owner                 = var.owner
-#   ttl                   = var.ttl
 #   deployment_name       = var.deployment_name
 #   ami                   = var.aws_ami_consul_terraform_sync
 #   key_pair_key_name     = var.aws_key_pair_key_name
@@ -196,8 +192,6 @@ module "consul-client-aws" {
 #     consul.gcp = consul.gcp
 #    }
 
-#   owner                         = var.owner
-#   ttl                           = var.ttl
 #   deployment_name               = var.deployment_name
 #   ami                           = var.aws_ami_hashicups_product_api_db
 #   aws_key_pair_key_name         = var.aws_key_pair_key_name
