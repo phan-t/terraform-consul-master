@@ -6,6 +6,12 @@ variable "deployment_name" {
   default     = "sandpit"
 }
 
+variable "consul_version" {
+  description = "Consul version"
+  type        = string
+  default     = "1.14.4"
+}
+
 // hashicorp identification variables
 
 variable "owner" {
@@ -60,12 +66,6 @@ variable "hcp_consul_tier" {
   default     = "development"
 }
 
-variable "hcp_consul_min_version" {
-  description = "HCP Consul minimum version"
-  type        = string
-  default     = "1.14.4"
-}
-
 variable "hcp_vault_tier" {
   description = "HCP Vault cluster tier"
   type        = string
@@ -88,12 +88,6 @@ variable "hcp_boundary_init_pass" {
 
 variable "aws_region" {
   description = "AWS region"
-  type        = string
-  default     = ""
-}
-
-variable "aws_key_pair_key_name" {
-  description = "Key pair name"
   type        = string
   default     = ""
 }
@@ -190,12 +184,6 @@ variable "consul_helm_chart_version" {
   type        = string
   description = "Helm chart version"
   default     = "1.0.4"
-}
-
-variable "consul_version" {
-  description = "Consul version"
-  type        = string
-  default     = "1.14.4-ent"
 }
 
 variable "consul_ent_license" {

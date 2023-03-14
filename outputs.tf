@@ -10,6 +10,11 @@ output "deployment_name" {
   value       = var.deployment_name
 }
 
+output "consul_version" {
+  description = "Consul version"
+  value       = var.consul_version
+}
+
 // amazon web services (aws) outputs
 
 output "aws_region" {
@@ -18,8 +23,13 @@ output "aws_region" {
 }
 
 output "aws_vpc_id" {
-  description = "VPC id"
+  description = "AWS VPC id"
   value       = module.infra-aws.vpc_id
+}
+
+output "aws_key_pair_name" {
+  description = "AWS key pair name"
+  value       = module.infra-aws.key_pair_name
 }
 
 output "aws_bastion_public_fqdn" {
@@ -111,9 +121,4 @@ output "hcp_boundary_public_fqdn" {
 output "consul_helm_chart_version" {
   description = "Helm chart version"
   value       = var.consul_helm_chart_version
-}
-
-output "consul_version" {
-  description = "Consul version"
-  value       = var.consul_version
 }

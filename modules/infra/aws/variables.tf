@@ -18,11 +18,6 @@ variable "deployment_id" {
   type        = string
 }
 
-variable "key_pair_key_name" {
-  description = "Key pair name"
-  type        = string
-}
-
 variable "vpc_cidr" {
   description = "VPC CIDR"
   type        = string

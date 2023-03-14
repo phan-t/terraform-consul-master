@@ -18,22 +18,10 @@ variable "hcp_client_secret" {
   default     = ""
 }
 
-variable "hcp_consul_min_version" {
-  description = "HCP Consul minimum version"
-  type        = string
-  default     = "1.14.4"
-}
-
 // amazon web services (aws) variables
 
 variable "aws_region" {
   description = "AWS region"
-  type        = string
-  default     = ""
-}
-
-variable "aws_key_pair_key_name" {
-  description = "Key pair name"
   type        = string
   default     = ""
 }

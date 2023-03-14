@@ -20,7 +20,7 @@ module "eks" {
 
       instance_types         = ["${var.eks_worker_instance_type}"]
       capacity_type          = "SPOT"
-      key_name               = var.key_pair_key_name
+      key_name               = module.key_pair.key_pair_name
       vpc_security_group_ids = [module.sg-consul.security_group_id]
     }
   }

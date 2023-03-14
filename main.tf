@@ -34,7 +34,6 @@ module "infra-aws" {
   owner                       = var.owner
   ttl                         = var.ttl
   deployment_id               = local.deployment_id
-  key_pair_key_name           = var.aws_key_pair_key_name
   vpc_cidr                    = var.aws_vpc_cidr
   public_subnets              = var.aws_public_subnets
   private_subnets             = var.aws_private_subnets
@@ -71,7 +70,7 @@ module "hcp-consul" {
   deployment_name         = var.deployment_name
   hvn_id                  = module.hcp-hvn.id
   tier                    = var.hcp_consul_tier
-  min_version             = var.hcp_consul_min_version
+  min_version             = var.consul_version
   replicas                = var.consul_replicas
   kubernetes_api_endpoint = data.aws_eks_cluster.cluster.endpoint
 }
@@ -108,7 +107,7 @@ module "consul-server-gcp" {
 
   deployment_name       = var.deployment_name
   helm_chart_version    = var.consul_helm_chart_version
-  consul_version        = var.consul_version
+  consul_version        = "${var.consul_version}-ent"
   consul_ent_license    = var.consul_ent_license
   serf_lan_port         = var.consul_serf_lan_port
   replicas              = var.consul_replicas

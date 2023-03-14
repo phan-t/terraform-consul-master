@@ -21,7 +21,7 @@ module "infra-aws" {
   
   deployment_id               = data.terraform_remote_state.tcm.outputs.deployment_id
   region                      = data.terraform_remote_state.tcm.outputs.aws_region
-  key_pair_key_name           = var.aws_key_pair_key_name
+  key_pair_key_name           = data.terraform_remote_state.tcm.outputs.aws_key_pair_name
   vpc_id                      = data.terraform_remote_state.tcm.outputs.aws_vpc_id
   eks_cluster_version         = var.aws_eks_cluster_version
   eks_cluster_service_cidr    = var.aws_eks_cluster_service_cidr
@@ -57,7 +57,7 @@ module "consul" {
    } 
 
   deployment_name             = data.terraform_remote_state.tcm.outputs.deployment_name
-  min_version                 = var.hcp_consul_min_version
+  min_version                 = data.terraform_remote_state.tcm.outputs.consul_version
   helm_chart_version          = data.terraform_remote_state.tcm.outputs.consul_helm_chart_version
   replicas                    = var.consul_replicas
   eks_kubernetes_api_endpoint = data.aws_eks_cluster.hashicups.endpoint
@@ -71,5 +71,7 @@ module "hashicups" {
   providers = {
     kubernetes.eks-hashicups = kubernetes.eks-hashicups
     kubernetes.gke-hashicups = kubernetes.gke-hashicups
+    consul.hcp               = consul.hcp
+    consul.gcp               = consul.gcp
   }
 }
