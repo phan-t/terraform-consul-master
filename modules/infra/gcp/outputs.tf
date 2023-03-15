@@ -10,5 +10,5 @@ output "cluster_ca_certificate" {
 
 output "vpc_name" {
   description = "VPC name"
-  value = module.vpc.network_name
+  value       = module.vpc.network_name
 }

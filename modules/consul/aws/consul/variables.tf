@@ -8,6 +8,16 @@ variable "helm_chart_version" {
   description = "Helm chart version"
 }
 
+variable "consul_version" {
+  description = "Version"
+  type        = string
+}
+
+variable "private_endpoint_url" {
+  description = "Private endpoint url"
+  type        = string
+}
+
 variable "bootstrap_token" {
   description = "ACL bootstrap token"
   type        = string
@@ -23,6 +33,12 @@ variable "client_ca_cert" {
   type        = string
 }
 
-variable "client_helm_values" {
-  description = "Client default partition helm values"
+variable "replicas" {
+  description = "Number of replicas"
+  type        = number
+}
+
+variable "kubernetes_api_endpoint" {
+  description = "Kubernetes api endpoint"
+  type        = string
 }

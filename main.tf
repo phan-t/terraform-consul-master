@@ -69,8 +69,6 @@ module "hcp-consul" {
   hvn_id                  = module.hcp-hvn.id
   tier                    = var.hcp_consul_tier
   min_version             = var.consul_version
-  replicas                = var.consul_replicas
-  kubernetes_api_endpoint = data.aws_eks_cluster.cluster.endpoint
 }
 
 // hcp vault
@@ -109,7 +107,6 @@ module "consul-server-gcp" {
   consul_ent_license    = var.consul_ent_license
   serf_lan_port         = var.consul_serf_lan_port
   replicas              = var.consul_replicas
-  # default_peering_token = module.consul-client-aws.default_peering_token
 
   depends_on = [
     module.infra-gcp
@@ -125,12 +122,15 @@ module "consul-client-aws" {
     helm       = helm.eks
     consul     = consul.hcp
    }
-  deployment_name    = var.deployment_name
-  helm_chart_version = var.consul_helm_chart_version
-  bootstrap_token    = module.hcp-consul.bootstrap_token
-  gossip_encrypt_key = module.hcp-consul.gossip_encrypt_key
-  client_ca_cert     = module.hcp-consul.client_ca_cert
-  client_helm_values = module.hcp-consul.client_default_partition_helm_values
+  deployment_name         = var.deployment_name
+  helm_chart_version      = var.consul_helm_chart_version
+  consul_version          = var.consul_version
+  private_endpoint_url    = module.hcp-consul.private_endpoint_url
+  bootstrap_token         = module.hcp-consul.bootstrap_token
+  gossip_encrypt_key      = module.hcp-consul.gossip_encrypt_key
+  client_ca_cert          = module.hcp-consul.client_ca_cert
+  replicas                = var.consul_replicas
+  kubernetes_api_endpoint = data.aws_eks_cluster.cluster.endpoint
 
   depends_on = [
     module.infra-aws

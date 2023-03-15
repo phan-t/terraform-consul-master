@@ -22,7 +22,3 @@ output "public_endpoint_url" {
 output "private_endpoint_url" {
   value = hcp_consul_cluster.consul.consul_private_endpoint_url
 }
-
-output "client_default_partition_helm_values" {
-  value = local_file.eks-client-default-partition-helm-values.content
-}

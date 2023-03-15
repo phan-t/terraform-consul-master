@@ -48,10 +48,10 @@ ingressGateways:
       ports:
         - port: 80
   gateways:
-    - name: ${cloud}-ingress-gateway
+    - name: ${cloud}-default-ingress-gateway
 terminatingGateways:
   enabled: true
   defaults:
     replicas: ${replicas}
   gateways:
-    - name: ${cloud}-terminating-gateway
+    - name: ${cloud}-default-terminating-gateway
